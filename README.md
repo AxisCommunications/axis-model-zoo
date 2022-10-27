@@ -1,5 +1,8 @@
 # axis-model-zoo
 
+This repository contains a collection of models compatible and optimized for axis cameras.
+We also provide tools to benchmark the models.
+
 # Models
 
 ## Image classification
