@@ -1,8 +1,7 @@
 import paramiko
-import numpy as np
 import os
 import argparse
-
+import re
 
 #python3 ./model-performance-tester.py --model_path ../Models/ --model mobilenet_v2_1.0_224_quant.tflite --chip A8-DLPU
 
@@ -20,49 +19,22 @@ import argparse
 #python3 ./model-performance-tester.py --model_path ../Models/ --model tf2_mobilenet_v2_1.0_224_ptq.tflite --chip A8-DLPU
 #python3 ./model-performance-tester.py --model_path ../Models/ --model tf2_mobilenet_v3_edgetpu_1.0_224_ptq.tflite --chip A8-DLPU
 #117.25 ms 84.64  ms (64 on cpu) 181.99 ms 
-CAMERA_IP="172.25.71.119"
-CAMERA_USERNAME="root"
-CAMERA_PASSWORD="Pass"
-MODEL_NAME="efficientdet_lite0_320_ptq.tflite"
-MODEL_PATH="../Models/"
-TEST_DURATION="1000"
-CHIP="CPU"
-
-camera_model_location = os.path.join("/tmp/", MODEL_NAME)
 
 chipset = {
-    "CPU": "cpu-tflite",
-    "A8-DLPU": "axis-a8-dlpu-tflite",
-    "A7-DLPU": "google-edge-tpu-tflite",
-    "CV25": "ambarella-cvflow"
-}
+        "CPU": "cpu-tflite",
+        "A8-DLPU": "axis-a8-dlpu-tflite",
+        "A7-DLPU": "google-edge-tpu-tflite",
+        "CV25": "ambarella-cvflow"
+    }
 
+def run_speed_test(CAMERA_IP, PORT, CAMERA_USERNAME, CAMERA_PASSWORD, MODEL_PATH, MODEL_NAME, TEST_DURATION, CHIP):
 
-parser = argparse.ArgumentParser(description='Run a speed test of a model on the camera')
-parser.add_argument('--model_path', type=str, default=MODEL_PATH, help='Model path')
-parser.add_argument('--model', type=str, help='Model name')
-parser.add_argument('--test_duration', type=str, default=TEST_DURATION, help='Test duration')
-parser.add_argument('--chip', type=str, default=CHIP, choices=chipset.keys(), help='Chipset')
-parser.add_argument('--camera_ip', type=str, default=CAMERA_IP, help='Camera IP')
-parser.add_argument('--camera_username', type=str, default=CAMERA_USERNAME, help='Camera Username')
-parser.add_argument('--camera_password', type=str, default=CAMERA_PASSWORD, help='Camera Password')
-args = parser.parse_args()
+    camera_model_location = os.path.join("/tmp/", MODEL_NAME)
 
-
-MODEL_PATH = args.model_path
-MODEL_NAME = args.model
-TEST_DURATION = args.test_duration
-CHIP = args.chip
-CAMERA_IP = args.camera_ip
-CAMERA_USERNAME = args.camera_username
-CAMERA_PASSWORD = args.camera_password
-
-
-def run_speed_test():
-    print("Connecting to camera at " + CAMERA_IP)
+    print("Connecting to camera at " + CAMERA_IP + " and port "+ str(PORT))
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(CAMERA_IP, username=CAMERA_USERNAME, password=CAMERA_PASSWORD)
+    ssh.connect(CAMERA_IP, username=CAMERA_USERNAME, password=CAMERA_PASSWORD, port=PORT)
 
     print("Loading Model...")
     sftp = ssh.open_sftp()
@@ -80,6 +52,7 @@ def run_speed_test():
     try:
         out=list(filter(lambda k: 'Mean execution time for job:' in k, ssh_stdout))[0]
         print(out)
+        time = re.findall(r'\d+\.\d+', out)[-1]
     except:
         print("Something went wrong:")
         print(ssh_stdout)
@@ -89,5 +62,38 @@ def run_speed_test():
     ssh.exec_command("rm "+camera_model_location)
 
     ssh.close()
+    return time
 
-run_speed_test()
+
+
+if __name__ == "__main__":
+    CAMERA_IP="172.25.71.119"
+    CAMERA_USERNAME="root"
+    CAMERA_PASSWORD="Pass"
+    MODEL_NAME="efficientdet_lite0_320_ptq.tflite"
+    MODEL_PATH="../Models/"
+    TEST_DURATION="1000"
+    CHIP="CPU"
+
+
+    parser = argparse.ArgumentParser(description='Run a speed test of a model on the camera')
+    parser.add_argument('--model_path', type=str, default=MODEL_PATH, help='Model path')
+    parser.add_argument('--model', type=str, help='Model name')
+    parser.add_argument('--test_duration', type=str, default=TEST_DURATION, help='Test duration')
+    parser.add_argument('--chip', type=str, default=CHIP, choices=chipset.keys(), help='Chipset')
+    parser.add_argument('--camera_ip', type=str, default=CAMERA_IP, help='Camera IP')
+    parser.add_argument('--camera_port', type=int, default=22, help='Camera port for ssh')
+    parser.add_argument('--camera_username', type=str, default=CAMERA_USERNAME, help='Camera Username')
+    parser.add_argument('--camera_password', type=str, default=CAMERA_PASSWORD, help='Camera Password')
+    args = parser.parse_args()
+
+
+    MODEL_PATH = args.model_path
+    MODEL_NAME = args.model
+    TEST_DURATION = args.test_duration
+    CHIP = args.chip
+    CAMERA_IP = args.camera_ip
+    CAMERA_USERNAME = args.camera_username
+    CAMERA_PASSWORD = args.camera_password
+    run_speed_test(CAMERA_IP, CAMERA_USERNAME, CAMERA_PASSWORD, MODEL_PATH, MODEL_NAME, TEST_DURATION, CHIP)
+
