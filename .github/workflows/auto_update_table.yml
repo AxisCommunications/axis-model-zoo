@@ -16,7 +16,6 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      
       #Would be nice to flash the cameras with the latest public FW before running the test
       - name: update-version
         with: 
