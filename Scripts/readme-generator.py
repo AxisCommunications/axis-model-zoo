@@ -36,7 +36,7 @@ def rewrite_md_file(file_name, md_file, token, text_to_replace):
 
 #main function
 def main():
-    file_name = 'Readme.md'
+    file_name = 'README.md'
     tokens = ['<!--A8_tf1_mnv2-->']
     md_file = read_md_file(file_name)
     for token in tokens:
