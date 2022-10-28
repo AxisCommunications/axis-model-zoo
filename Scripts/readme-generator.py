@@ -5,7 +5,7 @@ from model_performance_tester import run_speed_test
 #TODO: Would be better to replace this with a dict of dicts to make get_value_to_add more readable
 #TODO: MOVE PASSWORD TO GITHUB SECRETS!
 token_parameters = { 
-    "A8_tf1_mnv2" : ["213.112.161.127", 2222, "root", "IcantRememberMyPasswordd", "Models/", "mobilenet_v2_1.0_224_quant.tflite", "1000", "A8-DLPU"] 
+    "A8_tf1_mnv2" : ["213.112.161.127", 2222, "root", "Models/", "mobilenet_v2_1.0_224_quant.tflite", "1000", "A8-DLPU"] 
     }
 
 #read md file
@@ -19,8 +19,9 @@ def find_token(md_file, token):
 
 #get value to add to readme
 def get_value_to_add(token):
-    #run python command
-    val= run_speed_test(token_parameters[token][0], token_parameters[token][1], token_parameters[token][2], token_parameters[token][3], token_parameters[token][4], token_parameters[token][5], token_parameters[token][6], token_parameters[token][7]) 
+    #read password from github secrets
+    superSecretPassword = os.environ['SUPERSECRETPASSWORD']
+    val= run_speed_test(token_parameters[token][0], token_parameters[token][1], token_parameters[token][2], superSecretPassword,  token_parameters[token][3], token_parameters[token][4], token_parameters[token][5], token_parameters[token][6]) 
     return val
 #generate section from value to add
 def generate_table(value_to_add, token):
