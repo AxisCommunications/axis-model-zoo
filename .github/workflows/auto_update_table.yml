@@ -17,21 +17,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
           
-      - name: Clone and sync
+      - name: update-version
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         run: |
-          
-          git config --global user.name "ecosvc-dockerhub"
-          git config --global user.email "ecosvc-dockerhub@users.noreply.github.com"
-          
-          
-          sync_dir=/tmp/sync_tmp
-          mkdir -p $sync_dir
-          
-          echo 'echo $API_TOKEN_GITHUB' > $sync_dir/.git-askpass
-          export GIT_ASKPASS=$sync_dir/.git-askpass
-          chmod +x $sync_dir/.git-askpass
           
           pip install paramiko --upgrade  
           python3 ./Scripts/readme-generator.py
