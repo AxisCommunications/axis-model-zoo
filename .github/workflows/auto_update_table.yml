@@ -22,6 +22,9 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         run: |
           
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
           pip install paramiko --upgrade  
           python3 ./Scripts/readme-generator.py
 
