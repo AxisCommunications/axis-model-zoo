@@ -3,15 +3,30 @@ import numpy as np
 import os
 import argparse
 
+
+#python3 ./model-performance-tester.py --model_path ../Models/ --model mobilenet_v2_1.0_224_quant.tflite --chip A8-DLPU
+
+#python3 ./model-performance-tester.py --model_path ../Models/ --model mobilenetv2_cavalry.bin --chip CV25 --camera_ip 172.25.71.70 --camera_password pass
+
+#4.55 ms
+#python3 ./model-performance-tester.py --model_path ../Models/ --model mobilenet_v2_1.0_224_quant_edgetpu.tflite --chip A7-DLPU --camera_ip 172.27.67.240 --camera_password pass
+
+#python3 ./model-performance-tester.py --model_path ../Models/ --model tf2_mobilenet_v1_1.0_224_ptq_edgetpu.tflite --chip A7-DLPU --camera_ip 172.27.67.240 --camera_password pass
+#python3 ./model-performance-tester.py --model_path ../Models/ --model tf2_mobilenet_v2_1.0_224_ptq_edgetpu.tflite --chip A7-DLPU --camera_ip 172.27.67.240 --camera_password pass
+#python3 ./model-performance-tester.py --model_path ../Models/ --model tf2_mobilenet_v3_edgetpu_1.0_224_ptq_edgetpu.tflite --chip A7-DLPU --camera_ip 172.27.67.240 --camera_password pass
+#4.29 ms, 4.58, 4.76 ms
+
+#python3 ./model-performance-tester.py --model_path ../Models/ --model tf2_mobilenet_v1_1.0_224_ptq.tflite --chip A8-DLPU
+#python3 ./model-performance-tester.py --model_path ../Models/ --model tf2_mobilenet_v2_1.0_224_ptq.tflite --chip A8-DLPU
+#python3 ./model-performance-tester.py --model_path ../Models/ --model tf2_mobilenet_v3_edgetpu_1.0_224_ptq.tflite --chip A8-DLPU
+#117.25 ms 84.64  ms (64 on cpu) 181.99 ms 
 CAMERA_IP="172.25.71.119"
 CAMERA_USERNAME="root"
 CAMERA_PASSWORD="Pass"
 MODEL_NAME="efficientdet_lite0_320_ptq.tflite"
 MODEL_PATH="../Models/"
-TEST_DURATION="1"
+TEST_DURATION="1000"
 CHIP="CPU"
-INPUT_SIZE=[3,320,320]
-
 
 camera_model_location = os.path.join("/tmp/", MODEL_NAME)
 
@@ -26,7 +41,6 @@ chipset = {
 parser = argparse.ArgumentParser(description='Run a speed test of a model on the camera')
 parser.add_argument('--model_path', type=str, default=MODEL_PATH, help='Model path')
 parser.add_argument('--model', type=str, help='Model name')
-parser.add_argument('--size', type=int, nargs='+', help='Input size')
 parser.add_argument('--test_duration', type=str, default=TEST_DURATION, help='Test duration')
 parser.add_argument('--chip', type=str, default=CHIP, choices=chipset.keys(), help='Chipset')
 parser.add_argument('--camera_ip', type=str, default=CAMERA_IP, help='Camera IP')
@@ -37,7 +51,6 @@ args = parser.parse_args()
 
 MODEL_PATH = args.model_path
 MODEL_NAME = args.model
-INPUT_SIZE = args.size
 TEST_DURATION = args.test_duration
 CHIP = args.chip
 CAMERA_IP = args.camera_ip
@@ -45,9 +58,8 @@ CAMERA_USERNAME = args.camera_username
 CAMERA_PASSWORD = args.camera_password
 
 
-
 def run_speed_test():
-    print("Connecting to camera...")
+    print("Connecting to camera at " + CAMERA_IP)
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.connect(CAMERA_IP, username=CAMERA_USERNAME, password=CAMERA_PASSWORD)
@@ -74,7 +86,7 @@ def run_speed_test():
         print(ssh_stderr)
 
     print("Cleaning...")
-    ssh.exec_command("rm rand.in rand.in.out0 "+camera_model_location)
+    ssh.exec_command("rm "+camera_model_location)
 
     ssh.close()
 
