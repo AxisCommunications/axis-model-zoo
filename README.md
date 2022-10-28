@@ -8,7 +8,7 @@ We also provide tools to benchmark the models.
 ## Image classification
 
 
-| Platform  | Model | TF-version | Speed | Accuracy Top-1 | Accuracy Top-5 |
+| Platform  | Model | TF-ver | Speed | Accuracy Top-1 | Accuracy Top-5 |
 | ------------- | ------------- | ------------- | ------------- | ------------ | ------------ |
 | ARTPEC-7 (Q1615 Mk III) | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant_edgetpu.tflite)  | 1  | 4.55 ms  | 73.2%  | 90.0%  |
 | ARTPEC-7 (Q1615 Mk III) | [MobilenetV1](https://raw.githubusercontent.com/google-coral/test_data/master/tf2_mobilenet_v1_1.0_224_ptq_edgetpu.tflite)  | 2  | 4.29 ms  | 69.5%  | 89.8% |
