@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v3
       #Would be nice to flash the cameras with the latest public FW before running the test
       - name: update-version
-        with: 
+        env: 
           SPUERSECRETPASSWORD: ${{ secrets.SPUERSECRETPASSWORD }}
         run: |
           echo Hello
