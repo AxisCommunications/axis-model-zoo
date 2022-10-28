@@ -16,5 +16,5 @@ We also provide tools to benchmark the models.
 | ARTPEC-7 (Q1615 Mk III) | [MobilenetV3](https://raw.githubusercontent.com/google-coral/test_data/master/tf2_mobilenet_v3_edgetpu_1.0_224_ptq_edgetpu.tflite)  | 2  | <!--A7_tf2_mnv3--> 4.76 ms <!--end_A7_tf2_mnv3--> | 77.5%  | 93.6% |
 | ARTPEC-8 (Q1656)  | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant.tflite)  | 1  | <!--A8_tf1_mnv2--> 7.34 ms <!--end_A8_tf1_mnv2--> | 73.2% | 90.0% |
 | ARTPEC-8 (Q1656) | EfficientNetLite0    | 1  | <!--A8_tf1_eff--> ? <!--end_A8_tf1_eff--> | ??  | ??  |
-| CV25 (M3085) | [MobilenetV2](https://acap-ml-model-storage.s3.amazonaws.com/mobilenetv2_cavalry.bin)   | 1  | <!--cv25_tf1_mnv2--> 5.76 ms <!--end_cv25_tf1_mnv2---> | ??  | ??  |
+| CV25 (M3085) | [MobilenetV2](https://acap-ml-model-storage.s3.amazonaws.com/mobilenetv2_cavalry.bin)   | 1  | <!--cv25_tf1_mnv2--> 5.76 ms <!--end_cv25_tf1_mnv2--> | ??  | ??  |
 | CV25  | EfficientNetLite0  | 1  | ?  | ??  | ??  |
