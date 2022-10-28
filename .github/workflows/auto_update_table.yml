@@ -19,6 +19,8 @@ jobs:
       
       #Would be nice to flash the cameras with the latest public FW before running the test
       - name: update-version
+        with: 
+          SPUERSECRETPASSWORD: ${{ secrets.SPUERSECRETPASSWORD }}
         env:
           SPUERSECRETPASSWORD: ${{ secrets.SPUERSECRETPASSWORD }}
         run: |
