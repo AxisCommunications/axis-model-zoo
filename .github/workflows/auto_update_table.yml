@@ -21,8 +21,6 @@ jobs:
       - name: update-version
         with: 
           SPUERSECRETPASSWORD: ${{ secrets.SPUERSECRETPASSWORD }}
-        env:
-          SPUERSECRETPASSWORD: ${{ secrets.SPUERSECRETPASSWORD }}
         run: |
           echo Hello
           echo $SPUERSECRETPASSWORD
