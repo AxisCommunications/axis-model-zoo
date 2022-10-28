@@ -20,9 +20,9 @@ jobs:
       #Would be nice to flash the cameras with the latest public FW before running the test
       - name: update-version
         env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          SPUERSECRETPASSWORD: ${{ secrets.SPUERSECRETPASSWORD }}
         run: |
-          
+          echo $SPUERSECRETPASSWORD
           git config user.name github-actions
           git config user.email github-actions@github.com
 
