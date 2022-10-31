@@ -34,7 +34,7 @@ def run_speed_test(CAMERA_IP, PORT, CAMERA_USERNAME, CAMERA_PASSWORD, MODEL_PATH
     
     
     camera_model_location = os.path.join("/tmp/", model_name)
-
+    print("Testing model: ", model_name)
     print("Connecting to camera at " + CAMERA_IP + " and port "+ str(PORT))
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -42,7 +42,7 @@ def run_speed_test(CAMERA_IP, PORT, CAMERA_USERNAME, CAMERA_PASSWORD, MODEL_PATH
 
     print("Loading Model...")
     sftp = ssh.open_sftp()
-    sftp.put(MODEL_PATH+model_name, camera_model_location)
+    sftp.put(MODEL_PATH, camera_model_location)
     sftp.close()
 
     print("Starting Test...")
@@ -51,7 +51,7 @@ def run_speed_test(CAMERA_IP, PORT, CAMERA_USERNAME, CAMERA_PASSWORD, MODEL_PATH
         " -c " + chipset[CHIP] +
         " -g " + camera_model_location +
         " -i ''")
-
+    time = -1
     print("Parsing the output...")
     try:
         out=list(filter(lambda k: 'Mean execution time for job:' in k, ssh_stdout))[0]
@@ -59,8 +59,9 @@ def run_speed_test(CAMERA_IP, PORT, CAMERA_USERNAME, CAMERA_PASSWORD, MODEL_PATH
         time = re.findall(r'\d+\.\d+', out)[-1]
     except:
         print("Something went wrong:")
-        print(ssh_stdout)
-        print(ssh_stderr)
+        print(ssh_stdout.read().decode("utf-8"))
+        print(ssh_stderr.read().decode("utf-8"))
+
 
     print("Cleaning...")
     ssh.exec_command("rm "+camera_model_location)
@@ -91,7 +92,6 @@ if __name__ == "__main__":
 
 
     MODEL_PATH = args.model_path
-    model_name = args.model
     TEST_DURATION = args.test_duration
     CHIP = args.chip
     CAMERA_IP = args.camera_ip
