@@ -27,9 +27,13 @@ chipset = {
         "CV25": "ambarella-cvflow"
     }
 
-def run_speed_test(CAMERA_IP, PORT, CAMERA_USERNAME, CAMERA_PASSWORD, MODEL_PATH, MODEL_NAME, TEST_DURATION, CHIP):
+def run_speed_test(CAMERA_IP, PORT, CAMERA_USERNAME, CAMERA_PASSWORD, MODEL_PATH, TEST_DURATION, CHIP):
 
-    camera_model_location = os.path.join("/tmp/", MODEL_NAME)
+    #Take model name from path
+    model_name = MODEL_PATH.split("/")[-1]
+    
+    
+    camera_model_location = os.path.join("/tmp/", model_name)
 
     print("Connecting to camera at " + CAMERA_IP + " and port "+ str(PORT))
     ssh = paramiko.SSHClient()
@@ -38,7 +42,7 @@ def run_speed_test(CAMERA_IP, PORT, CAMERA_USERNAME, CAMERA_PASSWORD, MODEL_PATH
 
     print("Loading Model...")
     sftp = ssh.open_sftp()
-    sftp.put(MODEL_PATH+MODEL_NAME, camera_model_location)
+    sftp.put(MODEL_PATH+model_name, camera_model_location)
     sftp.close()
 
     print("Starting Test...")
@@ -70,15 +74,13 @@ if __name__ == "__main__":
     CAMERA_IP="172.25.71.119"
     CAMERA_USERNAME="root"
     CAMERA_PASSWORD="Pass"
-    MODEL_NAME="efficientdet_lite0_320_ptq.tflite"
-    MODEL_PATH="../Models/"
+    MODEL_PATH="../Models/efficientdet_lite0_320_ptq.tflite"
     TEST_DURATION="1000"
     CHIP="CPU"
 
 
     parser = argparse.ArgumentParser(description='Run a speed test of a model on the camera')
     parser.add_argument('--model_path', type=str, default=MODEL_PATH, help='Model path')
-    parser.add_argument('--model', type=str, help='Model name')
     parser.add_argument('--test_duration', type=str, default=TEST_DURATION, help='Test duration')
     parser.add_argument('--chip', type=str, default=CHIP, choices=chipset.keys(), help='Chipset')
     parser.add_argument('--camera_ip', type=str, default=CAMERA_IP, help='Camera IP')
@@ -89,11 +91,12 @@ if __name__ == "__main__":
 
 
     MODEL_PATH = args.model_path
-    MODEL_NAME = args.model
+    model_name = args.model
     TEST_DURATION = args.test_duration
     CHIP = args.chip
     CAMERA_IP = args.camera_ip
+    CAMERA_PORT=args.camera_port
     CAMERA_USERNAME = args.camera_username
     CAMERA_PASSWORD = args.camera_password
-    run_speed_test(CAMERA_IP, CAMERA_USERNAME, CAMERA_PASSWORD, MODEL_PATH, MODEL_NAME, TEST_DURATION, CHIP)
+    run_speed_test(CAMERA_IP,CAMERA_PORT, CAMERA_USERNAME, CAMERA_PASSWORD, MODEL_PATH, TEST_DURATION, CHIP)
 
