@@ -4,3 +4,4 @@ do
     echo $file
     larod-client -R 1000 -p -c axis-a8-dlpu-tflite -g $file -i '' | grep "Mean execution time for job:"
 done
+echo "Done"
