@@ -37,7 +37,7 @@ jobs:
           EXNAME: larod-test
           test: ${{env.test}}
         run: |
-          cd $EXNAME
+          cd Scripts/testing-acap/$EXNAME
           echo $test 
           echo ARCH=$test
           docker image rm -f $imagetag
