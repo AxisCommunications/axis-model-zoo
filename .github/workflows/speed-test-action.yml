@@ -56,12 +56,7 @@ jobs:
         run: |
           echo ${test}
           echo $eapfile
-          cd Scripts/testing-acap/$EXNAME
-          echo "The local directory \"larod-test\" contains the following files:"
-          ls
-          cd app
-          echo "The local directory \"larod-test/app\" contains the following files:"
-          ls
+          cd Scripts/testing-acap/$EXNAME/build
           upload=$(curl --noproxy  '*' --anyauth -s -S -k -F packfil=@${eapfile} -u root:"WRD6ycy*agd2akt4zjr" "http://85.235.16.137:8012/${{matrix.arch}}/axis-cgi/admin/applications/upload.cgi?reload_page=yes")
           echo $upload
           echo "time to refresh the page"
