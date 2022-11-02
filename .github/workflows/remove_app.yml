@@ -1,8 +1,10 @@
+
 name: Remove app
+
 on:
-  workflow_dispatch:{}
+  workflow_dispatch: 
 jobs:
-  build:
+  clean:
     runs-on: ubuntu-latest
     strategy:
       matrix:
