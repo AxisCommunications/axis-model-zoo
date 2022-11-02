@@ -52,7 +52,7 @@ jobs:
       - name: upload the app to the camera
         env: 
           test: ${{env.test}}
-          eapfile: ${{ env.EAPNAME }}_1_0_0_${{env.test}}.eap
+          eapfile: ${{ env.EAPNAME }}_1_0_0_all.eap
         run: |
           echo ${test}
           echo $eapfile
