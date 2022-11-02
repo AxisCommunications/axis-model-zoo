@@ -3,6 +3,7 @@ name: Remove app
 
 on:
   workflow_dispatch: 
+  
 jobs:
   clean:
     runs-on: ubuntu-latest
