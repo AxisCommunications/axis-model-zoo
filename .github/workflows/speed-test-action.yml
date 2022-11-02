@@ -1,6 +1,8 @@
 name: Test model speed
 on:
-  workflow_dispatch:
+  push:
+    paths:
+      - '**'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -89,8 +91,6 @@ jobs:
   
       - name: remove the application
         run: |
-          curl -v --noproxy '*' --anyauth -u root:"WRD6ycy*agd2akt4zjr" "http://85.235.16.137:8012/camera2/axis-cgi/applications/control.cgi?action=stop&package=$EAPNAME"
-          sleep 10
           curl -s -v --noproxy '*' -k --anyauth -u root:"WRD6ycy*agd2akt4zjr" --header "Content-Type: application/json" --request POST --data '{"apiVersion":"1.0", "method":"getAllProperties"}' "http://85.235.16.137:8012/camera2/axis-cgi/applications/control.cgi?action=remove&package=$EAPNAME"
     
     
