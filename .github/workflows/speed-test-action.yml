@@ -56,7 +56,7 @@ jobs:
         run: |
           echo ${test}
           echo $eapfile
-          cd $EXNAME
+          cd Scripts/testing-acap/$EXNAME
           echo "The local directory \"larod-test\" contains the following files:"
           ls
           cd app
