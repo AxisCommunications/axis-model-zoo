@@ -92,9 +92,9 @@ jobs:
             echo "$i"
           done
   
-     - name: remove the application
-       run: |
-         curl -s -v --noproxy '*' -k --anyauth -u root:"WRD6ycy*agd2akt4zjr" --header "Content-Type: application/json" --request POST --data '{"apiVersion":"1.0", "method":"getAllProperties"}' "http://85.235.16.137:8012/camera2/axis-cgi/applications/control.cgi?action=remove&package=$EAPNAME"
+      - name: remove the application
+        run: |
+          curl -s -v --noproxy '*' -k --anyauth -u root:"WRD6ycy*agd2akt4zjr" --header "Content-Type: application/json" --request POST --data '{"apiVersion":"1.0", "method":"getAllProperties"}' "http://85.235.16.137:8012/camera2/axis-cgi/applications/control.cgi?action=remove&package=$EAPNAME"
     
     
           
