@@ -79,6 +79,7 @@ jobs:
               break
             fi
             sleep 1
+          done
 
 
       - name: Stop the application
