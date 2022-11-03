@@ -5,7 +5,7 @@ do
     echo /dev/null > $file
     #sed -i '/.*larod_test.*/d' $file
 done
-echo "Done cleaning log"
+echo "Log cleaned"
 
 echo "Reading SoC"
 SoC=$(echo $(parhandclient getgroup root.Properties.System.Soc) | cut -d "\"" -f 2)
