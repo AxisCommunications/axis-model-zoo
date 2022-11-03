@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: ['camera2']
+        arch: ['camera1','camera2']
         
     env:
       EXREPO: test-acap
@@ -78,6 +78,11 @@ jobs:
             sleep 10
           done
 
+      - name: read the results
+          run: |
+              echo $result
+              
+          
 
       - name: Stop the application
         run: | 
@@ -94,5 +99,4 @@ jobs:
         run: |
           curl -s -v --noproxy '*' -k --anyauth -u root:"WRD6ycy*agd2akt4zjr" --header "Content-Type: application/json" --request POST --data '{"apiVersion":"1.0", "method":"getAllProperties"}' "http://85.235.16.137:8012/camera2/axis-cgi/applications/control.cgi?action=remove&package=$EAPNAME"
     
-    
-          
+
