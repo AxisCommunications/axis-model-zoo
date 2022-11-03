@@ -11,7 +11,7 @@ jobs:
         arch: ['camera1','camera2']
         
     env:
-      EXREPO: test-acap
+      EXREPO: auto-test-framework
       EXNAME: larod-test
       EAPNAME: larod_test
       EXDIR: acap/examples/$EXNAME
@@ -37,7 +37,7 @@ jobs:
           EXNAME: larod-test
           test: ${{env.test}}
         run: |
-          cd Scripts/testing-acap/$EXNAME
+          cd Scripts/auto-test-framework/$EXNAME
           echo $test 
           echo ARCH=$test
           docker image rm -f $imagetag
@@ -56,7 +56,7 @@ jobs:
         run: |
           echo ${test}
           echo $eapfile
-          cd Scripts/testing-acap/$EXNAME/build
+          cd Scripts/auto-test-framework/$EXNAME/build
           ls
           upload=$(curl --noproxy  '*' --anyauth -s -S -k -F packfil=@${eapfile} -u root:"WRD6ycy*agd2akt4zjr" "http://85.235.16.137:8012/${{matrix.arch}}/axis-cgi/admin/applications/upload.cgi?reload_page=yes")
           echo $upload
