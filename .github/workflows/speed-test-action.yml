@@ -69,7 +69,7 @@ jobs:
           while true; do
             result=$(curl -s --noproxy '*' --anyauth -u root:"WRD6ycy*agd2akt4zjr" -k --header "Content-Type: application/json" http://85.235.16.137:8012/camera2/axis-cgi/admin/systemlog.cgi?appname=$EAPNAME)
             echo "TEST:"
-            echo result
+            echo $result
             if [[ $result == *"Done"* ]]; then
               echo "output: "
               echo $result

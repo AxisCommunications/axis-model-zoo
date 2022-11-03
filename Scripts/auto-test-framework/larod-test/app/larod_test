@@ -10,25 +10,6 @@ echo "Log cleaned"
 echo "Reading SoC"
 SoC=$(echo $(parhandclient getgroup root.Properties.System.Soc) | cut -d "\"" -f 2)
 
-
-#case $CHIP in 
-#    *"Ambarella CV25"*)
-#        folder="./Models/cv25"
-#        chip="ambarella-cvflow"
-#    ;;
-#    *"Axis Artpec-8"*)
-#        folder="./Models/artpec8"
-#        chip="axis-a8-dlpu-tflite"
-#    ;;
-#    *"Axis Artpec-7"*)
-#        folder="./Models/artpec7"
-#        chip="google-edge-tpu-tflite"
-#    ;;
-#    *)
-#        echo "Unknown SoC"
-#        exit 1  
-#esac
-
 if [ "$SoC" = "Ambarella CV25" ] 
 then
     echo "Testing models via cv25"
