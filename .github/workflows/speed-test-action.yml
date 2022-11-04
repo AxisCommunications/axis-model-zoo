@@ -1,9 +1,6 @@
 name: Test model speed
 
 on:
-  push:
-    paths:
-      - '**'
 
   workflow_dispatch:
 
