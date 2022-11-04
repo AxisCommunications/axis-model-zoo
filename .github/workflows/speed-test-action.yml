@@ -1,9 +1,12 @@
 name: Test model speed
+
 on:
   push:
     paths:
       - '**'
+
   workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -75,9 +78,10 @@ jobs:
 
             git config user.name github-actions
             git config user.email github-actions@github.com
-            
-            git pull 
+
+             
             git add README.md
+            git pull
             if git commit -m "Updating test results" | grep -q 'nothing to commit, working tree clean'; then
               echo "Nothing to commit :)"
             else
