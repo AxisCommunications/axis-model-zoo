@@ -49,7 +49,7 @@ def main():
     file_name = 'README.md'
     
     md_file = read_md_file(file_name)
-    larod_output = read_larod_output("/tmp/larod_output.txt")
+    larod_output = read_larod_output("/tmp/larod_out.txt")
     inference_times = extract_inference_time(larod_output)
     for token in tokens:
         token_index = find_token(md_file, token)
