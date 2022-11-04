@@ -3,12 +3,13 @@ on:
   push:
     paths:
       - '**'
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: ['camera2']
+        arch: ['camera1','camera2']
         
     env:
       EXREPO: auto-test-framework
@@ -17,18 +18,6 @@ jobs:
       EXDIR: acap/examples/$EXNAME
     steps:
       - uses: actions/checkout@v3
-
-      - name: Get the architecture from the camera
-        run: |
-          ok=$(curl -s --noproxy '*' --anyauth -u root:"WRD6ycy*agd2akt4zjr" -k --header "Content-Type: application/json" --request POST --data '{"apiVersion":"1.0", "method":"getProperties", "params": {"propertyList": ["Architecture"]}}' http://85.235.16.137:8012/${{matrix.arch}}/axis-cgi/basicdeviceinfo.cgi)
-          echo  "response from curl= $ok" 
-          ok=${ok#*Architecture}
-          echo "test=$(echo $ok | cut -d '"' -f 3)" >> $GITHUB_ENV
-          echo ok=$(echo $ok | cut -d '"' -f 3)
-      - name: Test the env variable  
-        id: grabInfoId
-        run: | 
-          echo $test     
 
       - name: Build ${{ env.example }} application
         env:
@@ -86,7 +75,7 @@ jobs:
             git config user.name github-actions
             git config user.email github-actions@github.com
             git add .
-            if git commit -m "Syncing with staging repo" | grep -q 'nothing to commit, working tree clean'; then
+            if git commit -m "Updating test results" | grep -q 'nothing to commit, working tree clean'; then
               echo "Nothing to commit :)"
             else
               git push    
