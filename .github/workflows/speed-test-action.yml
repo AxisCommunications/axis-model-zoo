@@ -86,6 +86,7 @@ jobs:
               echo "Nothing to commit :)"
             else
               git pull
+              
               git push    
             fi
               
