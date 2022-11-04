@@ -70,11 +70,13 @@ jobs:
       - name: read the results and update readme
         run: |
             cat /tmp/larod_out.txt
+
             python3 ./Scripts/auto-test-framework/readme-update.py
 
             git config user.name github-actions
             git config user.email github-actions@github.com
-            git add .
+
+            git add README.md
             if git commit -m "Updating test results" | grep -q 'nothing to commit, working tree clean'; then
               echo "Nothing to commit :)"
             else
