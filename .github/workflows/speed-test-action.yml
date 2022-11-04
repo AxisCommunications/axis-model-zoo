@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: ['camera1','camera2']
+        arch: ['camera2']
         
     env:
       EXREPO: auto-test-framework
@@ -82,7 +82,7 @@ jobs:
         run: |
             cat /tmp/larod_out.txt
             python3 ./Scripts/auto-test-framework/readme-update.py
-            
+
             git config user.name github-actions
             git config user.email github-actions@github.com
             git add .
