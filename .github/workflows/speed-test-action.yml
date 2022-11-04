@@ -30,7 +30,7 @@ jobs:
           echo $test 
           echo ARCH=$test
           docker image rm -f $imagetag
-          docker build --no-cache --tag $imagetag --build-arg ARCH=$test .
+          docker build --no-cache --tag $imagetag  .
           docker cp $(docker create $imagetag):/opt/app ./build
           myimg=$(docker images | awk '{print $1}' | awk 'NR==2')
           echo $myimg
