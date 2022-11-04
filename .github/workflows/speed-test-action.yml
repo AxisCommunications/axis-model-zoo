@@ -78,7 +78,7 @@ jobs:
 
             git config user.name github-actions
             git config user.email github-actions@github.com
-
+            git config pull.ff only 
              
             git add README.md
 
@@ -86,7 +86,7 @@ jobs:
               echo "Nothing to commit :)"
             else
               git pull
-              
+
               git push    
             fi
               
