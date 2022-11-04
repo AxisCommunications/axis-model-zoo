@@ -54,6 +54,7 @@ def main():
     for token in tokens:
         token_index = find_token(md_file, token)
         if token_index != -1 and token in inference_times:
+            print("Found token in file " + token)
             value_to_add = inference_times[token]
             table = generate_table(value_to_add, token)
             rewrite_md_file(file_name, md_file, token, table)
