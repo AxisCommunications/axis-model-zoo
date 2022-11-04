@@ -78,9 +78,19 @@ jobs:
             sleep 10
           done
 
-      - name: read the results
+      - name: read the results and update readme
         run: |
             cat /tmp/larod_out.txt
+            python3 ./Scripts/auto-test-framework/readme-update.py
+            
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            git add .
+            if git commit -m "Syncing with staging repo" | grep -q 'nothing to commit, working tree clean'; then
+              echo "Nothing to commit :)"
+            else
+              git push    
+            fi
               
       - name: Stop the application
         run: | 
