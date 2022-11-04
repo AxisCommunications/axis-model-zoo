@@ -1,7 +1,7 @@
 import os
 import re  
 
-tokens = ['A8_tf1_mnv2','A7_tf2_mnv1','A7_tf2_mnv3','cv25_tf1_mnv2']
+tokens = ['A8_tf1_mnv2','A7_tf2_mnv3','cv25_tf1_mnv2']
 token_parameters = { 
     
     "/artpec7/tf2_mobilenet_v1_1.0_224_ptq_edgetpu.tflite" : "A7_tf2_mnv1",
