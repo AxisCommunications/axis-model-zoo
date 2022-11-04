@@ -72,7 +72,7 @@ jobs:
             echo $result
             if [[ $result == *"Done"* ]]; then
               echo "output: "
-              echo $result
+              export $result
               break
             fi
             sleep 10

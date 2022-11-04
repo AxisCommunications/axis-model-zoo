@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: ['camera2']
+        arch: ['camera1','camera2']
         
     env:
       EXREPO: test-acap
@@ -24,7 +24,7 @@ jobs:
     steps:
       - name: remove the application
         run: |
-          curl -v --noproxy '*' --anyauth -u root:"WRD6ycy*agd2akt4zjr" "http://85.235.16.137:8012/camera2/axis-cgi/applications/control.cgi?action=stop&package=$EAPNAME"
+          curl -v --noproxy '*' --anyauth -u root:"WRD6ycy*agd2akt4zjr" "http://85.235.16.137:8012/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=stop&package=$EAPNAME"
           sleep 10
-          curl -s -v --noproxy '*' -k --anyauth -u root:"WRD6ycy*agd2akt4zjr" --header "Content-Type: application/json" --request POST --data '{"apiVersion":"1.0", "method":"getAllProperties"}' "http://85.235.16.137:8012/camera2/axis-cgi/applications/control.cgi?action=remove&package=$EAPNAME"
+          curl -s -v --noproxy '*' -k --anyauth -u root:"WRD6ycy*agd2akt4zjr" --header "Content-Type: application/json" --request POST --data '{"apiVersion":"1.0", "method":"getAllProperties"}' "http://85.235.16.137:8012/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=remove&package=$EAPNAME"
     
