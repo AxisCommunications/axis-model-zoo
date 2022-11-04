@@ -71,8 +71,8 @@ jobs:
             echo "TEST:"
             echo $result
             if [[ $result == *"Done"* ]]; then
-              echo "output: "
-              export result=$result
+              echo "saving output to file "
+              echo $result > /tmp/larod_out.txt
               break
             fi
             sleep 10
@@ -80,7 +80,7 @@ jobs:
 
       - name: read the results
         run: |
-            echo $result
+            cat /tmp/larod_out.txt
               
       - name: Stop the application
         run: | 
