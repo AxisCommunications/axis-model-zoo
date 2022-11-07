@@ -47,7 +47,7 @@ jobs:
           echo $eapfile
           cd Scripts/auto-test-framework/$EXNAME/build
           ls
-          upload=$(curl --noproxy  '*' --anyauth -s -S -k -F packfil=@${eapfile} -u root:"WRD6ycy*agd2akt4zjr" "http://85.235.16.137:8012/${{matrix.arch}}/axis-cgi/admin/applications/upload.cgi?reload_page=yes")
+          upload=$(curl --noproxy  '*' --anyauth -s -S -k -F packfil=@${eapfile} -u root:"F1J2M3*JFoaHDaeNL@v3" "http://85.235.16.137:8012/${{matrix.arch}}/axis-cgi/admin/applications/upload.cgi?reload_page=yes")
           echo $upload
           echo "time to refresh the page"
           sleep 20
@@ -56,7 +56,7 @@ jobs:
         run: |
           curl -s -v -u root:"WRD6ycy*agd2akt4zjr" "http://85.235.16.137:8012/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=start&package=$EAPNAME"
           while true; do
-            result=$(curl -s --noproxy '*' --anyauth -u root:"WRD6ycy*agd2akt4zjr" -k --header "Content-Type: application/json" http://85.235.16.137:8012/${{matrix.arch}}/axis-cgi/admin/systemlog.cgi?appname=$EAPNAME)
+            result=$(curl -s --noproxy '*' --anyauth -u root:"F1J2M3*JFoaHDaeNL@v3" -k --header "Content-Type: application/json" http://85.235.16.137:8012/${{matrix.arch}}/axis-cgi/admin/systemlog.cgi?appname=$EAPNAME)
             echo "TEST:"
             echo $result
             if [[ $result == *"Done"* ]]; then
@@ -86,7 +86,7 @@ jobs:
               
       - name: Stop the application
         run: | 
-          curl -v --noproxy '*' --anyauth -u root:"WRD6ycy*agd2akt4zjr" "http://85.235.16.137:8012/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=stop&package=$EAPNAME"
+          curl -v --noproxy '*' --anyauth -u root:"F1J2M3*JFoaHDaeNL@v3" "http://85.235.16.137:8012/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=stop&package=$EAPNAME"
           echo "Please refresh hemsida, so you can see the application status is stopped"  
           echo "time to refresh the page"
           for i in {1..8} 
@@ -97,6 +97,6 @@ jobs:
   
       - name: remove the application
         run: |
-          curl -s -v --noproxy '*' -k --anyauth -u root:"WRD6ycy*agd2akt4zjr" --header "Content-Type: application/json" --request POST --data '{"apiVersion":"1.0", "method":"getAllProperties"}' "http://85.235.16.137:8012/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=remove&package=$EAPNAME"
+          curl -s -v --noproxy '*' -k --anyauth -u root:"F1J2M3*JFoaHDaeNL@v3" --header "Content-Type: application/json" --request POST --data '{"apiVersion":"1.0", "method":"getAllProperties"}' "http://85.235.16.137:8012/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=remove&package=$EAPNAME"
     
 
