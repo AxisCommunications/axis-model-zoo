@@ -71,19 +71,22 @@ jobs:
         run: |
             git config user.name github-actions
             git config user.email github-actions@github.com
-            
             cat /tmp/larod_out.txt
-            git pull
-            python3 ./Scripts/auto-test-framework/readme-update.py
-             
-            git add README.md
+            
+            RET=1
+            until [ ${RET} -eq 0 ]; do
 
-            if git commit -m "Updating test results" | grep -q 'nothing to commit, working tree clean'; then
-              echo "Nothing to commit :)"
-            else
               git pull
-              git push    
-            fi
+              python3 ./Scripts/auto-test-framework/readme-update.py
+              git add README.md
+              if git commit -m "Updating test results" | grep -q 'nothing to commit, working tree clean'; then
+                echo "Nothing to commit :)"
+              else
+                git push
+                RET=$?
+              fi
+              sleep 5
+            done
               
       - name: Stop the application
         run: | 
