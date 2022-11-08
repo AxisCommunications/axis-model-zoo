@@ -82,8 +82,10 @@ jobs:
               if git commit -m "Updating test results" | grep -q 'nothing to commit, working tree clean'; then
                 echo "Nothing to commit :)"
               else
+                set +e
                 git push
                 RET=$?
+                set -e
               fi
               sleep 5
             done
