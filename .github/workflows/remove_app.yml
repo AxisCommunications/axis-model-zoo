@@ -1,0 +1,25 @@
+name: clean
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: ['camera1','camera2']
+        
+    env:
+      EXREPO: test-acap
+      EXNAME: larod-test
+      EAPNAME: larod_test
+      EXDIR: acap/examples/$EXNAME
+    steps:
+      - name: remove the application
+        run: |
+          curl -v --noproxy '*' --anyauth -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=stop&package=$EAPNAME"
+          sleep 10
+          curl -s -v --noproxy '*' -k --anyauth -u root:"${{secrets.SUPERSECRETPASSWORD}}" --header "Content-Type: application/json" --request POST --data '{"apiVersion":"1.0", "method":"getAllProperties"}' "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=remove&package=$EAPNAME"
+    

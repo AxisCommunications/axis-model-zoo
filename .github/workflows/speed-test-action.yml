@@ -1,0 +1,110 @@
+name: Test model speed
+
+on:
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: ['camera1','camera2','camera3']
+        
+    env:
+      EXREPO: auto-test-framework
+      EXNAME: larod-test
+      EAPNAME: larod_test
+      EXDIR: acap/examples/$EXNAME
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build ${{ env.example }} application
+        env:
+          example: ${{ env.EXNAME }}
+          imagetag: ${{ env.EXREPO }}_${{ env.EXNAME }}:1.0
+          EXNAME: larod-test
+          test: ${{env.test}}
+        run: |
+          cd scripts/auto-test-framework/$EXNAME
+          echo $test 
+          echo ARCH=$test
+          docker image rm -f $imagetag
+          docker build --no-cache --tag $imagetag  .
+          docker cp $(docker create $imagetag):/opt/app ./build
+          myimg=$(docker images | awk '{print $1}' | awk 'NR==2')
+          echo $myimg
+          docker ps  -a --format 'CONTAINER ID : {{.ID}} | Name: {{.Names}} | Image:  {{.Image}} '        
+          echo "here what the build file contains"
+          ls build
+
+      - name: upload the app to the camera
+        env: 
+          test: ${{env.test}}
+          eapfile: ${{ env.EAPNAME }}_1_0_0_all.eap
+        run: |
+          echo ${test}
+          echo $eapfile
+          cd scripts/auto-test-framework/$EXNAME/build
+          ls
+          upload=$(curl --noproxy  '*' --anyauth -s -S -k -F packfil=@${eapfile} -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/admin/applications/upload.cgi?reload_page=yes")
+          echo $upload
+          echo "time to refresh the page"
+          sleep 20
+
+      - name: start the application
+        run: |
+          curl -s -v -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=start&package=$EAPNAME"
+          while true; do
+            result=$(curl -s --noproxy '*' --anyauth -u root:"${{secrets.SUPERSECRETPASSWORD}}" -k --header "Content-Type: application/json" http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/admin/systemlog.cgi?appname=$EAPNAME)
+            echo "TEST:"
+            echo $result
+            if [[ $result == *"Done"* ]]; then
+              echo "saving output to file "
+              echo $result > /tmp/larod_out.txt
+              break
+            fi
+            sleep 10
+          done
+
+      - name: read the results and update readme
+        run: |
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            git config pull.rebase true
+            cat /tmp/larod_out.txt
+            
+            RET=1
+            until [ ${RET} -eq 0 ]; do
+
+              git pull
+              python3 ./scripts/auto-test-framework/readme-update.py
+              git add README.md
+              if git commit -m "Updating test results" | grep -q 'nothing to commit, working tree clean'; then
+                echo "Nothing to commit :)"
+                RET=$?
+              else
+                set +e
+                git push
+                RET=$?
+                set -e
+              fi
+              sleep 5
+            done
+              
+      - name: Stop the application
+        run: | 
+          curl -v --noproxy '*' --anyauth -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=stop&package=$EAPNAME"
+          echo "Please refresh hemsida, so you can see the application status is stopped"  
+          echo "time to refresh the page"
+          for i in {1..8} 
+          do
+            sleep 1
+            echo "$i"
+          done
+  
+      - name: remove the application
+        run: |
+          curl -s -v --noproxy '*' -k --anyauth -u root:"${{secrets.SUPERSECRETPASSWORD}}" --header "Content-Type: application/json" --request POST --data '{"apiVersion":"1.0", "method":"getAllProperties"}' "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=remove&package=$EAPNAME"
+    
+
