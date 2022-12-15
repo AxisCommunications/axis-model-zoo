@@ -15,7 +15,10 @@ jobs:
       EAPNAME: larod_test
       EXDIR: acap/examples/$EXNAME
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
+      - uses: docker/setup-buildx-action@v2
+         with:
+           install: true
 
       - name: Build ${{ env.example }} application
         env:
