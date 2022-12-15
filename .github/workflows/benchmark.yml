@@ -1,24 +1,25 @@
-name: Benchmark
+name: Test model speed
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         arch: ["camera1", "camera2", "camera3"]
+
     env:
       EXREPO: auto-test-framework
       EXNAME: larod-test
       EAPNAME: larod_test
       EXDIR: acap/examples/$EXNAME
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: docker/setup-buildx-action@v2
-         with:
-           install: true
+        with:
+          install: true
 
       - name: Build ${{ env.example }} application
         env:
@@ -28,14 +29,14 @@ jobs:
           test: ${{env.test}}
         run: |
           cd scripts/auto-test-framework/$EXNAME
-          echo $test 
+          echo $test
           echo ARCH=$test
           docker image rm -f $imagetag
           docker build --no-cache --tag $imagetag  .
           docker cp $(docker create $imagetag):/opt/app ./build
           myimg=$(docker images | awk '{print $1}' | awk 'NR==2')
           echo $myimg
-          docker ps  -a --format 'CONTAINER ID : {{.ID}} | Name: {{.Names}} | Image:  {{.Image}} '        
+          docker ps  -a --format 'CONTAINER ID : {{.ID}} | Name: {{.Names}} | Image:  {{.Image}} '
           echo "here what the build file contains"
           ls build
 
@@ -96,9 +97,9 @@ jobs:
       - name: Stop the application
         run: |
           curl -v --noproxy '*' --anyauth -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=stop&package=$EAPNAME"
-          echo "Please refresh hemsida, so you can see the application status is stopped"  
+          echo "Please refresh hemsida, so you can see the application status is stopped"
           echo "time to refresh the page"
-          for i in {1..8} 
+          for i in {1..8}
           do
             sleep 1
             echo "$i"

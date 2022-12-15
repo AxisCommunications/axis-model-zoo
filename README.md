@@ -26,7 +26,7 @@ The [auto-test-framework](./scripts/auto-test-framework) folder holds the code f
 
 ### Speed measure
 
-In the case of the automated test framework, the test is done by installing and running an ACAP in the AXIS camera. To know more about how it works, you can go to the [larod-test](./scripts/auto-test-framework/larod-test) folder. 
+In the case of the automated test framework, the test is done by installing and running an ACAP in the AXIS camera. To know more about how it works, you can go to the [larod-test](./scripts/auto-test-framework/larod-test) folder.
 
 To get speed measures more easily, you can use the code in [model_performance_tester.py](./scripts/model_performance_tester.py). This script connects to the AXIS camera via SSH and uses the `larod-client` to run inferences. It then parses the output, which will be the mean of time the AXIS camera spent on the inferences. These inferences are done on randomly generated images. See below how to use the script:
 
@@ -42,7 +42,7 @@ where, `<MODEL_PATH>` is the path where your `.tflite` or `.bin` model is and `<
 
 The accuracy measure has several steps and it depends on what model are we measuring. Here we are going to explain how we measured the image classification models using the [ILSVRC2012](https://www.image-net.org/index.php) dataset.
 
-1. Convert images to raw bytes. `larod` makes inferences on `.bin` image files, so we use [TODOconvert_image.py]() to do so.
+1. Convert images to raw bytes. `larod` makes inferences on `.bin` image files, so we use [TODOconvert_image.py](.) to do so.
 2. TODO
 
 ## Licence

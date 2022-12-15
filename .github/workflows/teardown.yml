@@ -5,7 +5,7 @@ on:
 
 jobs:
   clean:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         arch: ["camera1", "camera2", "camera3"]
