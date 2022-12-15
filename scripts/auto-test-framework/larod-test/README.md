@@ -2,8 +2,7 @@
 
 # larod-test ACAP application written in shell script
 
-This README file briefly explains this ACAP works
-
+This README file briefly explains how this ACAP works.
 
 ## Getting started
 
@@ -13,10 +12,9 @@ These instructions will guide you on how to execute the code. Below is the struc
 larod-test
 ├── app
 │   ├── larod_test
-│   ├── LICENSE
 │   ├── Makefile
 │   ├── manifest.json
-│   └── models 
+│   └── models
 │   │   ├── artpec7
 │   │   ├── artpec8
 │   │   └── cv25
@@ -24,18 +22,13 @@ larod-test
 └── README.md
 ```
 
-* **app/larod_test** - Shell script application which runs larod client on all the models compatible with the camera architecture.
-* **app/LICENSE** - Text file which lists all open source licensed source code distributed with the application.
+* **app/larod_test** - Shell script application that runs `larod-client` on all the models compatible with the AXIS camera chip.
 * **app/Makefile** - Empty Makefile. Necessary for the build process.
 * **app/manifest.json** - Defines the application and its configuration.
-* **app/models** - Contains all the models that will be tested, divided by architecture.
-* **Dockerfile** - Docker file with the specified Axis toolchain and API container to build the example specified.
+* **app/models** - Contains all the models that will be tested, organized by architecture.
+* **Dockerfile** - Dockerfile with the specified Axis toolchain and API container to build the example.
 * **README.md** - Step by step instructions on how to run the example.
 
 ### Run the code
 
-The ACAP is built in a [github action](https://github.com/AxisCommunications/axis-model-zoo/blob/main/.github/workflows/speed-test-action.yml) and uploaded to different models of cameras (one for each chip). The results are then read by the github action and used to upload the main readme of this repository.
-
-## License
-
-**[Apache License 2.0](../LICENSE)**
+The ACAP is built in a Github action, [speed-test-action.yml](https://github.com/AxisCommunications/axis-model-zoo/blob/main/.github/workflows/speed-test-action.yml), and uploaded to different models of cameras (one for each chip). The results are then read by the Github action and used to upload the main README.md of this repository.

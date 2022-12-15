@@ -1,9 +1,10 @@
 #!/bin/sh
+
 echo "Cleaning log"
 for file in /var/log/info.*
 do
     echo /dev/null > $file
-    #sed -i '/.*larod_test.*/d' $file
+    # sed -i '/.*larod_test.*/d' $file
 done
 echo "Log cleaned"
 
@@ -30,7 +31,7 @@ fi
 
 
 echo "Running tests using chip: $chip"
-#for all the files in the folder
+# for all the files in the folder
 for file in $folder*
 do
     echo "Testing $file"
