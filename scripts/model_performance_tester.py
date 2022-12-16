@@ -77,4 +77,3 @@ if __name__ == '__main__':
     CAMERA_PASSWORD = args.camera_password
 
     run_speed_test(CAMERA_IP, CAMERA_PORT, CAMERA_USERNAME, CAMERA_PASSWORD, MODEL_PATH, TEST_DURATION, CHIP)
-

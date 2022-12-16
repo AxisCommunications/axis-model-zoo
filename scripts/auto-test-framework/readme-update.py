@@ -1,8 +1,8 @@
 import os
-import re  
+import re
 
 tokens = ['A8_tf1_mnv2','A7_tf1_mnv2','A7_tf2_mnv2','A7_tf2_mnv3','cv25_tf1_mnv2']
-token_parameters = { 
+token_parameters = {
 
     "/artpec7/mobilenet_v2_1.0_224_quant_edgetpu.tflite" : "A7_tf1_mnv2",
     "/artpec7/tf2_mobilenet_v2_1.0_224_ptq_edgetpu.tflite" : "A7_tf2_mnv2",
@@ -49,7 +49,7 @@ def rewrite_md_file(file_name, md_file, token, text_to_replace):
 #main function
 def main():
     file_name = 'README.md'
-    
+
     md_file = read_md_file(file_name)
     larod_output = read_larod_output("/tmp/larod_out.txt")
     inference_times = extract_inference_time(larod_output)
@@ -64,5 +64,4 @@ def main():
             print("Can't find token in file: " + token)
 
 if __name__ == '__main__':
-    main() 
-  
+    main()
