@@ -3,5 +3,6 @@
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true
-  }
+  },
+  "markdown.extension.toc.levels": "1..3"
 }
