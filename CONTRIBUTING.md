@@ -118,15 +118,15 @@ To run a number of linters on the code base from command line:
 docker run --rm  \
   -v $PWD:/tmp/lint \
   -e RUN_LOCAL=true \
-  -e VALIDATE_MARKDOWN=true \
-  -e VALIDATE_YAML=true \
-  -e VALIDATE_DOCKERFILE_HADOLINT=true \
-  -e VALIDATE_BASH=true \
-  -e VALIDATE_SHELL_SHFMT=true \
   -e LINTER_RULES_PATH=/ \
   -e MARKDOWN_CONFIG_FILE=.markdownlint.yml \
   -e DOCKERFILE_HADOLINT_FILE_NAME=.hado-lint.yml \
   -e YAML_CONFIG_FILE=.yaml-lint.yml \
+  -e VALIDATE_BASH=true \
+  -e VALIDATE_DOCKERFILE_HADOLINT=true \
+  -e VALIDATE_MARKDOWN=true \
+  -e VALIDATE_SHELL_SHFMT=true \
+  -e VALIDATE_YAML=true \
   github/super-linter:slim-v4
 ```
 
