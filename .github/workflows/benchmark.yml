@@ -1,4 +1,4 @@
-name: Test model speed
+name: Benchmark
 
 on:
   workflow_dispatch:
