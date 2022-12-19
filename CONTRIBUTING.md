@@ -102,7 +102,6 @@ Before opening a Pull Request (PR), please consider the following guidelines:
 - Follow the conventional commits message style in the commit messages
 - The PR will have to meet the sample code examples standard already available in the repository.
 - Explanatory comments related to code functions are required. Please write code comments for a better understanding of the code for other developers.
-- No PR will be accepted without having a well defined README (see examples in the repo) file for the sample code.
 
 And finally when you are satisfied with your changes, open a new PR.
 
