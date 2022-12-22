@@ -26,35 +26,22 @@ jobs:
           example: ${{ env.EXNAME }}
           imagetag: ${{ env.EXREPO }}_${{ env.EXNAME }}:1.0
           EXNAME: larod-test
-          test: ${{env.test}}
         run: |
           cd scripts/auto-test-framework/$EXNAME
-          echo $test
-          echo ARCH=$test
-          docker image rm -f $imagetag
           docker build --no-cache --tag $imagetag  .
           docker cp $(docker create $imagetag):/opt/app ./build
-          myimg=$(docker images | awk '{print $1}' | awk 'NR==2')
-          echo $myimg
-          docker ps  -a --format 'CONTAINER ID : {{.ID}} | Name: {{.Names}} | Image:  {{.Image}} '
-          echo "here what the build file contains"
-          ls build
 
-      - name: upload the app to the camera
+      - name: Upload the app to the camera
         env:
-          test: ${{env.test}}
           eapfile: ${{ env.EAPNAME }}_1_0_0_all.eap
         run: |
-          echo ${test}
-          echo $eapfile
           cd scripts/auto-test-framework/$EXNAME/build
-          ls
           upload=$(curl --noproxy  '*' --anyauth -s -S -k -F packfil=@${eapfile} -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/admin/applications/upload.cgi?reload_page=yes")
           echo $upload
           echo "time to refresh the page"
           sleep 20
 
-      - name: start the application
+      - name: Start the application
         run: |
           curl -s -v -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=start&package=$EAPNAME"
           while true; do
@@ -69,7 +56,7 @@ jobs:
             sleep 10
           done
 
-      - name: read the results and update readme
+      - name: Read the results and update readme
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
@@ -105,6 +92,6 @@ jobs:
             echo "$i"
           done
 
-      - name: remove the application
+      - name: Remove the application
         run: |
           curl -s -v --noproxy '*' -k --anyauth -u root:"${{secrets.SUPERSECRETPASSWORD}}" --header "Content-Type: application/json" --request POST --data '{"apiVersion":"1.0", "method":"getAllProperties"}' "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=remove&package=$EAPNAME"
