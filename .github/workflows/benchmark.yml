@@ -43,14 +43,11 @@ jobs:
           curl -s -v -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=start&package=$EAPNAME"
           while true; do
             result=$(curl -s --noproxy '*' --anyauth -u root:"${{secrets.SUPERSECRETPASSWORD}}" -k --header "Content-Type: application/json" http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/admin/systemlog.cgi?appname=$EAPNAME)
-            echo "TEST:"
-            echo $result
             if [[ $result == *"Done"* ]]; then
               echo "saving output to file "
               echo $result > /tmp/larod_out.txt
               break
             fi
-            sleep 10
           done
 
       - name: Read the results and update readme
