@@ -29,26 +29,32 @@ jobs:
           docker build --no-cache --tag $imagetag . 
           docker cp $(docker create $imagetag):/opt/app ./build
 
+
       - name: Upload the app to the camera
         env:
           eapfile: ${{ env.EAPNAME }}_1_0_0_all.eap
         run: |
           cd scripts/auto-test-framework/$EXNAME/build
-          upload=$(curl -s -S -k --noproxy  '*' --anyauth -F packfil=@${eapfile} -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/admin/applications/upload.cgi")
+          upload=$(curl --silent --show-error --noproxy  '*' --anyauth -F packfil=@${eapfile} -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/admin/applications/upload.cgi")
           echo $upload 
 
 
       - name: Start the application
         run: |
-          curl -s -v -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=start&package=$EAPNAME"
+          curl --silent --show-error -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=start&package=$EAPNAME"
+      
+      
+      - name: Parse log
+        run: | 
           while true; do
-            result=$(curl -s -k --noproxy '*' --anyauth -u root:"${{secrets.SUPERSECRETPASSWORD}}" http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/admin/systemlog.cgi?appname=$EAPNAME)
+            result=$(curl --silent --show-error --noproxy '*' --anyauth -u root:"${{secrets.SUPERSECRETPASSWORD}}" http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/admin/systemlog.cgi?appname=$EAPNAME)
             if [[ $result == *"Done"* ]]; then
               echo "saving output to file "
               echo $result > /tmp/larod_out.txt
               break
             fi
           done
+
 
       - name: Read the results and update README
         run: |
@@ -75,10 +81,12 @@ jobs:
             sleep 5
           done
 
+
       - name: Stop the application
         run: |
-          curl -v --anyauth --noproxy '*' -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=stop&package=$EAPNAME"
+          curl --silent --show-error --anyauth --noproxy '*' -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=stop&package=$EAPNAME"
+
 
       - name: Remove the application
         run: |
-          curl -s -v -k --anyauth --noproxy '*' -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=remove&package=$EAPNAME"
+          curl --silent --show-error --anyauth --noproxy '*' -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=remove&package=$EAPNAME"
