@@ -28,7 +28,7 @@ jobs:
           EXNAME: larod-test
         run: |
           cd scripts/auto-test-framework/$EXNAME
-          DOCKER_BUILDKIT=1 docker build --no-cache --tag $imagetag  .
+          docker build --no-cache --tag $imagetag  .
           docker cp $(docker create $imagetag):/opt/app ./build
 
       - name: Upload the app to the camera
