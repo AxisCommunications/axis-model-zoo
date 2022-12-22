@@ -13,5 +13,5 @@ COPY ./app /opt/app/
 WORKDIR /opt/app
 RUN <<EOF
 . /opt/axis/acapsdk/environment-setup*
-acap-build . -a 'models/*'
+&& acap-build . -a 'models/*'
 EOF
