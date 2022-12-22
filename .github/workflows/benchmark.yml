@@ -26,7 +26,7 @@ jobs:
           EXNAME: larod-test
         run: |
           cd scripts/auto-test-framework/$EXNAME
-          docker build --no-cache --tag $imagetag . 
+          docker build --no-cache --tag $imagetag .
           docker cp $(docker create $imagetag):/opt/app ./build
 
 
@@ -35,17 +35,17 @@ jobs:
           eapfile: ${{ env.EAPNAME }}_1_0_0_all.eap
         run: |
           cd scripts/auto-test-framework/$EXNAME/build
-          upload=$(curl --silent --show-error --noproxy  '*' --anyauth -F packfil=@${eapfile} -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/admin/applications/upload.cgi")
-          echo $upload 
+          upload_output=$(curl --silent --show-error --noproxy  '*' --anyauth -F packfil=@${eapfile} -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/admin/applications/upload.cgi")
+          echo $upload_output
 
 
       - name: Start the application
         run: |
           curl --silent --show-error -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=start&package=$EAPNAME"
-      
-      
-      - name: Parse log
-        run: | 
+
+
+      - name: Read application log
+        run: |
           while true; do
             result=$(curl --silent --show-error --noproxy '*' --anyauth -u root:"${{secrets.SUPERSECRETPASSWORD}}" http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/admin/systemlog.cgi?appname=$EAPNAME)
             if [[ $result == *"Done"* ]]; then
