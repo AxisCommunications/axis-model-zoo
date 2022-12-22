@@ -56,7 +56,7 @@ jobs:
           done
 
 
-      - name: Read the results and update README
+      - name: Parse the results and update README
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
