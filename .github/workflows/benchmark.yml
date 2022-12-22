@@ -62,7 +62,7 @@ jobs:
           git config user.email github-actions@github.com
           git config pull.rebase true
           log=$(cat /tmp/larod_out.txt)
-          echo $log
+          echo $log | grep "Testing"
 
           RET=1
           until [ ${RET} -eq 0 ]; do
