@@ -9,6 +9,9 @@ jobs:
     strategy:
       matrix:
         arch: ["camera1", "camera2", "camera3"]
+        # camera1 -> artpec7
+        # camera2 -> artpec8
+        # camera3 -> CV25
 
     env:
       EXREPO: auto-test-framework
