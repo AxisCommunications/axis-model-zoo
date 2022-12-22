@@ -29,6 +29,8 @@ jobs:
         run: |
           cd scripts/auto-test-framework/$EXNAME
           docker build --no-cache --tag $imagetag  .
+          myimg=$(docker images | awk '{print $1}' | awk 'NR==2')
+          echo $myimg
           docker cp $(docker create $imagetag):/opt/app ./build
 
       - name: Upload the app to the camera
