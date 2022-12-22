@@ -13,7 +13,7 @@ Axis network cameras can be used for computer vision applications and can run ma
 | ARTPEC-7 (Q1615 Mk III) | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant_edgetpu.tflite) | 1 | <!--A7_tf1_mnv2--> 4.55 ms <!--end_A7_tf1_mnv2--> | 68.9% | 88.2% |
 | ARTPEC-7 (Q1615 Mk III) | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/tf2_mobilenet_v2_1.0_224_ptq_edgetpu.tflite) | 2 | <!--A7_tf2_mnv2--> 4.58 ms <!--end_A7_tf2_mnv2--> | 69.6% | 89.1% |
 | ARTPEC-7 (Q1615 Mk III) | [MobilenetV3](https://raw.githubusercontent.com/google-coral/test_data/master/tf2_mobilenet_v3_edgetpu_1.0_224_ptq_edgetpu.tflite) | 2 | <!--A7_tf2_mnv3--> 4.74 ms <!--end_A7_tf2_mnv3--> | 72.7% | 91.1% |
-| ARTPEC-8 (Q1656) | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant.tflite) | 1 | <!--A8_tf1_mnv2--> 7.34 ms <!--end_A8_tf1_mnv2--> | 68.8% | 88.9% |
+| ARTPEC-8 (Q1656) | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant.tflite) | 1 | <!--A8_tf1_mnv2--> 7.33 ms <!--end_A8_tf1_mnv2--> | 68.8% | 88.9% |
 | ARTPEC-8 (Q1656) | EfficientNetLite0 | 1 | <!--A8_tf1_eff--> ? <!--end_A8_tf1_eff--> | ?? | ?? |
 | CV25 (M3085) | [MobilenetV2](https://acap-ml-model-storage.s3.amazonaws.com/mobilenetv2_cavalry.bin) | 1 | <!--cv25_tf1_mnv2--> 5.64 ms <!--end_cv25_tf1_mnv2--> | 66.7% | 87.1% |
 | CV25 (M3085) | EfficientNetLite0 | 1 | ? | ?? | ?? |
