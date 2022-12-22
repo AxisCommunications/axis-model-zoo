@@ -11,4 +11,7 @@ FROM ${REPO}/${SDK}:${VERSION}-${ARCH}-ubuntu${UBUNTU_VERSION}
 # Building the ACAP application
 COPY ./app /opt/app/
 WORKDIR /opt/app
-RUN . /opt/axis/acapsdk/environment-setup* && acap-build . -a 'models/*'
+RUN <<EOF
+. /opt/axis/acapsdk/environment-setup*
+acap-build . -a 'models/*'
+EOF
