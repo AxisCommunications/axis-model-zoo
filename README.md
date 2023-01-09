@@ -14,6 +14,6 @@ This repository contains a collection of models compatible and optimized for Axi
 | ARTPEC-8 (Q1656)  | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant.tflite)  | 1  | <!--A8_tf1_mnv2--> 7.26 ms <!--end_A8_tf1_mnv2--> | 68.8% | 88.9% |
 | ARTPEC-8 (Q1656) | EfficientNetLite0    | 1  | <!--A8_tf1_eff--> ? <!--end_A8_tf1_eff--> | ??  | ?? |
 | CV25 (M3085) | [MobilenetV2](https://acap-ml-model-storage.s3.amazonaws.com/mobilenetv2_cavalry.bin)   | 1  | <!--cv25_tf1_mnv2--> 5.59 ms <!--end_cv25_tf1_mnv2--> | 66.7%  | 87.1% |
-| CV25 (M3085) | EfficientNetLite0  | 1  | ?  | ??  | ?? |
+| CV25 (M3085) | EfficientNet (S)  | 1  | <!--cv25_tf1_ens--> ? <!--end_cv25_tf1_ens--> | 75.3%  | 92.7% |
 
 *Values for Axis OS <!--fw_version--> 11.1 <!--fw_version-->.*
