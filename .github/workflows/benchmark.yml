@@ -9,6 +9,9 @@ jobs:
     strategy:
       matrix:
         arch: ["camera1", "camera2", "camera3"]
+        # camera1 -> artpec7
+        # camera2 -> artpec8
+        # camera3 -> CV25
 
     env:
       EXREPO: auto-test-framework
@@ -17,9 +20,7 @@ jobs:
       EXDIR: acap/examples/$EXNAME
     steps:
       - uses: actions/checkout@v3
-      - uses: docker/setup-buildx-action@v2
-        with:
-          install: true
+
 
       - name: Build ${{ env.example }} application
         env:
@@ -28,42 +29,43 @@ jobs:
           EXNAME: larod-test
         run: |
           cd scripts/auto-test-framework/$EXNAME
-          docker build --no-cache --tag $imagetag .
-          myimg=$(docker images | awk '{print $1}' | awk 'NR==2')
-          echo $myimg
+          DOCKER_BUILDKIT=1 docker build --no-cache --tag $imagetag .
           docker cp $(docker create $imagetag):/opt/app ./build
+
 
       - name: Upload the app to the camera
         env:
           eapfile: ${{ env.EAPNAME }}_1_0_0_all.eap
         run: |
           cd scripts/auto-test-framework/$EXNAME/build
-          upload=$(curl --noproxy  '*' --anyauth -s -S -k -F packfil=@${eapfile} -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/admin/applications/upload.cgi?reload_page=yes")
-          echo $upload
-          echo "time to refresh the page"
-          sleep 20
+          upload_output=$(curl --silent --show-error --noproxy  '*' --anyauth -F packfil=@${eapfile} -u root:"${{secrets.DEVICE_PASSWORD}}" "http://${{secrets.DEVICE_IP}}/${{matrix.arch}}/axis-cgi/admin/applications/upload.cgi")
+          echo $upload_output
+
 
       - name: Start the application
         run: |
-          curl -s -v -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=start&package=$EAPNAME"
+          curl --silent --show-error -u root:"${{secrets.DEVICE_PASSWORD}}" "http://${{secrets.DEVICE_IP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=start&package=$EAPNAME"
+
+
+      - name: Read application log
+        run: |
           while true; do
-            result=$(curl -s --noproxy '*' --anyauth -u root:"${{secrets.SUPERSECRETPASSWORD}}" -k --header "Content-Type: application/json" http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/admin/systemlog.cgi?appname=$EAPNAME)
-            echo "TEST:"
-            echo $result
+            result=$(curl --silent --show-error --noproxy '*' --anyauth -u root:"${{secrets.DEVICE_PASSWORD}}" http://${{secrets.DEVICE_IP}}/${{matrix.arch}}/axis-cgi/admin/systemlog.cgi?appname=$EAPNAME)
             if [[ $result == *"Done"* ]]; then
               echo "saving output to file "
               echo $result > /tmp/larod_out.txt
               break
             fi
-            sleep 10
           done
 
-      - name: Read the results and update readme
+
+      - name: Parse the results and update README
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git config pull.rebase true
-          cat /tmp/larod_out.txt
+          log=$(cat /tmp/larod_out.txt)
+          echo $log | grep "Testing"
 
           RET=1
           until [ ${RET} -eq 0 ]; do
@@ -83,17 +85,12 @@ jobs:
             sleep 5
           done
 
+
       - name: Stop the application
         run: |
-          curl -v --noproxy '*' --anyauth -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=stop&package=$EAPNAME"
-          echo "Please refresh hemsida, so you can see the application status is stopped"
-          echo "time to refresh the page"
-          for i in {1..8}
-          do
-            sleep 1
-            echo "$i"
-          done
+          curl --silent --show-error --anyauth --noproxy '*' -u root:"${{secrets.DEVICE_PASSWORD}}" "http://${{secrets.DEVICE_IP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=stop&package=$EAPNAME"
+
 
       - name: Remove the application
         run: |
-          curl -s -v --noproxy '*' -k --anyauth -u root:"${{secrets.SUPERSECRETPASSWORD}}" --header "Content-Type: application/json" --request POST --data '{"apiVersion":"1.0", "method":"getAllProperties"}' "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=remove&package=$EAPNAME"
+          curl --silent --show-error --anyauth --noproxy '*' -u root:"${{secrets.DEVICE_PASSWORD}}" "http://${{secrets.DEVICE_IP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=remove&package=$EAPNAME"
