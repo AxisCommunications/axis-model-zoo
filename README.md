@@ -1,4 +1,4 @@
-*Copyright (C) 2022, Axis Communications AB, Lund, Sweden. All Rights Reserved.*
+*Copyright (C) 2023, Axis Communications AB, Lund, Sweden. All Rights Reserved.*
 
 # Axis Model Zoo
 
