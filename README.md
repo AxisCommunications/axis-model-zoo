@@ -17,17 +17,17 @@ Axis network cameras can be used for computer vision applications and can run ma
 | ARTPEC-7 (Q1615 Mk III) | [MobilenetV3](https://raw.githubusercontent.com/google-coral/test_data/master/tf2_mobilenet_v3_edgetpu_1.0_224_ptq_edgetpu.tflite) | 2 | <!--A7_tf2_mnv3--> 5.05 ms <!--end_A7_tf2_mnv3--> | 72.7% | 91.1% |
 | ARTPEC-8 (Q1656) | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant.tflite) | 1 | <!--A8_tf1_mnv2--> 7.32 ms <!--end_A8_tf1_mnv2--> | 68.8% | 88.9% |
 | CV25 (M3085) | [MobilenetV2](https://acap-ml-model-storage.s3.amazonaws.com/mobilenetv2_cavalry.bin) | 1 | <!--cv25_tf1_mnv2--> 5.61 ms <!--end_cv25_tf1_mnv2--> | 66.7% | 87.1% |
-| CV25 (M3085) | [EfficientNet (S)](https://acap-ml-model-storage.s3.amazonaws.com/EfficientNet-S.bin)  | 1 | <!--cv25_tf1_ens--> 22.20 ms <!--end_cv25_tf1_ens--> | 75.3% | 92.7% |
+| CV25 (M3085) | [EfficientNet (S)](https://acap-ml-model-storage.s3.amazonaws.com/EfficientNet-S.bin) | 1 | <!--cv25_tf1_ens--> 22.20 ms <!--end_cv25_tf1_ens--> | 75.3% | 92.7% |
 
-*Values for Axis OS <!--fw_version--> 11.1 <!--fw_version-->.*
+*Values for Axis OS 11.1.*
 
 ## How are the measures calculated?
 
-The [auto-test-framework](./scripts/auto-test-framework) directory holds the code for measuring the speed numbers and automating their update in the repository. For now, the accuracy measures are not included in this pipeline. Apart from that, in [TODO ACCURACY](.) there is the code to measure the accuracy and [model_performance_tester.py](./scripts/model_performance_tester.py) is a script to measure the speed.
+The [auto-test-framework](./scripts/auto-test-framework) directory holds the code for measuring the speed numbers and automating their update in the repository. For now, the accuracy measures are not included in this pipeline. Apart from that, in the [accuracy-test](./scripts/accuracy-test) there is the code to measure the accuracy and [model_performance_tester.py](./scripts/model_performance_tester.py) is a script to measure the speed.
 
 ### Speed measure
 
-In the case of the automated test framework, the test is done by installing and running an ACAP in the AXIS camera. To know more about how it works, you can go to the [larod-test](./scripts/auto-test-framework/larod-test) directory.
+In the case of the automated test framework, the test is done by installing and running an ACAP on the AXIS camera. To know more about how it works, see the [larod-test](./scripts/auto-test-framework/larod-test) directory.
 
 To get speed measures more easily, you can use the code in [model_performance_tester.py](./scripts/model_performance_tester.py). This script connects to the AXIS camera via SSH and uses the `larod-client` to run inferences. It then parses the output, which will be the mean of time the AXIS camera spent on the inferences. These inferences are done on randomly generated images. See below how to use the script:
 
@@ -41,11 +41,8 @@ where, `<MODEL_PATH>` is the path where your `.tflite` or `.bin` model is and `<
 
 ### Accuracy measure
 
-The accuracy measure has several steps and it depends on what model are we measuring. Here we are going to explain how we measured the image classification models using the [ILSVRC2012](https://www.image-net.org/index.php) dataset.
+This test is done by installing and running an ACAP on the AXIS camera. To know more about how it works, see the [accuracy-test](./scripts/accuracy-test/) directory.
 
-1. Convert images to raw bytes. `larod` makes inferences on `.bin` image files, so we use [TODOconvert_image.py](.) to do so.
-2. TODO
-
-## Licence
+## License
 
 [Apache 2.0](./LICENSE)

@@ -6,40 +6,9 @@ ARG SDK=acap-native-sdk
 
 FROM ${REPO}/${SDK}:${VERSION}-${ARCH}-ubuntu${UBUNTU_VERSION}
 
-# Build libyuv
-WORKDIR /opt/build
-# TODO: Investigate why server certs can't be verified
-RUN GIT_SSL_NO_VERIFY=1 git clone -n https://chromium.googlesource.com/libyuv/libyuv
-WORKDIR /opt/build/libyuv
-ARG libyuv_version=5b6042fa0d211ebbd8b477c7f3855977c7973048
-RUN git checkout ${libyuv_version}
-COPY yuv/*.patch /opt/build/libyuv
-
-ARG ARCH
-RUN if [ "$ARCH" = armv7hf ]; then \
-        git apply ./*.patch && \
-        CXXFLAGS=' -O2 -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a9 -fomit-frame-pointer' \
-        make -j -f linux.mk CXX=arm-linux-gnueabihf-g++ CC=arm-linux-gnueabihf-gcc && \
-        arm-linux-gnueabihf-strip --strip-unneeded libyuv.so*; \
-    elif [ "$ARCH" = aarch64 ]; then \
-        git apply ./*.patch && \
-        CXXFLAGS=' -O2 ' \
-        make -j -f linux.mk CXX=/usr/bin/aarch64-linux-gnu-g++ CC=/usr/bin/aarch64-linux-gnu-gcc && \
-        aarch64-linux-gnu-strip --strip-unneeded libyuv.so*; \
-    else \
-        printf "Error: '%s' is not a valid value for the ARCH variable\n", "$ARCH"; \
-        exit 1; \
-    fi
-
 # Copy the library to application folder
 WORKDIR /opt/app
 COPY ./app .
-ARG BUILDDIR=/opt/build/libyuv
-RUN mkdir -p lib include && \
-    cp ${BUILDDIR}/libyuv.so* lib/ && \
-    cp -a ${BUILDDIR}/include/. include && \
-    ln -s libyuv.so.1 lib/libyuv.so && \
-    ln -s libyuv.so.1 lib/libyuv.so.1.0
 
 # Download models and labels
 RUN mkdir -p model && \

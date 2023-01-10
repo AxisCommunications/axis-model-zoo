@@ -1,12 +1,12 @@
 *Copyright (C) 2022, Axis Communications AB, Lund, Sweden. All Rights Reserved.*
 
-# larod-test ACAP application written in shell script
+# Speed test ACAP written in shell script
 
 This README file briefly explains how this ACAP works.
 
 ## Getting started
 
-These instructions will guide you on how to execute the code. Below is the structure and scripts used in the example:
+Below is the structure and scripts used in the example:
 
 ```bash
 larod-test
@@ -29,6 +29,28 @@ larod-test
 * **Dockerfile** - Dockerfile with the specified Axis toolchain and API container to build the example.
 * **README.md** - Step by step instructions on how to run the example.
 
-### Run the code
+## How to run the code
 
-The ACAP is built in a Github action, [speed-test-action.yml](https://github.com/AxisCommunications/axis-model-zoo/blob/main/.github/workflows/speed-test-action.yml), and uploaded to different models of cameras (one for each chip). The results are then read by the Github action and used to upload the main README.md of this repository.
+The ACAP is built in a Github action, [benchmark.yml](../../../.github/workflows/benchmark.yml), and installed in different models of cameras (one for each chip). The results are then read by the Github action and used to upload the main README.md of this repository.
+
+In [benchmark.yml](../../../.github/workflows/benchmark.yml), you can see how:
+
+1. First, it builds the Docker image with the following commands:
+
+    ```bash
+    DOCKER_BUILDKIT=1 docker build --no-cache --tag <APP_IMAGE> --build-arg CHIP=<CHIP> --build-arg ARCH=<ARCH> .
+    docker cp $(docker create <APP_IMAGE>):/opt/app ./build
+    ```
+
+    * \<APP_IMAGE\> is the name to tag the image with, e.g., larod-test:1.0
+    * \<CHIP\> is the chip type. Supported values are *artpec8*, *cpu*, *cv25* and *edgetpu*.
+    * \<ARCH\> is the architecture. Supported values are armv7hf (default) and aarch64.
+
+2. Once you have the EAP file, the uploading is done through `upload.cgi`.
+3. `control.cgi` starts the ACAP.
+4. `systemlog.cgi` reads the logs.
+5. [readme-update.py](../readme-update.py) reads the logs and updates the main README.md file.
+
+## License
+
+**[Apache License 2.0](./app/LICENSE)**
