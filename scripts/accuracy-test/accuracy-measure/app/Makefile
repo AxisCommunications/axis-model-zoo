@@ -1,8 +1,8 @@
-PROG1	= vdo_larod
-OBJS1	= $(PROG1).c argparse.c imgconverter.c imgprovider.c
+PROG1	= accuracy_measure
+OBJS1	= $(PROG1).c argparse.c
 PROGS	= $(PROG1)
 
-PKGS = gio-2.0 vdostream gio-unix-2.0 liblarod
+PKGS = gio-2.0 gio-unix-2.0 liblarod
 
 CFLAGS  += -Iinclude
 

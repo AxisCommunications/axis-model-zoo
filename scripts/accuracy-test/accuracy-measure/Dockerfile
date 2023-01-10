@@ -14,7 +14,6 @@ WORKDIR /opt/build/libyuv
 ARG libyuv_version=5b6042fa0d211ebbd8b477c7f3855977c7973048
 RUN git checkout ${libyuv_version}
 COPY yuv/*.patch /opt/build/libyuv
-COPY yuv/ann.txt /opt/
 
 ARG ARCH
 RUN if [ "$ARCH" = armv7hf ]; then \
@@ -55,21 +54,23 @@ RUN mkdir -p model && \
 RUN mkdir -p label && \
     curl -L -o label/imagenet_labels.txt \
     https://github.com/google-coral/edgetpu/raw/master/test_data/imagenet_labels.txt
+RUN mkdir -p ground
+COPY app/ground_truth.txt ground/
 
 ARG CHIP=
 # Building the ACAP application
 RUN if [ "$CHIP" = cpu ] || [ "$CHIP" = artpec8 ]; then \
         cp /opt/app/manifest.json.${CHIP} /opt/app/manifest.json && \
         . /opt/axis/acapsdk/environment-setup* && acap-build . \
-        -a 'label/imagenet_labels.txt' -a 'model/mobilenet_v2_1.0_224_quant.tflite'; \
+        -a 'label/imagenet_labels.txt' -a 'model/mobilenet_v2_1.0_224_quant.tflite' -a 'ground/ground_truth.txt'; \
     elif [ "$CHIP" = edgetpu ]; then \
         cp /opt/app/manifest.json.${CHIP} /opt/app/manifest.json && \
         . /opt/axis/acapsdk/environment-setup* && acap-build . \
-        -a 'label/imagenet_labels.txt' -a 'model/mobilenet_v2_1.0_224_quant_edgetpu.tflite'; \
+        -a 'label/imagenet_labels.txt' -a 'model/mobilenet_v2_1.0_224_quant_edgetpu.tflite' -a 'ground/ground_truth.txt'; \
     elif [ "$CHIP" = cv25 ]; then \
         cp /opt/app/manifest.json.${CHIP} /opt/app/manifest.json && \
         . /opt/axis/acapsdk/environment-setup* && acap-build . \
-        -a 'label/imagenet_labels.txt' -a 'model/mobilenet_v2_cavalry.bin'; \
+        -a 'label/imagenet_labels.txt' -a 'model/mobilenet_v2_cavalry.bin' -a 'ground/ground_truth.txt'; \
     else \
         printf "Error: '%s' is not a valid value for the CHIP variable\n", "$CHIP"; \
         exit 1; \

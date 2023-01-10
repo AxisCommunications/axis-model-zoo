@@ -1,28 +1,5 @@
 /**
- * Copyright (C) 2018-2021, Axis Communications AB, Lund, Sweden
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/**
- * - vdo_larod -
- *
- * This application loads an image classification model to larod and
- * then uses vdo to fetch frames of size WIDTH x HEIGHT in yuv
- * format which are converted to interleaved rgb format and then sent to
- * larod for inference on MODEL.
- *
- * The application expects four arguments on the command line in the following
+* The application expects four arguments on the command line in the following
  * order: MODEL WIDTH HEIGHT OUTPUT_SIZE.
  *
  * First argument, MODEL, is a string describing path to the model.
@@ -34,22 +11,26 @@
  * Fourth argument, OUTPUT_SIZE, denotes the size in bytes of
  * the tensor output by model.
  *
- * The application has two optional arguments on the command line in the following
+ * The application has four optional arguments on the command line in the following
  * order: CHIP NUM_FRAMES.
  *
  * First optional argument, CHIP, is an enum describing the selected chip
  * e.g. 4 is used for Google TPU.
  *
- * Second optional argument, LABEL, is path to a file labelling classifications.
+ * Second optional argument, LABEL, is the path to a file labelling classifications.
  *
- * Finally, third optional argument, NUM_FRAMES, is an integer for number of
+ * Third optional argument, NUM_FRAMES, is an integer for number of
  * captured frames.
  *
+ * Finally, fourth optional argument, GROUND_TRUTH, is the path to a file giving
+ * the annotations of the images.
+ *
  * Then you could run the application with Google TPU with command:
- *     ./usr/local/packages/vdo_larod/vdo_larod \
- *     /usr/local/packages/vdo_larod/model/mobilenet_v2_1.0_224_quant_edgetpu.tflite \
+ *     ./usr/local/packages/accuracy_measure/accuracy_measure \
+ *     /usr/local/packages/accuracy_measure/model/mobilenet_v2_1.0_224_quant_edgetpu.tflite \
  *     224 224 1001 -c 4 \
- *     -l /usr/local/packages/vdo_larod/label/imagenet_labels.txt
+ *     -l /usr/local/packages/accuracy_measure/label/imagenet_labels.txt \
+ *     -g /usr/local/packages/accuracy_measure/ground/ground_truth.txt"
  */
 
 #include <errno.h>
@@ -65,19 +46,9 @@
 #include <math.h>
 
 #include "argparse.h"
-#include "imgconverter.h"
-#include "imgprovider.h"
 #include "larod.h"
-#include "vdo-frame.h"
-#include "vdo-types.h"
 
-/**
- * brief Invoked on SIGINT. Makes app exit cleanly asap if invoked once, but
- * forces an immediate exit without clean up if invoked at least twice.
- *
- * param sig What signal has been sent.
- */
-static void sigintHandler(int sig);
+#define N_IMAGES 5377
 
 /**
  * brief Creates a temporary fd truncated to correct size and mapped.
@@ -132,26 +103,6 @@ static void freeLabels(char** labelsArray, char* labelFileBuffer);
 static bool parseLabels(char*** labelsPtr, char** labelFileBuffer,
                         char* labelsPath, size_t* numLabelsPtr);
 
-/// Set by signal handler if an interrupt signal sent to process.
-/// Indicates that app should stop asap and exit gracefully.
-volatile sig_atomic_t stopRunning = false;
-
-void sigintHandler(int sig) {
-    if (stopRunning) {
-        syslog(LOG_INFO, "Interrupted again, exiting immediately without clean up.");
-
-        signal(sig, SIG_DFL);
-        raise(sig);
-
-        return;
-    }
-
-    syslog(LOG_INFO, "Interrupted, starting graceful termination of app. Another "
-           "interrupt signal will cause a forced exit.");
-
-    // Tell the main thread to stop running inferences asap.
-    stopRunning = true;
-}
 
 static bool createAndMapTmpFile(char* fileName, size_t fileSize,
                                 void** mappedAddr, int* convFd) {
@@ -384,7 +335,7 @@ end:
 }
 
 /**
- * brief Main function that starts a stream with different options.
+ * brief Main function
  */
 int main(int argc, char** argv) {
     // Hardcode to use three image "color" channels (eg. RGB).
@@ -395,7 +346,6 @@ int main(int argc, char** argv) {
     char CONV_OUT_FILE_PATTERN[] = "/tmp/larod.out.test-XXXXXX";
 
     bool ret = false;
-    ImgProvider_t* provider = NULL;
     larodError* error = NULL;
     larodConnection* conn = NULL;
     larodTensor** inputTensors = NULL;
@@ -415,31 +365,12 @@ int main(int argc, char** argv) {
         NULL; // Buffer holding the complete collection of label strings.
     args_t args;
 
-    // Open the syslog to report messages for "vdo_larod"
-    openlog("vdo_larod", LOG_PID|LOG_CONS, LOG_USER);
+    // Open the syslog to report messages for "accuracy_measure"
+    openlog("accuracy_measure", LOG_PID|LOG_CONS, LOG_USER);
 
     syslog(LOG_INFO, "Starting ...");
 
-    // Register an interrupt handler which tries to exit cleanly if invoked once
-    // but exits immediately if further invoked.
-    signal(SIGINT, sigintHandler);
-
     if (!parseArgs(argc, argv, &args)) {
-        goto end;
-    }
-
-    unsigned int streamWidth = 0;
-    unsigned int streamHeight = 0;
-    if (!chooseStreamResolution(args.width, args.height, &streamWidth,
-                                &streamHeight)) {
-        syslog(LOG_ERR, "%s: Failed choosing stream resolution", __func__);
-        goto end;
-    }
-
-    syslog(LOG_INFO, "Creating VDO image provider and creating stream %d x %d",
-           streamWidth, streamHeight);
-    provider = createImgProvider(streamWidth, streamHeight, 2, VDO_FORMAT_YUV);
-    if (!provider) {
         goto end;
     }
 
@@ -519,292 +450,209 @@ int main(int argc, char** argv) {
         }
     }
 
-    syslog(LOG_INFO, "Start fetching video frames from VDO");
-    syslog(LOG_INFO, "came to this line - 0");
-    if (!startFrameFetch(provider)) {
+    // Since larodOutputAddr points to the beginning of the fd we should
+    // rewind the file position before each inference.
+    if (lseek(larodOutputFd, 0, SEEK_SET) == -1) {
+        syslog(LOG_ERR, "Unable to rewind output file position: %s",
+                strerror(errno));
+
         goto end;
     }
 
-    for (unsigned int i = 0; i < 1 && !stopRunning; i++) {
-        struct timeval startTs, endTs;
-        unsigned int elapsedMs = 0;
 
-        // Get latest frame from image pipeline.
-        // VdoBuffer* buf = getLastFrameBlocking(provider);
-        VdoBuffer* buf = getLastFrameBlocking(provider);
-        if (!buf) {
+    /* make arrays of ground truths */
+    int ground_truth[50000];
+    FILE* file = fopen(args.annotationsFile, "r");
+    if (file == NULL) {
+        syslog(LOG_ERR, "Error : Failed to open annotations file: %s\n", strerror(errno));
+
+        return 1;
+    }
+    char line[256];
+    int b = 0;
+    while (fgets(line, sizeof(line), file)) {
+
+        /* note that fgets don't strip the terminating \n, checking its
+        presence would allow to handle lines longer that sizeof(line) */
+        // syslog(LOG_INFO, "element in each line of text file %s", line);
+        //ground_truth[b] = atoi(line);
+        sscanf(line, "%d", &ground_truth[b]);
+        ground_truth[b] += 1;
+        if (b<10) {
+            // printf("%3d: %s\n", ground_truth[b], line);
+        }
+        b += 1;
+    }
+    fclose(file);
+    int top1[N_IMAGES] = {0};
+    int sum_top1 = 0;
+    int sum_top5 = 0;
+
+    int top5[N_IMAGES] = {0};
+    float avg_top1;
+    float avg_top5;
+    for (size_t count = 1; count < 50001; count++) {
+        char img_name[50];
+        snprintf(img_name, 50, "/var/spool/storage/SD_DISK/imagenet/%d.bin", count);
+        //printf("image name is %s\n", img_name);
+        FILE *fp_input;
+        fp_input = fopen(img_name, "rb");
+        if (fp_input == NULL) {
+            continue;
+        }
+        fread(larodInputAddr, 1, args.width * args.height * 3, fp_input);
+        fclose(fp_input);
+
+        if (!larodRunInference(conn, infReq, &error)) {
+            syslog(LOG_ERR, "Unable to run inference on model %s: %s (%d)",
+                args.modelFile, error->msg, error->code);
             goto end;
         }
 
-        // Get data from latest frame.
-        // uint8_t* nv12Data = (uint8_t*) vdo_buffer_get_data(buf);
-        uint8_t* nv12Data = (uint8_t*) vdo_buffer_get_data(buf);
-        // Covert image data from NV12 format to interleaved uint8_t RGB format.
-        gettimeofday(&startTs, NULL);
-
-        char* inputMode;
+        // Compute the most likely index.
+        float maxProb = 0;
+        uint8_t maxScore = 0;
+        size_t maxIdx = 0;
+        uint8_t* outputPtr = (uint8_t*) larodOutputAddr;
+        int score_array_size = args.outputBytes;
+        int score_array[score_array_size];
+        float score_array_cv25[score_array_size];
+        int score_array_indices[score_array_size];
+        // The output has to be read differently depending on chip.
+        // In the case of the cv25, the space per element is 32 bytes and the
+        // output is a float padded with zeros.
+        // In the cases of artpec7 and artpec8 the space per element is 1 byte
+        // and the output is an uint8_t that has to be processed with softmax.
+        // This part of the code can be improved by using better pointer casting,
+        // subject to future changes.
+        int spacePerElement;
         if (args.chip == 6) {
-            //Special input format for cv25 products.
-            inputMode = "RGB-planar";
-        }else {
-            //Special input format for other products.
-            inputMode = "RGB-interleaved";
-        }
-
-        /*if (!convertCropScaleU8yuvToRGB(nv12Data, streamWidth, streamHeight,
-                                            (uint8_t*) larodInputAddr, args.width,
-                                            args.height,inputMode)) {
-                syslog(LOG_ERR, "%s: Failed img scale/convert in "
-                    "convertCropScaleU8yuvToRGB() (continue anyway)",
-                    __func__);
-            }
-        gettimeofday(&endTs, NULL);
-
-        elapsedMs = (unsigned int) (((endTs.tv_sec - startTs.tv_sec) * 1000) +
-                                    ((endTs.tv_usec - startTs.tv_usec) / 1000));
-        syslog(LOG_INFO, "Converted image in %u ms", elapsedMs); */
-
-        // Since larodOutputAddr points to the beginning of the fd we should
-        // rewind the file position before each inference.
-        if (lseek(larodOutputFd, 0, SEEK_SET) == -1) {
-            syslog(LOG_ERR, "Unable to rewind output file position: %s",
-                   strerror(errno));
-
-            goto end;
-        }
-
-
-        /* make arrays of ground truths */
-        int ground_truth[50000];
-        FILE* file = fopen("/opt/ann.txt", "r"); /* should check the result */
-        if (file == NULL)
-        {
-            fprintf(stderr, "Error : Failed to open common_file - %s\n", strerror(errno));
-
-            return 1;
-        }
-        char line[256];
-        int b=0;
-        while (fgets(line, sizeof(line), file)) {
-
-            /* note that fgets don't strip the terminating \n, checking its
-            presence would allow to handle lines longer that sizeof(line) */
-            // syslog(LOG_INFO, "element in each line of text file %s", line);
-            //ground_truth[b] = atoi(line);
-            sscanf(line,"%d",&ground_truth[b]);
-            ground_truth[b] += 1;
-            if (b<10){
-                // printf("%3d: %s\n", ground_truth[b], line);
-            }
-            b += 1;
-        }
-        fclose(file);
-        int total_imgs = 100;
-        int top1[50001] = {0};
-        int sum_top1 = 0;
-        int sum_top5 = 0;
-
-        int top5[50001] = {0};
-        float avg_top1;
-        float avg_top5;
-        for (size_t count = 1; count < 50001; count++){
-            char img_name[50];
-            snprintf(img_name, 50, "/var/spool/storage/SD_DISK/imagenet/%d.bin", count);
-            //printf("image name is %s\n", img_name);
-            FILE *fp_input;
-            fp_input = fopen(img_name, "rb");
-            if (fp_input == NULL)
-            {
-                continue;
-            }
-            fread(larodInputAddr, 1, args.width * args.height * 3, fp_input);
-            fclose(fp_input);
-            gettimeofday(&startTs, NULL);
-            if (!larodRunInference(conn, infReq, &error)) {
-                syslog(LOG_ERR, "Unable to run inference on model %s: %s (%d)",
-                    args.modelFile, error->msg, error->code);
-                goto end;
-            }
-            gettimeofday(&endTs, NULL);
-
-            elapsedMs = (unsigned int) (((endTs.tv_sec - startTs.tv_sec) * 1000) +
-                                        ((endTs.tv_usec - startTs.tv_usec) / 1000));
-            // syslog(LOG_INFO, "Ran inference for %u ms", elapsedMs);
-            //syslog(LOG_INFO, "came to this line - 1");
-            // Compute the most likely index.
-            float maxProb = 0;
-            uint8_t maxScore = 0;
-            size_t maxIdx = 0;
-            uint8_t* outputPtr = (uint8_t*) larodOutputAddr;
-            int score_array_size = args.outputBytes;
-            int score_array[score_array_size];
-            float score_array_cv25[score_array_size];
-            int score_array_indices[score_array_size];
-            // The output has to be read differently depending on chip.
-            // In the case of the cv25, the space per element is 32 bytes and the
-            // output is a float padded with zeros.
-            // In the cases of artpec7 and artpec8 the space per element is 1 byte
-            // and the output is an uint8_t that has to be processed with softmax.
-            // This part of the code can be improved by using better pointer casting,
-            // subject to future changes.
-            int spacePerElement;
-            if (args.chip == 6) {
-                spacePerElement = 32;
-                float score;
-                for (size_t j = 0; j < args.outputBytes/spacePerElement; j++) {
-                    score = *((float*) (outputPtr + (j*spacePerElement)));
-                    score_array_cv25[j] = score;
-                    score_array_indices[j] = j;
-                    if (score > maxProb) {
-                        maxProb = score;
-                        maxIdx = j;
-                    }
-            }
-            } else {
-                spacePerElement = 1;
-                uint8_t score;
-                for (size_t j = 0; j < args.outputBytes/spacePerElement; j++) {
-                    score = *((uint8_t*) (outputPtr + (j*spacePerElement)));
-                    score_array[j] = score;
-                    score_array_indices[j] = j;
-                    if (score > maxScore) {
-                        maxScore = score;
-                        maxIdx = j;
-                    }
+            spacePerElement = 32;
+            float score;
+            for (size_t j = 0; j < args.outputBytes/spacePerElement; j++) {
+                score = *((float*) (outputPtr + (j*spacePerElement)));
+                score_array_cv25[j] = score;
+                score_array_indices[j] = j;
+                if (score > maxProb) {
+                    maxProb = score;
+                    maxIdx = j;
                 }
-
-                float sum = 0.0;
-                for (size_t j = 0; j < args.outputBytes/spacePerElement; j++) {
-                    score = *((uint8_t*) (outputPtr + (j*spacePerElement)));
-                    sum += exp(score - maxScore);
-                    // printf("%d -> %d -> %d -> %s\n", j, score_array_indices[j], score_array[j], labels[score_array_indices[j]]);
+        }
+        } else {
+            spacePerElement = 1;
+            uint8_t score;
+            for (size_t j = 0; j < args.outputBytes/spacePerElement; j++) {
+                score = *((uint8_t*) (outputPtr + (j*spacePerElement)));
+                score_array[j] = score;
+                score_array_indices[j] = j;
+                if (score > maxScore) {
+                    maxScore = score;
+                    maxIdx = j;
                 }
-                // Simplifying softmax calculation:
-                // softmax[i_max] = e^(-log(sum)) = 1/sum
-                maxProb = 1/sum;
             }
 
-            int l, m;
-            int max, temp;
+            float sum = 0.0;
+            for (size_t j = 0; j < args.outputBytes/spacePerElement; j++) {
+                score = *((uint8_t*) (outputPtr + (j*spacePerElement)));
+                sum += exp(score - maxScore);
+            }
+            maxProb = 1/sum;
+        }
 
-            // Partial selection sort, move k max elements to front
+        int l, m;
+        int max, temp;
 
-            if (args.chip == 6) {
+        // Partial selection sort, move k max elements to front
+        if (args.chip == 6) {
 
-                for (l = 0; l < 5; l++){
+            for (l = 0; l < 5; l++) {
+
+            max = l;
+            // Find next max index
+            for (m = l+1; m < score_array_size; m++) {
+                if (score_array_cv25[m] > score_array_cv25[max]) {
+                    max = m;
+                }
+            }
+            // Swap numbers in input array
+            temp = score_array_cv25[l];
+            score_array_cv25[l] = score_array_cv25[max];
+            score_array_cv25[max] = temp;
+            // Swap indexes in tracking array
+            temp = score_array_indices[l];
+            score_array_indices[l] = score_array_indices[max];
+            score_array_indices[max] = temp;
+            }
+
+        } else {
+
+            for (l = 0; l < 5; l++) {
 
                 max = l;
                 // Find next max index
-                    for (m = l+1; m < score_array_size; m++)
-                    {
-                        if (score_array_cv25[m] > score_array_cv25[max])  {
-                            max = m;
-                        }
+                for (m = l+1; m < score_array_size; m++) {
+                    if (score_array[m] > score_array[max]) {
+                        max = m;
                     }
-                    // Swap numbers in input array
-                    temp = score_array_cv25[l];
-                    score_array_cv25[l] = score_array_cv25[max];
-                    score_array_cv25[max] = temp;
-                    // Swap indexes in tracking array
-                    temp = score_array_indices[l];
-                    score_array_indices[l] = score_array_indices[max];
-                    score_array_indices[max] = temp;
                 }
-
-            } else {
-
-
-                for (l = 0; l < 5; l++){
-
-                    max = l;
-                    // Find next max index
-                    for (m = l+1; m < score_array_size; m++)
-                    {
-                        if (score_array[m] > score_array[max])  {
-                            max = m;
-                        }
-                    }
-                    // Swap numbers in input array
-                    temp = score_array[l];
-                    score_array[l] = score_array[max];
-                    score_array[max] = temp;
-                    // Swap indexes in tracking array
-                    temp = score_array_indices[l];
-                    score_array_indices[l] = score_array_indices[max];
-                    score_array_indices[max] = temp;
-                }
+                // Swap numbers in input array
+                temp = score_array[l];
+                score_array[l] = score_array[max];
+                score_array[max] = temp;
+                // Swap indexes in tracking array
+                temp = score_array_indices[l];
+                score_array_indices[l] = score_array_indices[max];
+                score_array_indices[max] = temp;
             }
-            //for (l = 0; l < 5; l++) {
-            //    printf("%d -> %d -> %d -> %s\n", l, score_array_indices[l], count, labels[score_array_indices[l]]);
-            //}
-            int indices_top5[5];
-            int ll;
-            for (ll = 0; ll < 5; ll++) {
-                indices_top5[ll] = score_array_indices[ll];
-            }
-            int mm;
-            top5[count-1] = 0;
-            for (mm=0; mm<5; mm++){
-                if (ground_truth[count-1] == indices_top5[mm])
-                    top5[count-1] = 1;
-            }
-            if (top5[count-1]==0)
-                printf("image %d is not top5, its supposed to be %s, but it is classified as %s \n",
-                count, labels[maxIdx], labels[(size_t)ground_truth[count-1]]);
-            maxProb*=100; //To have output int %
-            if (labels) {
-                if (maxIdx < numLabels) {
-
-                    //syslog(LOG_INFO, "Top result for image %d: %s of maxID %zu with score %.2f%% statement 1 \n",
-                    //count, labels[maxIdx], maxIdx, maxProb);
-                    //printf("\n image %d is %s: maxIDx is %zu and ground truth is %3d, possible top5 for image %d are %d %d %d %d %d\n", count, labels[maxIdx], maxIdx, ground_truth[count-1], count, indices_top5[0], indices_top5[1],
-                    //indices_top5[2], indices_top5[3], indices_top5[4]);
-                    //printf(" \n", count, indices_top5[0], indices_top5[1], indices_top5[2], indices_top5[3], indices_top5[4]);
-                } else {
-                    syslog(LOG_INFO, "Top result: index %zu with score %.2f%% (index larger "
-                        "than num items in labels file) statement 2",
-                        maxIdx, maxProb);
-                }
-            } else {
-                syslog(LOG_INFO, "Top result: index %zu with score %.2f%% statement 3",
-                maxIdx, maxProb);
-            }
-            if ((int) maxIdx == ground_truth[count-1]){
-                top1[count-1] = 1;
-            } else {
-                top1[count-1] = 0;
-                printf("image %d is not top1, its supposed to be %s, but it is classified as %s\n",
-                count, labels[maxIdx], labels[(size_t)ground_truth[count-1]]);
-            }
-
-            sum_top1 += top1[count-1];
-
-            sum_top5 += top5[count-1];
-            //printf("maxIDx is %zu and ground truht is %3d", maxIdx, ground_truth[count-1]);
-            //printf("possible top5 for image %d are %d %d %d %d %d \n", count, indices_top5[0], indices_top5[1], indices_top5[2], indices_top5[3], indices_top5[4]);
         }
-        int l;
-        avg_top1 = (float)sum_top1/44771;
-        avg_top5 = (float)sum_top5/44771;
-        for (l = 0; l < 1; l++){
-            printf("top1 sum %d\n top5 sum %d\n top1 avg %.6f%% \n top 5 avg %.6f%% \n", sum_top1, sum_top5, avg_top1, avg_top5);
+        int indices_top5[5];
+        int ll;
+        for (ll = 0; ll < 5; ll++) {
+            indices_top5[ll] = score_array_indices[ll];
+        }
+        int mm;
+        top5[count-1] = 0;
+        for (mm = 0; mm < 5; mm++) {
+            if (ground_truth[count-1] == indices_top5[mm]) {
+                top5[count-1] = 1;
+            }
+        }
+        if (top5[count-1] == 0) {
+            syslog(LOG_INFO, "Image %d is not top5, it's supposed to be %s, but it is classified as %s \n",
+                count, labels[maxIdx], labels[(size_t)ground_truth[count-1]]);
+            maxProb *= 100; //To have output int %
+        }
+        if (labels) {
+            if (maxIdx > numLabels) {
+                syslog(LOG_INFO, "Top result: index %zu with score %.2f%% (index larger "
+                    "than num items in labels file) statement 2", maxIdx, maxProb);
+            }
+        } else {
+            syslog(LOG_INFO, "Top result: index %zu with score %.2f%% statement 3", maxIdx, maxProb);
+        }
+        if ((int) maxIdx == ground_truth[count-1]) {
+            top1[count-1] = 1;
+        } else {
+            top1[count-1] = 0;
+            syslog(LOG_INFO, "Image %d is not top1, it's supposed to be %s, but it is classified as %s\n",
+                count, labels[maxIdx], labels[(size_t)ground_truth[count-1]]);
         }
 
-        // Release frame reference to provider.
-        returnFrame(provider, buf);
+        sum_top1 += top1[count-1];
+        sum_top5 += top5[count-1];
     }
 
-    syslog(LOG_INFO, "Stop streaming video from VDO");
-    if (!stopFrameFetch(provider)) {
-        goto end;
-    }
+    avg_top1 = (float)sum_top1/N_IMAGES*100;
+    avg_top5 = (float)sum_top5/N_IMAGES*100;
+    int l;
+    syslog(LOG_INFO, "\n");
+    syslog(LOG_INFO, "RESULTS:\n");
+    syslog(LOG_INFO, "top1 sum %d\n top5 sum %d\n top1 avg %.6f%% \n top 5 avg %.6f%% \n", sum_top1, sum_top5, avg_top1, avg_top5);
+    syslog(LOG_INFO, "\n");
 
     ret = true;
 
 end:
-    if (provider) {
-        destroyImgProvider(provider);
-    }
     // Only the model handle is released here. We count on larod service to
     // release the privately loaded model when the session is disconnected in
     // larodDisconnect().

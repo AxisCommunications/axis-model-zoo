@@ -28,6 +28,7 @@ typedef struct args_t {
     size_t outputBytes;
     char* modelFile;
     char* labelsFile;
+    char* annotationsFile;
     unsigned width;
     unsigned height;
     unsigned numFrames;

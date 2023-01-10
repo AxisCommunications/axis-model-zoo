@@ -41,6 +41,11 @@ const struct argp_option opts[] = {
      "index corresponding to its row number. At most 60 characters from each "
      "row/label will be read.",
      0},
+    {"annotations", 'g', "ANNOTATIONS", 0,
+     "Path to a file defining the class of each image. Each row of this file should "
+     "consist of a number that corresponds to the class number in the labels file"
+     "for the specific image.",
+     0},
     {"num-frames", 'n', "NUM_FRAMES", 0,
      "How many frames to run inferences on. Default is 100 frames.", 0},
     {"help", 'h', NULL, 0, "Print this help text and exit.", 0},
@@ -55,7 +60,7 @@ const struct argp argp = {
     "format which are converted to an interleaved rgb format and then sent to "
     "larod for inference on MODEL. OUTPUT_SIZE denotes the size in bytes of "
     "the tensor output by MODEL.\n\nExample call:\n"
-    "larod-vdo-example-app /tmp/mobilenet_v2_1.0_224_quant.tflite 224 224 "
+    "accuracy-measure-app /tmp/mobilenet_v2_1.0_224_quant.tflite 224 224 "
     "1001 -c 2\nwhere 2 here refers to the tflite cpu backend. The numbers for "
     "each type of chip can be found at the top of the file larod.h.",
     NULL,
@@ -84,6 +89,10 @@ int parseOpt(int key, char* arg, struct argp_state* state) {
     }
     case 'l': {
         args->labelsFile = arg;
+        break;
+    }
+    case 'g': {
+        args->annotationsFile = arg;
         break;
     }
     case 'n': {
@@ -137,6 +146,7 @@ int parseOpt(int key, char* arg, struct argp_state* state) {
         args->chip = 0;
         args->modelFile = NULL;
         args->labelsFile = NULL;
+        args->annotationsFile = NULL;
         break;
     case ARGP_KEY_END:
         if (state->arg_num != 4) {
