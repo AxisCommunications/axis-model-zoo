@@ -12,6 +12,7 @@ FROM ${REPO}/${SDK}:${VERSION}-${ARCH}-ubuntu${UBUNTU_VERSION}
 COPY ./app /opt/app/
 WORKDIR /opt/app
 RUN <<EOF
+mv larod_test.sh larod_test
 . /opt/axis/acapsdk/environment-setup*
 acap-build . -a 'models/*'
 EOF
