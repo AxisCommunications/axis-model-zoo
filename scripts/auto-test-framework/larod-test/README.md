@@ -1,5 +1,4 @@
-*Copyright (C) 2023
-, Axis Communications AB, Lund, Sweden. All Rights Reserved.*
+*Copyright (C) 2023, Axis Communications AB, Lund, Sweden. All Rights Reserved.*
 
 # Speed test ACAP application written in shell script
 
@@ -32,7 +31,7 @@ larod-test
 
 ## How to run the code
 
-The ACAP application is built in a Github action, [benchmark.yml](../../../.github/workflows/benchmark.yml), and installed in different models of cameras (one for each chip). The results are then read by the Github action and used to upload the main README.md of this repository.
+The ACAP application is built in a Github action, [benchmark.yml](../../../.github/workflows/benchmark.yml), and installed in different models of cameras (one for each chip). The results are then read by the Github action and used to update the main `README.md` of this repository.
 
 In [benchmark.yml](../../../.github/workflows/benchmark.yml), you can see how:
 
@@ -43,9 +42,9 @@ In [benchmark.yml](../../../.github/workflows/benchmark.yml), you can see how:
     docker cp $(docker create <APP_IMAGE>):/opt/app ./build
     ```
 
-    * \<APP_IMAGE\> is the name to tag the image with, e.g., larod-test:1.0
-    * \<CHIP\> is the chip type. Supported values are *artpec8*, *cpu*, *cv25* and *edgetpu*.
-    * \<ARCH\> is the architecture. Supported values are armv7hf (default) and aarch64.
+    * `<APP_IMAGE>` is the name to tag the image with, e.g., `larod-test:1.0`
+    * `<CHIP>` is the chip type. Supported values are `artpec8`, `cpu`, `cv25` and `edgetpu`.
+    * `<ARCH>` is the architecture. Supported values are `armv7hf` (default) and `aarch64`.
 
 2. Once you have the EAP file, the uploading is done through `upload.cgi`.
 3. `control.cgi` starts the ACAP application.
