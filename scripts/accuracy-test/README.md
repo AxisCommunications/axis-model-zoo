@@ -48,7 +48,7 @@ After that, the pipeline is as follows:
     docker cp $(docker create <APP_IMAGE>):/opt/app ./build
     ```
 
-    - `<APP_IMAGE>` is the name to tag the image with, e.g., `larod-test:1.0`
+    - `<APP_IMAGE>` is the name to tag the image with, e.g., `accuracy-test:1.0`
     - `<CHIP>` is the chip type. Supported values are `artpec8`, `cpu`, `cv25` and `edgetpu`.
     - `<ARCH>` is the architecture. Supported values are `armv7hf` (default) and `aarch64`.
 
