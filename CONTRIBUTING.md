@@ -152,14 +152,14 @@ hadolint $(find -type f -name "Dockerfile*")
 markdownlint .
 
 # Lint YAML files
-yamllint .
+yamllint --config-file .yaml-lint.yml .
 
 # Lint shell script files
 shellcheck $(shfmt -f .)
 shfmt -d .
 ```
 
-To lint only a specific file, replace `.` or `$(COMMAND)` with the file path.
+To lint only a specific file, replace `.` with the file path.
 
 <!-- markdownlint-disable MD034 -->
 [issues]: https://github.com/AxisCommunications/axis-model-zoo/issues
