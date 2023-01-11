@@ -8,7 +8,7 @@ This README file briefly explains how this ACAP application works.
 
 Below is the structure and scripts used in the example:
 
-```bash
+```sh
 accuracy-test
 ├── app
 │   ├── accuracy_measure.c
@@ -43,7 +43,7 @@ After that, the pipeline is as follows:
 
 1. First, you build the Docker image with the following commands:
 
-    ```bash
+    ```sh
     DOCKER_BUILDKIT=1 docker build --no-cache --tag <APP_IMAGE> --build-arg CHIP=<CHIP> --build-arg ARCH=<ARCH> .
     docker cp $(docker create <APP_IMAGE>):/opt/app ./build
     ```
@@ -61,7 +61,7 @@ After that, the pipeline is as follows:
 
 2. Once you have the EAP file, the uploading is done through `upload.cgi`:
 
-    ```bash
+    ```sh
     curl -u <USER:PASS> -F"file=@<APP_FILE_PATH>" <DEVICE_IP>/axis-cgi/applications/upload.cgi
     ```
 

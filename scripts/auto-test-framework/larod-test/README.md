@@ -9,7 +9,7 @@ This README file briefly explains how this ACAP application works.
 
 Below is the structure and scripts used in the example:
 
-```bash
+```sh
 larod-test
 ├── app
 │   ├── larod_test.sh
@@ -38,7 +38,7 @@ In [benchmark.yml](../../../.github/workflows/benchmark.yml), you can see how:
 
 1. First, it builds the Docker image with the following commands:
 
-    ```bash
+    ```sh
     DOCKER_BUILDKIT=1 docker build --no-cache --tag <APP_IMAGE> --build-arg CHIP=<CHIP> --build-arg ARCH=<ARCH> .
     docker cp $(docker create <APP_IMAGE>):/opt/app ./build
     ```
