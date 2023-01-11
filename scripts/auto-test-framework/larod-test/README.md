@@ -1,9 +1,9 @@
 *Copyright (C) 2023
 , Axis Communications AB, Lund, Sweden. All Rights Reserved.*
 
-# Speed test ACAP written in shell script
+# Speed test ACAP application written in shell script
 
-This README file briefly explains how this ACAP works.
+This README file briefly explains how this ACAP application works.
 
 ## Getting started
 
@@ -32,7 +32,7 @@ larod-test
 
 ## How to run the code
 
-The ACAP is built in a Github action, [benchmark.yml](../../../.github/workflows/benchmark.yml), and installed in different models of cameras (one for each chip). The results are then read by the Github action and used to upload the main README.md of this repository.
+The ACAP application is built in a Github action, [benchmark.yml](../../../.github/workflows/benchmark.yml), and installed in different models of cameras (one for each chip). The results are then read by the Github action and used to upload the main README.md of this repository.
 
 In [benchmark.yml](../../../.github/workflows/benchmark.yml), you can see how:
 
@@ -48,7 +48,7 @@ In [benchmark.yml](../../../.github/workflows/benchmark.yml), you can see how:
     * \<ARCH\> is the architecture. Supported values are armv7hf (default) and aarch64.
 
 2. Once you have the EAP file, the uploading is done through `upload.cgi`.
-3. `control.cgi` starts the ACAP.
+3. `control.cgi` starts the ACAP application.
 4. `systemlog.cgi` reads the logs.
 5. [readme-update.py](../readme-update.py) reads the logs and updates the main README.md file.
 

@@ -27,7 +27,7 @@ The [auto-test-framework](./scripts/auto-test-framework) directory holds the cod
 
 ### Speed measure
 
-In the case of the automated test framework, the test is done by installing and running an ACAP on the AXIS camera. To know more about how it works, see the [larod-test](./scripts/auto-test-framework/larod-test) directory.
+In the case of the automated test framework, the test is done by installing and running an ACAP application on the AXIS camera. To know more about how it works, see the [larod-test](./scripts/auto-test-framework/larod-test) directory.
 
 To get speed measures more easily, you can use the code in [model_performance_tester.py](./scripts/model_performance_tester.py). This script connects to the AXIS camera via SSH and uses the `larod-client` to run inferences. It then parses the output, which will be the mean of time the AXIS camera spent on the inferences. These inferences are done on randomly generated images. See below how to use the script:
 
@@ -41,7 +41,7 @@ where, `<MODEL_PATH>` is the path where your `.tflite` or `.bin` model is and `<
 
 ### Accuracy measure
 
-This test is done by installing and running an ACAP on the AXIS camera. To know more about how it works, see the [accuracy-test](./scripts/accuracy-test/) directory.
+This test is done by installing and running an ACAP application on the AXIS camera. To know more about how it works, see the [accuracy-test](./scripts/accuracy-test/) directory.
 
 ## License
 

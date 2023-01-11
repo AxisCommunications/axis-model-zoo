@@ -1,8 +1,8 @@
 *Copyright (C) 2023, Axis Communications AB, Lund, Sweden. All Rights Reserved.*
 
-# Accuracy test ACAP written in C
+# Accuracy test ACAP application written in C
 
-This README file briefly explains how this ACAP works.
+This README file briefly explains how this ACAP application works.
 
 ## Getting started
 
