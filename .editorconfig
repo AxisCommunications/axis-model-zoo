@@ -11,10 +11,7 @@ trim_trailing_whitespace = true
 # Insert a final newline at the end of the file if one does not exist
 insert_final_newline = true
 
-[{*.sh}]
+[*.sh]
 # Tab indentation
-indent_style = space
-indent_size = 2
-switch_case_indent = true
-keep_padding       = true
-space_redirects    = true
+indent_style = tab
+indent_size = 4
