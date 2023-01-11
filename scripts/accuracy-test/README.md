@@ -37,7 +37,7 @@ accuracy-test
 
 ## How to run the code
 
-This application uses `larod` to load a neural network model to make inferences and the results are later processed and compared in [accuracy_measure.c](./app/accuracy_measure.c). The accuracy measure has several steps and it depends on what model are we measuring. Here we are going to explain how we measured the image classification models using a subset of the [ILSVRC2012](https://www.image-net.org/index.php) dataset. Previous to building the Docker image, there is one step that needs to be done.`larod`makes inferences on `.bin` image files, so we use [larod-convert.py](./larod-convert.py) to do so and send them to the camera via ssh.
+This application uses `larod` to load a neural network model to make inferences and the results are later processed and compared in [accuracy_measure.c](./app/accuracy_measure.c). The accuracy measure has several steps and it depends on what model are we measuring. Here we are going to explain how we measured the image classification models using a subset of the [ILSVRC2012](https://www.image-net.org/index.php) dataset. Previous to building the Docker image, there is one step that needs to be done. `larod` makes inferences on `.bin` image files, so we use [larod-convert.py](./larod-convert.py) to do so and send them to the camera via ssh.
 
 After that, the pipeline is as follows:
 
@@ -48,14 +48,14 @@ After that, the pipeline is as follows:
     docker cp $(docker create <APP_IMAGE>):/opt/app ./build
     ```
 
-    - \<APP_IMAGE\> is the name to tag the image with, e.g., larod-test:1.0
-    - \<CHIP\> is the chip type. Supported values are *artpec8*, *cpu*, *cv25* and *edgetpu*.
-    - \<ARCH\> is the architecture. Supported values are armv7hf (default) and aarch64.
+    - `<APP_IMAGE>` is the name to tag the image with, e.g., `larod-test:1.0`
+    - `<CHIP>` is the chip type. Supported values are `artpec8`, `cpu`, `cv25` and `edgetpu`.
+    - `<ARCH>` is the architecture. Supported values are `armv7hf` (default) and `aarch64`.
 
     In this example, model and label files are downloaded from <https://coral.ai/models/>,
     when building the application. Different devices support different chips and models.
-    Which model that is used is configured through attributes in manifest.json and the
-    \<CHIP\> parameter in the Dockerfile. The attributes in manifest.json.* are:
+    Which model that is used is configured through attributes in `manifest.json` and the
+    `<CHIP>` parameter in the Dockerfile. The attributes in `manifest.json.*` are:
     - `runOptions`, which contains the application command line options.
     - `friendlyName`, a user friendly package name which is also part of the .eap file name.
 
