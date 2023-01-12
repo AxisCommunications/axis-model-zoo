@@ -36,8 +36,7 @@ jobs:
           eapfile: ${{ env.EAPNAME }}_1_0_0_all.eap
         run: |
           cd scripts/auto-test-framework/$EXNAME/build
-          upload_output=$(curl --silent --show-error -F packfil=@${eapfile} -u root:"${{secrets.DEVICE_PASSWORD}}" "http://${{secrets.DEVICE_IP}}/${{matrix.arch}}/axis-cgi/admin/applications/upload.cgi")
-          echo $upload_output
+          curl --silent --show-error -F packfil=@${eapfile} -u root:"${{secrets.DEVICE_PASSWORD}}" "http://${{secrets.DEVICE_IP}}/${{matrix.arch}}/axis-cgi/admin/applications/upload.cgi"
 
 
       - name: Start the application
