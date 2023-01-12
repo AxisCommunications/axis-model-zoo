@@ -27,17 +27,17 @@ chipset = {
         'CV25': 'ambarella-cvflow'
     }
 
-def run_speed_test(CAMERA_IP, PORT, CAMERA_USERNAME, CAMERA_PASSWORD, MODEL_PATH, TEST_DURATION, CHIP):
+def run_speed_test(DEVICE_IP, PORT, CAMERA_USERNAME, CAMERA_PASSWORD, MODEL_PATH, TEST_DURATION, CHIP):
 
     # Take model name from path
     model_name = MODEL_PATH.split('/')[-1]
 
     camera_model_location = os.path.join('/tmp/', model_name)
     print('Testing model:', model_name)
-    print('Connecting to camera at', CAMERA_IP, 'and port', PORT)
+    print('Connecting to camera at', DEVICE_IP, 'and port', PORT)
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(CAMERA_IP, username=CAMERA_USERNAME, password=CAMERA_PASSWORD, port=PORT)
+    ssh.connect(DEVICE_IP, username=CAMERA_USERNAME, password=CAMERA_PASSWORD, port=PORT)
 
     print('Loading Model...')
     sftp = ssh.open_sftp()
@@ -84,9 +84,9 @@ if __name__ == '__main__':
     MODEL_PATH = args.model_path
     TEST_DURATION = args.test_duration
     CHIP = args.chip
-    CAMERA_IP = args.camera_ip
+    DEVICE_IP = args.camera_ip
     CAMERA_PORT = args.camera_port
     CAMERA_USERNAME = args.camera_username
     CAMERA_PASSWORD = args.camera_password
 
-    run_speed_test(CAMERA_IP, CAMERA_PORT, CAMERA_USERNAME, CAMERA_PASSWORD, MODEL_PATH, TEST_DURATION, CHIP)
+    run_speed_test(DEVICE_IP, CAMERA_PORT, CAMERA_USERNAME, CAMERA_PASSWORD, MODEL_PATH, TEST_DURATION, CHIP)
