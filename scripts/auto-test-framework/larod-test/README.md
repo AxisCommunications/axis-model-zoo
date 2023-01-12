@@ -31,7 +31,7 @@ larod-test
 
 ## How to run the code
 
-The ACAP application is built in a Github action, [benchmark.yml](../../../.github/workflows/benchmark.yml), and installed in different models of cameras (one for each chip). The results are then read by the Github action and used to update the main `README.md` of this repository.
+The ACAP application is built in a GitHub action, [benchmark.yml](../../../.github/workflows/benchmark.yml), and installed in different models of cameras (one for each chip). The results are then read by the GitHub action and used to update the main `README.md` of this repository.
 
 In [benchmark.yml](../../../.github/workflows/benchmark.yml), you can see how:
 
