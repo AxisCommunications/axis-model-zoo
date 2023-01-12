@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # USAGE:
-# python3 ./model_performance_tester.py --model_path <MODEL_PATH> --chip <CHIP> --camera_ip <IP> --camera_password <PASS>
+# python3 ./model_performance_tester.py -m <MODEL_PATH> -c <CHIP> -i <IP> -u <USER> <PASS>
 
 import paramiko
 import os
@@ -27,29 +27,29 @@ chipset = {
         'CV25': 'ambarella-cvflow'
     }
 
-def run_speed_test(DEVICE_IP, PORT, CAMERA_USERNAME, CAMERA_PASSWORD, MODEL_PATH, TEST_DURATION, CHIP):
+def run_speed_test(DEVICE_IP, PORT, DEVICE_USERNAME, DEVICE_PASSWORD, MODEL_PATH, TEST_DURATION, CHIP):
 
     # Take model name from path
     model_name = MODEL_PATH.split('/')[-1]
 
-    camera_model_location = os.path.join('/tmp/', model_name)
+    device_model_location = os.path.join('/tmp/', model_name)
     print('Testing model:', model_name)
-    print('Connecting to camera at', DEVICE_IP, 'and port', PORT)
+    print('Connecting to device at', DEVICE_IP, 'and port', PORT)
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(DEVICE_IP, username=CAMERA_USERNAME, password=CAMERA_PASSWORD, port=PORT)
+    ssh.connect(DEVICE_IP, username=DEVICE_USERNAME, password=DEVICE_PASSWORD, port=PORT)
 
     print('Loading Model...')
     sftp = ssh.open_sftp()
-    sftp.put(MODEL_PATH, camera_model_location)
+    sftp.put(MODEL_PATH, device_model_location)
     sftp.close()
 
     print('Starting Test...')
     ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(
         'larod-client -R ' + str(TEST_DURATION) + ' -p' +
         ' -c ' + chipset[CHIP] +
-        ' -g ' + camera_model_location +
-        ' -i ')
+        ' -g ' + device_model_location +
+        ' -i "" ')
     time = -1
     print('Parsing the output...')
     try:
@@ -63,30 +63,30 @@ def run_speed_test(DEVICE_IP, PORT, CAMERA_USERNAME, CAMERA_PASSWORD, MODEL_PATH
 
 
     print('Cleaning...')
-    ssh.exec_command('rm ' + camera_model_location)
-
+    ssh.exec_command('rm ' + device_model_location)
     ssh.close()
+
     return time
 
 if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser(description='Run a speed test of a model on the camera')
-    parser.add_argument('--model_path', type=str, help='Model path', default='../models/efficientdet_lite0_320_ptq.tflite')
-    parser.add_argument('--test_duration', type=int, help='Test duration (iterations)', default=1000)
-    parser.add_argument('--chip', type=str, choices=chipset.keys(), help='Chipset', default='CPU')
-    parser.add_argument('--camera_ip', type=str, help='Camera IP')
-    parser.add_argument('--camera_port', type=int, help='Camera port for ssh', default=22)
-    parser.add_argument('--camera_username', type=str, help='Camera Username')
-    parser.add_argument('--camera_password', type=str, help='Camera Password')
+    parser = argparse.ArgumentParser(description='Run a speed test of a model on the device')
+    parser.add_argument('-m', '--model_path', type=str, help='Model path', default='../models/efficientdet_lite0_320_ptq.tflite', required=True)
+    parser.add_argument('-d', '--test_duration', type=int, help='Test duration (iterations)', default=1000)
+    parser.add_argument('-c', '--chip', type=str, choices=chipset.keys(), help='Chipset', default='CPU')
+    parser.add_argument('-i', '--device_ip', type=str, help='Device IP', required=True)
+    parser.add_argument('-p', '--device_port', type=int, help='Device port for ssh', default=22)
+    parser.add_argument('-u', '--device_credentials', nargs=2, type=str, help='Device username and password divided by space', required=True)
+
 
     args = parser.parse_args()
 
     MODEL_PATH = args.model_path
     TEST_DURATION = args.test_duration
     CHIP = args.chip
-    DEVICE_IP = args.camera_ip
-    CAMERA_PORT = args.camera_port
-    CAMERA_USERNAME = args.camera_username
-    CAMERA_PASSWORD = args.camera_password
+    DEVICE_IP = args.device_ip
+    DEVICE_PORT = args.device_port
+    DEVICE_USERNAME = args.device_credentials[0]
+    DEVICE_PASSWORD = args.device_credentials[1]
 
-    run_speed_test(DEVICE_IP, CAMERA_PORT, CAMERA_USERNAME, CAMERA_PASSWORD, MODEL_PATH, TEST_DURATION, CHIP)
+    run_speed_test(DEVICE_IP, DEVICE_PORT, DEVICE_USERNAME, DEVICE_PASSWORD, MODEL_PATH, TEST_DURATION, CHIP)
