@@ -11,7 +11,7 @@ Axis network cameras can be used for computer vision applications and can run ma
 ### Image classification
 
 | Platform | Model | TF version | Speed | Accuracy Top-1 | Accuracy Top-5 |
-| ------------- | ------------- | ------------- | ------------- | ------------ | ------------ |
+| ---------- | ---------- | :----------: | :----------: | :----------: | :----------: |
 | ARTPEC-7 (Q1615 Mk III) | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant_edgetpu.tflite) | 1 | <!--A7_tf1_mnv2--> 4.55 ms <!--end_A7_tf1_mnv2--> | 68.9% | 88.2% |
 | ARTPEC-7 (Q1615 Mk III) | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/tf2_mobilenet_v2_1.0_224_ptq_edgetpu.tflite)  | 2 | <!--A7_tf2_mnv2--> 4.58 ms <!--end_A7_tf2_mnv2--> | 69.6%  | 89.1%  |
 | ARTPEC-7 (Q1615 Mk III) | [MobilenetV3](https://raw.githubusercontent.com/google-coral/test_data/master/tf2_mobilenet_v3_edgetpu_1.0_224_ptq_edgetpu.tflite) | 2 | <!--A7_tf2_mnv3--> 4.86 ms <!--end_A7_tf2_mnv3--> | 72.7% | 91.1% |
