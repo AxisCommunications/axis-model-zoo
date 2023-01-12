@@ -19,7 +19,7 @@ accuracy-test
 │   ├── Makefile
 │   └── manifest.json.*
 ├── Dockerfile
-├── larod-convert.py
+├── larod_convert.py
 ├── LOC_synset_mapping.txt
 └── README.md
 ```
@@ -31,13 +31,13 @@ accuracy-test
 - **app/Makefile** - Makefile containing the build and link instructions for building the ACAP application.
 - **app/manifest.json.\*** - Defines the application and its configuration when building for different chips.
 - **Dockerfile** - Docker file with the specified Axis toolchain and API container to build the example specified.
-- **larod-convert.py** - Implementation of conversion of images to raw bytes.
+- **larod_convert.py** - Implementation of conversion of images to raw bytes.
 - **LOC_synset_mapping.txt** - Text file that maps the class codes of the dataset to their friendly names.
 - **README.md** - Step by step instructions on how to run the example.
 
 ## How to run the code
 
-This application uses `larod` to load a neural network model to make inferences and the results are later processed and compared in [accuracy_measure.c](./app/accuracy_measure.c). The accuracy measure has several steps and it depends on what model are we measuring. Here we are going to explain how we measured the image classification models using a subset of the [ILSVRC2012](https://www.image-net.org/index.php) dataset. Previous to building the Docker image, there is one step that needs to be done. `larod` makes inferences on `.bin` image files, so we use [larod-convert.py](./larod-convert.py) to do so and send them to the camera via ssh.
+This application uses `larod` to load a neural network model to make inferences and the results are later processed and compared in [accuracy_measure.c](./app/accuracy_measure.c). The accuracy measure has several steps and it depends on what model are we measuring. Here we are going to explain how we measured the image classification models using a subset of the [ILSVRC2012](https://www.image-net.org/index.php) dataset. Previous to building the Docker image, there is one step that needs to be done. `larod` makes inferences on `.bin` image files, so we use [larod_convert.py](./larod_convert.py) to do so and send them to the camera via ssh.
 
 After that, the pipeline is as follows:
 

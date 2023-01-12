@@ -71,7 +71,7 @@ jobs:
           until [ ${RET} -eq 0 ]; do
 
             git pull
-            python3 ./scripts/auto-test-framework/readme-update.py
+            python3 ./scripts/auto-test-framework/readme_update.py
             git add README.md
             if git commit -m "Updating test results" | grep -q 'nothing to commit, working tree clean'; then
               echo "Nothing to commit :)"

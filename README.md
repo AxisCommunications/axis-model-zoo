@@ -32,7 +32,7 @@ In the case of the automated test framework, the test is done by installing and 
 To get speed measures more easily, you can use the code in [model_performance_tester.py](./scripts/model_performance_tester.py). This script connects to the AXIS camera via SSH and uses the `larod-client` to run inferences. It then parses the output, which will be the mean of time the AXIS camera spent on the inferences. These inferences are done on randomly generated images. See below how to use the script:
 
 ```sh
-python3 ./model-performance-tester.py \
+python3 ./model_performance_tester.py \
         --model_path <MODEL_PATH> --test_duration <DURATION> \
         --chip <CHIP> --camera_ip <IP> --camera_username <USER> --camera_password <PASS> --camera_port <SSH_PORT>
 ```

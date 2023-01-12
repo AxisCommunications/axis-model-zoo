@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # USAGE:
-# python3 ./model-performance-tester.py --model_path <MODEL_PATH> --chip <CHIP> --camera_ip <IP> --camera_password <PASS>
+# python3 ./model_performance_tester.py --model_path <MODEL_PATH> --chip <CHIP> --camera_ip <IP> --camera_password <PASS>
 
 import paramiko
 import os

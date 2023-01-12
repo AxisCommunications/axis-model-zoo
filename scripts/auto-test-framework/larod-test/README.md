@@ -49,7 +49,7 @@ In [benchmark.yml](../../../.github/workflows/benchmark.yml), you can see how:
 2. Once you have the EAP file, the uploading is done through `upload.cgi`.
 3. `control.cgi` starts the ACAP application.
 4. `systemlog.cgi` reads the logs.
-5. [readme-update.py](../readme-update.py) reads the logs and updates the main README.md file.
+5. [readme_update.py](../readme_update.py) reads the logs and updates the main README.md file.
 
 ## License
 
