@@ -33,7 +33,7 @@ jobs:
           docker cp $(docker create $imagetag):/opt/app ./build
 
 
-      - name: Upload the app to the camera
+      - name: Upload the application to the camera
         env:
           eapfile: ${{ env.EAPNAME }}_1_0_0_all.eap
         run: |
