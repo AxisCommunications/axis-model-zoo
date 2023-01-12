@@ -67,6 +67,14 @@ After that, the pipeline is as follows:
 
 The logs will list which images have been considered as Top-1, Top-5 or neither. At the end, you will see the results printed.
 
+### Assumptions
+
+This code assumes that:
+
+- The dataset is in the camera.
+- You have set `N_IMAGES` in [accuracy_measure.c](app/accuracy_measure.c) to the number of images.
+- You are using the ILSVRC2012: affects name parsing in the code, ground truth file and annotations file.
+
 ## License
 
 **[Apache License 2.0](./app/LICENSE)**
