@@ -13,10 +13,7 @@ jobs:
           - camera2
           - camera3
     env:
-      EXREPO: test-acap
-      EXNAME: larod-test
       EAPNAME: larod_test
-      EXDIR: acap/examples/$EXNAME
     steps:
       - name: remove the application
         run: |
