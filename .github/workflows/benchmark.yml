@@ -17,14 +17,12 @@ jobs:
       EXREPO: auto-test-framework
       EXNAME: larod-test
       EAPNAME: larod_test
-      EXDIR: acap/examples/$EXNAME
     steps:
       - uses: actions/checkout@v3
 
 
-      - name: Build ${{ env.example }} application
+      - name: Build ${{ env.EXNAME }} application
         env:
-          example: ${{ env.EXNAME }}
           imagetag: ${{ env.EXREPO }}_${{ env.EXNAME }}:1.0
           EXNAME: larod-test
         run: |
