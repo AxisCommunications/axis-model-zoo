@@ -48,7 +48,7 @@ elif [ "$CHIP" = edgetpu ]; then
 elif [ "$CHIP" = cv25 ]; then
     cp /opt/app/manifest.json.${CHIP} /opt/app/manifest.json
     . /opt/axis/acapsdk/environment-setup*
-    acap-build -a 'label/imagenet_labels.txt' -a 'model/mobilenet_v2_cavalry.bin' -a 'ground/ground_truth.txt'
+    acap-build . -a 'label/imagenet_labels.txt' -a 'model/mobilenet_v2_cavalry.bin' -a 'ground/ground_truth.txt'
 else
     printf "Error: '%s' is not a valid value for the CHIP variable\n", "$CHIP"
     exit 1
