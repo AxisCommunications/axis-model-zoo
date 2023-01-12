@@ -20,6 +20,7 @@ jobs:
     steps:
       - name: remove the application
         run: |
-          curl -v --noproxy '*' --anyauth -u root:"${{secrets.SUPERSECRETPASSWORD}}" "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=stop&package=$EAPNAME"
-          sleep 10
-          curl -s -v --noproxy '*' -k --anyauth -u root:"${{secrets.SUPERSECRETPASSWORD}}" --header "Content-Type: application/json" --request POST --data '{"apiVersion":"1.0", "method":"getAllProperties"}' "http://${{secrets.SUPERSECRETCAMERAIP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=remove&package=$EAPNAME"
+          curl --silent --show-error -u root:"${{secrets.DEVICE_PASSWORD}}" "http://${{secrets.DEVICE_IP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=stop&package=$EAPNAME"          sleep 10
+          sleep 5
+          curl --silent --show-error -u root:"${{secrets.DEVICE_PASSWORD}}" "http://${{secrets.DEVICE_IP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=remove&package=$EAPNAME"
+
