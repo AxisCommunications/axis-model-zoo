@@ -34,7 +34,7 @@ To get speed measures more easily, you can use the code in [model_performance_te
 ```sh
 python3 ./model_performance_tester.py \
         --model_path <MODEL_PATH> --test_duration <DURATION> \
-        --chip <CHIP> --camera_ip <IP> --camera_username <USER> --camera_password <PASS> --camera_port <SSH_PORT>
+        --chip <CHIP> --device_ip <IP> --device_credentials <USER> <PASS> --camera_port <SSH_PORT>
 ```
 
 where, `<MODEL_PATH>` is the path where your `.tflite` or `.bin` model is and `<DURATION>` is the amount of inferences to run. The rest are camera parameters.
