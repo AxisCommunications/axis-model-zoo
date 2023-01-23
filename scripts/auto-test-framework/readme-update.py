@@ -9,7 +9,7 @@ token_parameters = {
     "/artpec7/tf2_mobilenet_v3_edgetpu_1.0_224_ptq_edgetpu.tflite" : "A7_tf2_mnv3",
     "/artpec8/mobilenet_v2_1.0_224_quant.tflite" : "A8_tf1_mnv2",
     "/cv25/mobilenetv2_cavalry.bin" : "cv25_tf1_mnv2",
-    "/cv25/EfficientNet-S.bin" : "cv25_tf1_ens"
+    "/cv25/EfficientNet-lite0.bin" : "cv25_tf1_ens"
     }
 
 #read md file
