@@ -4,7 +4,7 @@
 
 Axis network cameras can be used for computer vision applications and can run machine learning models to make inferences. The model to use will depend on your device and your application. This repository contains a collection of different models compatible with Axis cameras and some performance measures (accuracy and speed). Our goal is to keep updating this collection with models for different applications, like object detection or pose estimation. For easy reproduction, we mostly use models that are public and we also share tools to benchmark the models. The values of speed and accuracy are going to be updated with every [Axis OS release](https://help.axis.com/axis-os-release-notes).
 
-> **Note** : These are not production-quality models; they are for demonstration purposes only.
+> **Note** : These are not production-quality models, they are off-the-shelf models used for comparative and demonstration purposes only.
 
 ## Models
 
