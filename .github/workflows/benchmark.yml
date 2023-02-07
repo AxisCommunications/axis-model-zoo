@@ -9,10 +9,10 @@ jobs:
     strategy:
       matrix:
         arch:
-          - camera1  # artpec7
-          - camera2  # artpec8
-          - camera3  # CV25
-          - camera4  # artpec7 P1465-LE
+          - camera1  # artpec7 Q1615 Mk III
+          - camera2  # artpec8 Q1656-LE
+          - camera3  # CV25 M3085-V
+          - camera4  # artpec8 P1465-LE
 
     env:
       EXREPO: auto-test-framework
