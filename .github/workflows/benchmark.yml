@@ -12,7 +12,7 @@ jobs:
           - camera1  # artpec7
           - camera2  # artpec8
           - camera3  # CV25
-          - camera4  # artpec7 P3245-LV
+          - camera4  # artpec7 P1465-LE
 
     env:
       EXREPO: auto-test-framework
