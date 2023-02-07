@@ -22,8 +22,8 @@ token_parameters = {
     ("/artpec7/tf2_mobilenet_v3_edgetpu_1.0_224_ptq_edgetpu.tflite","Q1615 Mk III") : "A7_tf2_mnv3",
     ("/artpec8/mobilenet_v2_1.0_224_quant.tflite","Q1656-LE") : "A8_tf1_mnv2",
     ("/artpec8/mobilenet_v2_1.0_224_quant.tflite","P1465-LE") : "A8_P_tf1_mnv2",
-    ("/cv25/mobilenetv2_cavalry.bin","M3085") : "cv25_tf1_mnv2",
-    ("/cv25/EfficientNet-lite0.bin","M3085") : "cv25_tf1_ens"
+    ("/cv25/mobilenetv2_cavalry.bin","M3085-V") : "cv25_tf1_mnv2",
+    ("/cv25/EfficientNet-lite0.bin","M3085-V") : "cv25_tf1_ens"
     }
 
 #read md file
@@ -48,7 +48,6 @@ def extract_inference_time(larod_output):
 
     regex_model = "Model name:(.*?)\."
     model = re.findall(regex_model, larod_output, re.MULTILINE)[0]
-
 
     #extract inference time from larod output
     regex = "result: \.\/models((.*?).(tflite|bin)) (.*?) job: (.*?) ms"
