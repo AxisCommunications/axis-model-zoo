@@ -42,8 +42,12 @@ def read_larod_output(file_name):
 
 def extract_inference_time(larod_output):
     #extract model name from larod output
-    regex_model = "Model name:(.*?)$"
-    model = re.findall(regex_model, larod_output, re.MULTILINE)[0]
+    #regex that extract the model name from a string like this
+    #2023-02-07T10:57:20.210+01:00 axis-b8a44f306c98 [ INFO ] larod_test[3228]: Cleaning log 2023-02-07T10:57:20.210+01:00 axis-b8a44f306c98 [ INFO ] larod_test[3228]: Log cleaned 2023-02-07T10:57:20.210+01:00 axis-b8a44f306c98 [ INFO ] larod_test[3228]: Reading device model 2023-02-07T10:57:20.394+01:00 axis-b8a44f306c98 [ INFO ] larod_test[3228]: Model name:P1465-LE. 2023-02-07T10:57:20.394+01:00 axis-b8a44f306c98 [ INFO ] larod_test[3228]: Reading SoC 2023-02-07T10:57:20.570+01:00 axis-b8a44f306c98 [ INFO ] larod_test[3228]: Running tests using chip: axis-a8-dlpu-tflite 2023-02-07T10:57:20.570+01:00 axis-b8a44f306c98 [ INFO ] larod_test[3228]: Testing ./models/artpec8/mobilenet_v2_1.0_224_quant.tflite 2023-02-07T10:57:31.089+01:00 axis-b8a44f306c98 [ INFO ] larod_test[3228]: Done 2023-02-07T10:57:31.089+01:00 axis-b8a44f306c98 [ INFO ] larod_test[3228]: result: ./models/artpec8/mobilenet_v2_1.0_224_quant.tflite 2023-02-07T10:57:31.086 Mean execution time for job: 9.44 ms
+    #2023-02-07T10:57:20.210+01:00 axis-b8a44f306c98 [ INFO ] larod_test[3228]: Cleaning log 2023-02-07T10:57:20.210+01:00 axis-b8a44f306c98 [ INFO ] larod_test[3228]: Log cleaned 2023-02-07T10:57:20.210+01:00 axis-b8a44f306c98 [ INFO ] larod_test[3228]: Reading device model 2023-02-07T10:57:20.394+01:00 axis-b8a44f306c98 [ INFO ] larod_test[3228]: Model name:Q1615 Mk III. 2023-02-07T10:57:20.394+01:00 axis-b8a44f306c98 [ INFO ] larod_test[3228]: Reading SoC 2023-02-07T10:57:20.570+01:00 axis-b8a44f306c98 [ INFO ] larod_test[3228]: Running tests using chip: axis-a8-dlpu-tflite 2023-02-07T10:57:20.570+01:00 axis-b8a44f306c98 [ INFO ] larod_test[3228]: Testing ./models/artpec8/mobilenet_v2_1.0_224_quant.tflite 2023-02-07T10:57:31.089+01:00 axis-b8a44f306c98 [ INFO ] larod_test[3228]: Done 2023-02-07T10:57:31.089+01:00 axis-b8a44f306c98 [ INFO ] larod_test[3228]: result: ./models/artpec8/mobilenet_v2_1.0_224_quant.tflite 2023-02-07T10:57:31.086 Mean execution time for job: 9.44 ms
+
+    regex_model = "Model name:(.*?)\."
+    matches_model = re.findall(regex_model, larod_output, re.MULTILINE)
 
     #extract inference time from larod output
     regex = "result: \.\/models((.*?).(tflite|bin)) (.*?) job: (.*?) ms"
