@@ -49,6 +49,7 @@ def extract_inference_time(larod_output):
     regex_model = "Model name:(.*?)\."
     model = re.findall(regex_model, larod_output, re.MULTILINE)[0]
 
+
     #extract inference time from larod output
     regex = "result: \.\/models((.*?).(tflite|bin)) (.*?) job: (.*?) ms"
     matches = re.findall(regex, larod_output, re.MULTILINE)

@@ -22,7 +22,7 @@ echo "Log cleaned"
 
 echo "Reading device model"
 model=$(parhandclient getgroup root.Brand.ProdNbr | cut -d "\"" -f 2)
-echo "Model name:$model"
+echo "Model name:$model."
 
 echo "Reading SoC"
 SoC=$(parhandclient getgroup root.Properties.System.Soc | cut -d "\"" -f 2)
