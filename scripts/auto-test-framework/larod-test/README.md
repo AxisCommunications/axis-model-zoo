@@ -22,7 +22,7 @@ larod-test
 └── README.md
 ```
 
-* **app/larod_test.sh** - Shell script application that runs `larod-client` on all the models compatible with the AXIS camera chip.
+* **app/larod_test.sh** - Shell script application that runs `larod-client` on all the models compatible with the Axis camera chip.
 * **app/Makefile** - Empty Makefile. Necessary for the build process.
 * **app/manifest.json** - Defines the application and its configuration.
 * **app/models** - Contains all the models that will be tested, organized by architecture.
