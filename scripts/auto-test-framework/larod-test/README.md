@@ -1,22 +1,20 @@
-*Copyright (C) 2022, Axis Communications AB, Lund, Sweden. All Rights Reserved.*
+*Copyright (C) 2023, Axis Communications AB, Lund, Sweden. All Rights Reserved.*
 
-# larod-test ACAP application written in shell script
+# Speed test ACAP application written in shell script
 
-This README file briefly explains this ACAP works
-
+This README file briefly explains how this ACAP application works.
 
 ## Getting started
 
-These instructions will guide you on how to execute the code. Below is the structure and scripts used in the example:
+Below is the structure and scripts used in the example:
 
-```bash
+```sh
 larod-test
 ├── app
-│   ├── larod_test
-│   ├── LICENSE
+│   ├── larod_test.sh
 │   ├── Makefile
 │   ├── manifest.json
-│   └── models 
+│   └── models
 │   │   ├── artpec7
 │   │   ├── artpec8
 │   │   └── cv25
@@ -24,18 +22,35 @@ larod-test
 └── README.md
 ```
 
-* **app/larod_test** - Shell script application which runs larod client on all the models compatible with the camera architecture.
-* **app/LICENSE** - Text file which lists all open source licensed source code distributed with the application.
+* **app/larod_test.sh** - Shell script application that runs `larod-client` on all the models compatible with the AXIS camera chip.
 * **app/Makefile** - Empty Makefile. Necessary for the build process.
 * **app/manifest.json** - Defines the application and its configuration.
-* **app/models** - Contains all the models that will be tested, divided by architecture.
-* **Dockerfile** - Docker file with the specified Axis toolchain and API container to build the example specified.
+* **app/models** - Contains all the models that will be tested, organized by architecture.
+* **Dockerfile** - Dockerfile with the specified Axis toolchain and API container to build the example.
 * **README.md** - Step by step instructions on how to run the example.
 
-### Run the code
+## How to run the code
 
-The ACAP is built in a [github action](https://github.com/AxisCommunications/axis-model-zoo/blob/main/.github/workflows/speed-test-action.yml) and uploaded to different models of cameras (one for each chip). The results are then read by the github action and used to upload the main readme of this repository.
+The ACAP application is built in a GitHub action, [benchmark.yml](../../../.github/workflows/benchmark.yml), and installed in different models of cameras (one for each chip). The results are then read by the GitHub action and used to update the main `README.md` of this repository.
+
+In [benchmark.yml](../../../.github/workflows/benchmark.yml), you can see how:
+
+1. First, it builds the Docker image with the following commands:
+
+    ```sh
+    DOCKER_BUILDKIT=1 docker build --no-cache --tag <APP_IMAGE> --build-arg CHIP=<CHIP> --build-arg ARCH=<ARCH> .
+    docker cp $(docker create <APP_IMAGE>):/opt/app ./build
+    ```
+
+    * `<APP_IMAGE>` is the name to tag the image with, e.g., `larod-test:1.0`
+    * `<CHIP>` is the chip type. Supported values are `artpec8`, `cpu`, `cv25` and `edgetpu`.
+    * `<ARCH>` is the architecture. Supported values are `armv7hf` (default) and `aarch64`.
+
+2. Once you have the EAP file, the uploading is done through `upload.cgi`.
+3. `control.cgi` starts the ACAP application.
+4. `systemlog.cgi` reads the logs.
+5. [readme_update.py](../readme_update.py) reads the logs and updates the main README.md file.
 
 ## License
 
-**[Apache License 2.0](../LICENSE)**
+**[Apache License 2.0](./app/LICENSE)**

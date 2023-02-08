@@ -1,3 +1,4 @@
  __pycache__/
  *.pyc
 scripts/auto-test-framework/larod-test/build/*
+super-linter.log

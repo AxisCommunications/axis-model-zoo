@@ -1,0 +1,17 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+[*]
+# Unix-style newlines
+end_of_line = lf
+charset = utf-8
+
+# Remove any whitespace characters preceding newline characters
+trim_trailing_whitespace = true
+
+# Insert a final newline at the end of the file if one does not exist
+insert_final_newline = true
+
+[*.sh]
+# Tab indentation
+indent_style = tab
+indent_size = 4
