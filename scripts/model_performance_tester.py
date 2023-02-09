@@ -72,7 +72,7 @@ def run_speed_test(DEVICE_IP, PORT, DEVICE_USERNAME, DEVICE_PASSWORD, MODEL_PATH
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Run a speed test of a model on the device')
-    parser.add_argument('-m', '--model_path', type=str, help='Model path', default='../models/efficientdet_lite0_320_ptq.tflite', required=True)
+    parser.add_argument('-m', '--model_path', type=str, help='Model path', required=True)
     parser.add_argument('-d', '--test_duration', type=int, help='Test duration (iterations)', default=100)
     parser.add_argument('-c', '--chip', type=str, choices=chipset.keys(), help='Chipset', required=True)
     parser.add_argument('-i', '--device_ip', type=str, help='Device IP', required=True)
