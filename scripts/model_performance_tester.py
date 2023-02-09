@@ -23,7 +23,8 @@ import re
 chipset = {
         'CPU': 'cpu-tflite',
         'A8-DLPU': 'axis-a8-dlpu-tflite',
-        'A7-DLPU': 'google-edge-tpu-tflite',
+        'A7-GPU': 'axis-a7-gpu-tflite'
+        'A7-TPU': 'google-edge-tpu-tflite',
         'CV25': 'ambarella-cvflow'
     }
 
