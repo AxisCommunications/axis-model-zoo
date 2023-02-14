@@ -23,7 +23,8 @@ import re
 chipset = {
         'CPU': 'cpu-tflite',
         'A8-DLPU': 'axis-a8-dlpu-tflite',
-        'A7-DLPU': 'google-edge-tpu-tflite',
+        'A7-GPU': 'axis-a7-gpu-tflite',
+        'A7-TPU': 'google-edge-tpu-tflite',
         'CV25': 'ambarella-cvflow'
     }
 
@@ -64,6 +65,7 @@ def run_speed_test(DEVICE_IP, PORT, DEVICE_USERNAME, DEVICE_PASSWORD, MODEL_PATH
 
     print('Cleaning...')
     ssh.exec_command('rm ' + device_model_location)
+    ssh.exec_command('rm *out[0-9]')
     ssh.close()
 
     return time
@@ -71,9 +73,9 @@ def run_speed_test(DEVICE_IP, PORT, DEVICE_USERNAME, DEVICE_PASSWORD, MODEL_PATH
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Run a speed test of a model on the device')
-    parser.add_argument('-m', '--model_path', type=str, help='Model path', default='../models/efficientdet_lite0_320_ptq.tflite', required=True)
-    parser.add_argument('-d', '--test_duration', type=int, help='Test duration (iterations)', default=1000)
-    parser.add_argument('-c', '--chip', type=str, choices=chipset.keys(), help='Chipset', default='CPU')
+    parser.add_argument('-m', '--model_path', type=str, help='Model path', required=True)
+    parser.add_argument('-d', '--test_duration', type=int, help='Test duration (iterations)', default=100)
+    parser.add_argument('-c', '--chip', type=str, choices=chipset.keys(), help='Chipset', required=True)
     parser.add_argument('-i', '--device_ip', type=str, help='Device IP', required=True)
     parser.add_argument('-p', '--device_port', type=int, help='Device port for ssh', default=22)
     parser.add_argument('-u', '--device_credentials', nargs=2, type=str, help='Device username and password divided by space', required=True)
