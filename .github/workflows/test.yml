@@ -1,0 +1,81 @@
+name: Test model speed
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch:
+          - camera1  # artpec7 Q1615 Mk III
+          - camera2  # artpec8 Q1656-LE
+          - camera3  # CV25 M3085-V
+          - camera4  # artpec8 P1465-LE
+
+    env:
+      EXREPO: auto-test-framework
+      EXNAME: larod-test
+      EAPNAME: larod_test
+    steps:
+      - uses: actions/checkout@v3
+
+
+      - name: Build ${{ env.EXNAME }} application
+        env:
+          imagetag: ${{ env.EXREPO }}_${{ env.EXNAME }}:1.0
+          EXNAME: larod-test
+        run: |
+          cd scripts/auto-test-framework/$EXNAME
+          DOCKER_BUILDKIT=1 docker build --no-cache --tag $imagetag .
+          docker cp $(docker create $imagetag):/opt/app ./build
+      - name: Upload the application to the camera
+        env:
+          eapfile: ${{ env.EAPNAME }}_1_0_0_all.eap
+        run: |
+          cd scripts/auto-test-framework/$EXNAME/build
+          curl --silent --show-error -F packfil=@${eapfile} -u root:"${{secrets.DEVICE_PASSWORD}}" "http://${{secrets.DEVICE_IP}}/${{matrix.arch}}/axis-cgi/admin/applications/upload.cgi"
+      - name: Start the application
+        run: |
+          curl --silent --show-error -u root:"${{secrets.DEVICE_PASSWORD}}" "http://${{secrets.DEVICE_IP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=start&package=$EAPNAME"
+      - name: Read application log
+        run: |
+          while true; do
+            sleep 1
+            result=$(curl --silent --show-error -u root:"${{secrets.DEVICE_PASSWORD}}" http://${{secrets.DEVICE_IP}}/${{matrix.arch}}/axis-cgi/admin/systemlog.cgi?appname=$EAPNAME)
+            if [[ $result == *"Done"* ]]; then
+              echo "saving output to file "
+              echo $result > /tmp/larod_out.txt
+              break
+            fi
+          done
+      - name: Parse the results and update README
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git config pull.rebase true
+          log=$(cat /tmp/larod_out.txt)
+          echo $log | grep "Testing"
+          RET=1
+          until [ ${RET} -eq 0 ]; do
+            git pull
+            python3 ./scripts/auto-test-framework/readme_update.py
+            git add README.md
+            if git commit -m "Updating test results" | grep -q 'nothing to commit, working tree clean'; then
+              echo "Nothing to commit :)"
+              RET=$?
+            else
+              set +e
+              git push
+              RET=$?
+              set -e
+            fi
+            sleep 5
+          done
+      - name: Stop the application
+        run: |
+          curl --silent --show-error -u root:"${{secrets.DEVICE_PASSWORD}}" "http://${{secrets.DEVICE_IP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=stop&package=$EAPNAME"
+      - name: Remove the application
+        run: |
+          curl --silent --show-error -u root:"${{secrets.DEVICE_PASSWORD}}" "http://${{secrets.DEVICE_IP}}/${{matrix.arch}}/axis-cgi/applications/control.cgi?action=remove&package=$EAPNAME"
