@@ -114,7 +114,7 @@ In order to fasten up development, it's possible to run linters as part of your 
 To run a number of linters on the code base from command line:
 
 ```sh
-docker run --rm  \
+docker run --rm \
   -v $PWD:/tmp/lint \
   -e RUN_LOCAL=true \
   -e LINTER_RULES_PATH=/ \
