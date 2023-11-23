@@ -79,6 +79,7 @@ def main():
             value_to_add = inference_times[token]
             table = generate_table(value_to_add, token)
             rewrite_md_file(file_name, md_file, token, table)
+            md_file = read_md_file(file_name)
         else:
             print("Can't find token in file: " + token)
 
