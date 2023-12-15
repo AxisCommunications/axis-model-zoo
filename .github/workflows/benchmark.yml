@@ -28,7 +28,7 @@ jobs:
          if [[ $get_mae == "ImageSource.I0.Sensor.MotionAdaptiveExposure=on" ]]; then
            echo "Error could not update Motion Adaptive Exposure parameter"
          else
-           echo " Motion Adapative Exposure disabled"
+           echo "Motion Adapative Exposure disabled"
          fi
 
 
