@@ -16,5 +16,5 @@ WORKDIR /opt/app
 RUN <<EOF
 mv larod_test.sh larod_test
 . /opt/axis/acapsdk/environment-setup*
-acap-build . -a 'models/${device}/*'
+acap-build . -a "models/${device}/*"
 EOF
