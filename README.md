@@ -29,10 +29,10 @@ Axis network cameras can be used for computer vision applications and can run ma
 | ARTPEC-8 (Q1656-LE)  | [SSD MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/ssd_mobilenet_v2_coco_quant_postprocess.tflite) | 1  | <!--A8_Q_tf1_ssd_mnv2--> 00.00 ms <!--end_A8_Q_tf1_ssd_mnv2--> | mAP: 25.6% |
 | ARTPEC-8 (P1465-LE) | [SSDLite MobileDet](https://raw.githubusercontent.com/google-coral/test_data/master/ssdlite_mobiledet_coco_qat_postprocess.tflite) | 1  | <!--A8_P_tf1_ssd_md--> 00.00 ms <!--end_A8_P_tf1_ssd_md--> | mAP: 32.9% |
 | ARTPEC-8 (Q1656-LE)  | [SSDLite MobileDet](https://raw.githubusercontent.com/google-coral/test_data/master/ssdlite_mobiledet_coco_qat_postprocess.tflite) | 1  | <!--A8_Q_tf1_ssd_md--> 00.00 ms <!--end_A8_Q_tf1_ssd_md--> | mAP: 32.9%  |
-| ARTPEC-8 (P1465-LE)  | [Yolov5n-Artpec8](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.tflite) [ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.pt) | 1  | <!--A8_P_yolov5n--> 00.00 ms <!--end_A8_P_yolov5n--> | mAP: 23.5% |
-| ARTPEC-8 (Q1656-LE)  | [Yolov5n-Artpec8](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.tflite) [ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.pt | 1  | <!--A8_Q_yolov5n--> 00.00 ms <!--end_A8_Q_yolov5n--> | mAP: 23.5%  |
-| ARTPEC-8 (Q1656-LE)  | [Yolov5s-Artpec8](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5s.tflite) [ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5s.pt) | 1  | <!--A8_Q_yolov5s--> 00.00 ms <!--end_A8_Q_yolov5s--> | mAP: 32.3%  |
-| ARTPEC-8 (Q1656-LE)  | [Yolov5m-Artpec8](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5m.tflite) [ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5m.pt) | 1  | <!--A8_Q_yolov5m--> 00.00 ms <!--end_A8_Q_yolov5m--> | mAP: 37.9%  |
+| ARTPEC-8 (P1465-LE)  | [Yolov5n-Artpec8](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.pt)) | 1  | <!--A8_P_yolov5n--> 00.00 ms <!--end_A8_P_yolov5n--> | mAP: 23.5% |
+| ARTPEC-8 (Q1656-LE)  | [Yolov5n-Artpec8](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.pt)) | 1  | <!--A8_Q_yolov5n--> 00.00 ms <!--end_A8_Q_yolov5n--> | mAP: 23.5%  |
+| ARTPEC-8 (Q1656-LE)  | [Yolov5s-Artpec8](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5s.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5s.pt)) | 1  | <!--A8_Q_yolov5s--> 00.00 ms <!--end_A8_Q_yolov5s--> | mAP: 32.3%  |
+| ARTPEC-8 (Q1656-LE)  | [Yolov5m-Artpec8](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5m.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5m.pt)) | 1  | <!--A8_Q_yolov5m--> 00.00 ms <!--end_A8_Q_yolov5m--> | mAP: 37.9%  |
 
 *Values for AXIS OS 11.7.61.*
 

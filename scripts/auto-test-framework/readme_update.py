@@ -31,12 +31,12 @@ token_parameters = {
     ("/artpec7/ssd_mobilenet_v2_coco_quant_postprocess_edgetpu.tflite","Q1615 Mk III") : "A7_tf1_ssd_mnv2",
     ("/artpec8/ssd_mobilenet_v2_coco_quant_postprocess.tflite","P1465-LE") : "A8_P_tf1_ssd_mnv2",
     ("/artpec8/ssd_mobilenet_v2_coco_quant_postprocess.tflite","Q1656-LE") : "A8_Q_tf1_ssd_mnv2",
-    ("/artpec8/ssdlite_mobiledet_coco_qat_postprocess","P1465-LE") : "A8_P_tf1_ssd_md",
-    ("/artpec8/ssdlite_mobiledet_coco_qat_postprocess","Q1656-LE") : "A8_Q_tf1_ssd_md",
-    ("/artpec8/yolov5n.bin","P1465-LE") : "A8_P_yolov5n",
-    ("/artpec8/yolov5n.bin","Q1656-LE") : "A8_Q_yolov5n",
-    ("/artpec8/yolov5s.bin","Q1656-LE") : "A8_Q_yolov5s",
-    ("/artpec8/yolov5m.bin","Q1656-LE") : "A8_Q_yolov5m"
+    ("/artpec8/ssdlite_mobiledet_coco_qat_postprocess.tflite","P1465-LE") : "A8_P_tf1_ssd_md",
+    ("/artpec8/ssdlite_mobiledet_coco_qat_postprocess.tflite","Q1656-LE") : "A8_Q_tf1_ssd_md",
+    ("/artpec8/yolov5n.tflite","P1465-LE") : "A8_P_yolov5n",
+    ("/artpec8/yolov5n.tflite","Q1656-LE") : "A8_Q_yolov5n",
+    ("/artpec8/yolov5s.tflite","Q1656-LE") : "A8_Q_yolov5s",
+    ("/artpec8/yolov5m.tflite","Q1656-LE") : "A8_Q_yolov5m"
     }
 
 #read md file
