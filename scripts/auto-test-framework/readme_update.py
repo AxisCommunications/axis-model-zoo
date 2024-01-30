@@ -62,7 +62,7 @@ def extract_inference_time(larod_output):
     regex = "result: \.\/models((.*?).(tflite|bin)) (.*?) job: (.*?) ms"
     matches = re.findall(regex, larod_output, re.MULTILINE)
     # filter file name and inference time
-    return {token_parameters[(match[0],model)]: match[4] for match in matches}
+    return {token_parameters[(match[0], model)]: match[4] for match in matches if (match[0], model) in token_parameters}
 
 #generate section from value to add
 def generate_table(value_to_add, token):
