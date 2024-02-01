@@ -17,7 +17,7 @@ import re
 
 tokens = \
     ['A8_tf1_mnv2', 'A8_P_tf1_mnv2', 'A7_tf1_mnv2','A7_tf2_mnv2','A7_tf2_mnv3','cv25_tf1_mnv2','cv25_tf1_ens', \
-    'A7_tf1_ssd_mnv2', 'A8_P_tf1_ssd_mnv2', 'A8_Q_tf1_ssd_mnv2', 'A8_P_tf1_ssd_md', 'A8_Q_tf1_ssd_md', 'A8_P_yolov5n', 'A8_Q_yolov5n', 'A8_Q_yolov5s', 'A8_Q_yolov5m' \
+    'A7_tf1_ssd_mnv2','A7_tf1_ssd_md', 'A8_P_tf1_ssd_mnv2', 'A8_Q_tf1_ssd_mnv2', 'A8_P_tf1_ssd_md', 'A8_Q_tf1_ssd_md', 'A8_P_yolov5n', 'A8_Q_yolov5n', 'A8_Q_yolov5s', 'A8_Q_yolov5m' \
     ]
 
 token_parameters = {
@@ -29,6 +29,7 @@ token_parameters = {
     ("/cv25/mobilenetv2_cavalry.bin","M3085-V") : "cv25_tf1_mnv2",
     ("/cv25/EfficientNet-lite0.bin","M3085-V") : "cv25_tf1_ens",
     ("/artpec7/ssd_mobilenet_v2_coco_quant_postprocess_edgetpu.tflite","Q1615 Mk III") : "A7_tf1_ssd_mnv2",
+    ("/artpec7/ssdlite_mobiledet_coco_qat_postprocess_edgetpu.tflite", "Q1615 Mk III") : "A7_tf1_ssd_md",
     ("/artpec8/ssd_mobilenet_v2_coco_quant_postprocess.tflite","P1465-LE") : "A8_P_tf1_ssd_mnv2",
     ("/artpec8/ssd_mobilenet_v2_coco_quant_postprocess.tflite","Q1656-LE") : "A8_Q_tf1_ssd_mnv2",
     ("/artpec8/ssdlite_mobiledet_coco_qat_postprocess.tflite","P1465-LE") : "A8_P_tf1_ssd_md",
