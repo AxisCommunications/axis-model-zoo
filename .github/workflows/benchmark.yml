@@ -19,6 +19,11 @@ jobs:
       EXNAME: larod-test
       EAPNAME: larod_test
     steps:
+
+      - name: Restart the devices to ensure clean syslog
+        run: |
+          curl --silent --show-error -u root:"${{secrets.DEVICE_PASSWORD}}" "http://${{secrets.DEVICE_IP}}/${{matrix.arch}}/axis-cgi/restart.cgi"
+          sleep 10
       - uses: actions/checkout@v3
 
 
