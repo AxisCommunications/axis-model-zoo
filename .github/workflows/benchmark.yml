@@ -28,7 +28,19 @@ jobs:
           EXNAME: larod-test
         run: |
           cd scripts/auto-test-framework/$EXNAME
-          DOCKER_BUILDKIT=1 docker build --no-cache --tag $imagetag .
+          if [[ "${{ matrix.arch }}" == "camera1" ]]; then
+            export device=artpec8
+          elif [[ "${{ matrix.arch }}" == "camera2" ]]; then
+            export device=artpec7
+          elif [[ "${{ matrix.arch }}" == "camera3" ]]; then
+            export device=cv25
+          elif [[ "${{ matrix.arch }}" == "camera4" ]]; then
+            export device=artpec8
+          else
+            echo "Unknown matrix.arch value"
+            exit 1
+          fi
+          DOCKER_BUILDKIT=1 docker build --no-cache --tag $imagetag --build-arg device=$device .
           docker cp $(docker create $imagetag):/opt/app ./build
 
 
