@@ -59,5 +59,4 @@ We provide the following checkpoints for yolov5n, yolov5s, and yolov5m:
 | [yolov5s.tflite](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5s.tflite) |  [download](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5s.pt)    |  0.487  |  0.530  |   0.323  |  74.3              |
 | [yolov5m.tflite](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5m.tflite) |  [download](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5m.pt)    |  0.547  |  0.592  |   0.379  |  99.8              |
 
-
 For more details on testing the model, refer to the [Test Your Model](https://axiscommunications.github.io/acap-documentation/docs/computer-vision-on-device/) page in the ACAP documentation.
