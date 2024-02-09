@@ -7,6 +7,7 @@ ARG REPO=axisecp
 ARG SDK=acap-native-sdk
 
 FROM ${REPO}/${SDK}:${VERSION}-${ARCH}-ubuntu${UBUNTU_VERSION}
+ARG device
 
 ARG device
 
