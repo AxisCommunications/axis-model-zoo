@@ -19,8 +19,8 @@ jobs:
       EXNAME: larod-test
       EAPNAME: larod_test
     steps:
-      - uses: actions/checkout@v3
 
+      - uses: actions/checkout@v3
 
       - name: Build ${{ env.EXNAME }} application
         env:
@@ -29,9 +29,9 @@ jobs:
         run: |
           cd scripts/auto-test-framework/$EXNAME
           if [[ "${{ matrix.arch }}" == "camera1" ]]; then
-            export device=artpec8
-          elif [[ "${{ matrix.arch }}" == "camera2" ]]; then
             export device=artpec7
+          elif [[ "${{ matrix.arch }}" == "camera2" ]]; then
+            export device=artpec8
           elif [[ "${{ matrix.arch }}" == "camera3" ]]; then
             export device=cv25
           elif [[ "${{ matrix.arch }}" == "camera4" ]]; then

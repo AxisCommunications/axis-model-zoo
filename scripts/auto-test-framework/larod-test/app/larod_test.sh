@@ -46,7 +46,7 @@ echo "Running tests using chip: $chip"
 # for all the files in the folder
 for file in "$folder"*; do
 	echo "Testing $file"
-	larod_out=$(larod-client -R 1000 -p -c $chip -g "$file" -i '' | grep "Mean execution time for job:")
+	larod_out=$(larod-client -R 1000 -w 5 -p -c $chip -g "$file" -i '' | grep "Mean execution time for job:")
 	echo "result: $file $larod_out"
 done
 echo "Done"
