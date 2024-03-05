@@ -15,7 +15,11 @@
 import os
 import re
 
-tokens = ['A8_tf1_mnv2', 'A8_P_tf1_mnv2', 'A7_tf1_mnv2','A7_tf2_mnv2','A7_tf2_mnv3','cv25_tf1_mnv2','cv25_tf1_ens']
+tokens = \
+    ['A8_tf1_mnv2', 'A8_P_tf1_mnv2', 'A7_tf1_mnv2','A7_tf2_mnv2','A7_tf2_mnv3','cv25_tf1_mnv2','cv25_tf1_ens', \
+    'A7_tf1_ssd_mnv2','A7_tf1_ssd_md', 'A8_P_tf1_ssd_mnv2', 'A8_Q_tf1_ssd_mnv2', 'A8_P_tf1_ssd_md', 'A8_Q_tf1_ssd_md', 'A8_P_yolov5n', 'A8_Q_yolov5n', 'A8_Q_yolov5s', 'A8_Q_yolov5m' \
+    ]
+
 token_parameters = {
     ("/artpec7/mobilenet_v2_1.0_224_quant_edgetpu.tflite","Q1615 Mk III") : "A7_tf1_mnv2",
     ("/artpec7/tf2_mobilenet_v2_1.0_224_ptq_edgetpu.tflite","Q1615 Mk III") : "A7_tf2_mnv2",
@@ -23,7 +27,17 @@ token_parameters = {
     ("/artpec8/mobilenet_v2_1.0_224_quant.tflite","Q1656-LE") : "A8_tf1_mnv2",
     ("/artpec8/mobilenet_v2_1.0_224_quant.tflite","P1465-LE") : "A8_P_tf1_mnv2",
     ("/cv25/mobilenetv2_cavalry.bin","M3085-V") : "cv25_tf1_mnv2",
-    ("/cv25/EfficientNet-lite0.bin","M3085-V") : "cv25_tf1_ens"
+    ("/cv25/EfficientNet-lite0.bin","M3085-V") : "cv25_tf1_ens",
+    ("/artpec7/ssd_mobilenet_v2_coco_quant_postprocess_edgetpu.tflite","Q1615 Mk III") : "A7_tf1_ssd_mnv2",
+    ("/artpec7/ssdlite_mobiledet_coco_qat_postprocess_edgetpu.tflite", "Q1615 Mk III") : "A7_tf1_ssd_md",
+    ("/artpec8/ssd_mobilenet_v2_coco_quant_postprocess.tflite","P1465-LE") : "A8_P_tf1_ssd_mnv2",
+    ("/artpec8/ssd_mobilenet_v2_coco_quant_postprocess.tflite","Q1656-LE") : "A8_Q_tf1_ssd_mnv2",
+    ("/artpec8/ssdlite_mobiledet_coco_qat_postprocess.tflite","P1465-LE") : "A8_P_tf1_ssd_md",
+    ("/artpec8/ssdlite_mobiledet_coco_qat_postprocess.tflite","Q1656-LE") : "A8_Q_tf1_ssd_md",
+    ("/artpec8/yolov5n.tflite","P1465-LE") : "A8_P_yolov5n",
+    ("/artpec8/yolov5n.tflite","Q1656-LE") : "A8_Q_yolov5n",
+    ("/artpec8/yolov5s.tflite","Q1656-LE") : "A8_Q_yolov5s",
+    ("/artpec8/yolov5m.tflite","Q1656-LE") : "A8_Q_yolov5m"
     }
 
 #read md file
@@ -49,7 +63,7 @@ def extract_inference_time(larod_output):
     regex = "result: \.\/models((.*?).(tflite|bin)) (.*?) job: (.*?) ms"
     matches = re.findall(regex, larod_output, re.MULTILINE)
     # filter file name and inference time
-    return {token_parameters[(match[0],model)]: match[4] for match in matches}
+    return {token_parameters[(match[0], model)]: match[4] for match in matches if (match[0], model) in token_parameters}
 
 #generate section from value to add
 def generate_table(value_to_add, token):

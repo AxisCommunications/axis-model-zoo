@@ -6,21 +6,42 @@ Axis network cameras can be used for computer vision applications and can run ma
 
 > **Note** : These are not production-quality models, they are off-the-shelf models used for comparative and demonstration purposes only.
 
+## Guides
+
+- [ACAP Documentation](https://axiscommunications.github.io/acap-documentation/)
+- [Run YOLOv5 on Artpec-8](./docs/yolov5-on-artpec8.md)
+
 ## Models
 
 ### Image classification
 
 | Platform | Model | TF version | Speed | Accuracy |
 | ---------- | ---------- | :----------: | :----------: | :----------: |
-| ARTPEC-7 (Q1615 Mk III) | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant_edgetpu.tflite) ([ckpt](http://download.tensorflow.org/models/tflite_11_05_08/mobilenet_v2_1.0_224_quant.tgz)) | 1 | <!--A7_tf1_mnv2--> 4.34 ms <!--end_A7_tf1_mnv2--> | Top 1: 68.9% <br/> Top 5: 88.2% |
-| ARTPEC-7 (Q1615 Mk III) | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/tf2_mobilenet_v2_1.0_224_ptq_edgetpu.tflite) | 2 | <!--A7_tf2_mnv2--> 4.43 ms <!--end_A7_tf2_mnv2--> | Top 1: 69.6% <br/> Top 5: 89.1%  |
-| ARTPEC-7 (Q1615 Mk III) | [MobilenetV3](https://raw.githubusercontent.com/google-coral/test_data/master/tf2_mobilenet_v3_edgetpu_1.0_224_ptq_edgetpu.tflite) | 2 | <!--A7_tf2_mnv3--> 4.62 ms <!--end_A7_tf2_mnv3--> | Top 1: 72.7% <br/> Top 5: 91.1% |
-| ARTPEC-8 (P1465-LE) | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant.tflite) ([ckpt](http://download.tensorflow.org/models/tflite_11_05_08/mobilenet_v2_1.0_224_quant.tgz)) | 1  | <!--A8_P_tf1_mnv2--> 9.77 ms <!--end_A8_P_tf1_mnv2--> | Top 1: 68.8% <br/> Top 5: 88.9% |
-| ARTPEC-8 (Q1656-LE)  | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant.tflite) ([ckpt](http://download.tensorflow.org/models/tflite_11_05_08/mobilenet_v2_1.0_224_quant.tgz)) | 1  | <!--A8_tf1_mnv2--> 5.34 ms <!--end_A8_tf1_mnv2--> | Top 1: 68.8% <br/> Top 5: 88.9% |
-| CV25 (M3085-V) | [MobilenetV2](https://acap-ml-model-storage.s3.amazonaws.com/mobilenetv2_cavalry.bin) ([ckpt](http://download.tensorflow.org/models/tflite_11_05_08/mobilenet_v2_1.0_224_quant.tgz)) | 1  | <!--cv25_tf1_mnv2--> 28.69 ms <!--end_cv25_tf1_mnv2--> | Top 1: 66.7% <br/> Top 5: 87.1% |
+
+| ARTPEC-7 (Q1615 Mk III) | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant_edgetpu.tflite) ([ckpt](http://download.tensorflow.org/models/tflite_11_05_08/mobilenet_v2_1.0_224_quant.tgz)) | 1 | <!--A7_tf1_mnv2--> 4.45 ms <!--end_A7_tf1_mnv2--> | Top 1: 68.9% <br/> Top 5: 88.2% |
+| ARTPEC-7 (Q1615 Mk III) | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/tf2_mobilenet_v2_1.0_224_ptq_edgetpu.tflite) | 2 | <!--A7_tf2_mnv2--> 4.49 ms <!--end_A7_tf2_mnv2--> | Top 1: 69.6% <br/> Top 5: 89.1%  |
+| ARTPEC-7 (Q1615 Mk III) | [MobilenetV3](https://raw.githubusercontent.com/google-coral/test_data/master/tf2_mobilenet_v3_edgetpu_1.0_224_ptq_edgetpu.tflite) | 2 | <!--A7_tf2_mnv3--> 4.63 ms <!--end_A7_tf2_mnv3--> | Top 1: 72.7% <br/> Top 5: 91.1% |
+| ARTPEC-8 (P1465-LE) | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant.tflite) ([ckpt](http://download.tensorflow.org/models/tflite_11_05_08/mobilenet_v2_1.0_224_quant.tgz)) | 1  | <!--A8_P_tf1_mnv2--> 9.82 ms <!--end_A8_P_tf1_mnv2--> | Top 1: 68.8% <br/> Top 5: 88.9% |
+| ARTPEC-8 (Q1656-LE)  | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant.tflite) ([ckpt](http://download.tensorflow.org/models/tflite_11_05_08/mobilenet_v2_1.0_224_quant.tgz)) | 1  | <!--A8_tf1_mnv2--> 5.33 ms <!--end_A8_tf1_mnv2--> | Top 1: 68.8% <br/> Top 5: 88.9% |
+| CV25 (M3085-V) | [MobilenetV2](https://acap-ml-model-storage.s3.amazonaws.com/mobilenetv2_cavalry.bin) ([ckpt](http://download.tensorflow.org/models/tflite_11_05_08/mobilenet_v2_1.0_224_quant.tgz)) | 1  | <!--cv25_tf1_mnv2--> 28.79 ms <!--end_cv25_tf1_mnv2--> | Top 1: 66.7% <br/> Top 5: 87.1% |
 | CV25 (M3085-V) | [EfficientNet-Lite0](https://acap-ml-model-storage.s3.amazonaws.com/EfficientNet-lite0.bin) ([ckpt](https://storage.googleapis.com/cloud-tpu-checkpoints/efficientnet/lite/efficientnet-lite0.tar.gz)) | 1  | <!--cv25_tf1_ens--> 35.31 ms <!--end_cv25_tf1_ens--> | Top 1: 71.2% <br/> Top 5: 90.3% |
 
-*Values for AXIS OS 11.7.61.*
+### Object detection
+
+| Platform | Model  | Speed | Accuracy |
+| ---------- | ---------- |  :----------: | :----------: |
+| ARTPEC-7 (Q1615 Mk III) | [SSD MobileNet v2](https://raw.githubusercontent.com/google-coral/test_data/master/ssd_mobilenet_v2_coco_quant_postprocess_edgetpu.tflite)  | <!--A7_tf1_ssd_mnv2--> 17.11 ms <!--end_A7_tf1_ssd_mnv2--> | mAP: 25.6% |
+| ARTPEC-7 (Q1615 Mk III) | [SSDLite MobileDet](https://raw.githubusercontent.com/google-coral/test_data/master/ssdlite_mobiledet_coco_qat_postprocess_edgetpu.tflite)  | <!--A7_tf1_ssd_md--> 31.00 ms <!--end_A7_tf1_ssd_md--> | mAP: 32.9% |
+| ARTPEC-8 (P1465-LE) | [SSD MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/ssd_mobilenet_v2_coco_quant_postprocess.tflite)  | <!--A8_P_tf1_ssd_mnv2--> 29.31 ms <!--end_A8_P_tf1_ssd_mnv2--> | mAP: 25.6% |
+| ARTPEC-8 (P1465-LE) | [SSDLite MobileDet](https://raw.githubusercontent.com/google-coral/test_data/master/ssdlite_mobiledet_coco_qat_postprocess.tflite)  | <!--A8_P_tf1_ssd_md--> 40.07 ms <!--end_A8_P_tf1_ssd_md--> | mAP: 32.9% |
+| ARTPEC-8 (P1465-LE)  | [Yolov5n-Artpec8](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.pt))  | <!--A8_P_yolov5n--> 100.03 ms <!--end_A8_P_yolov5n--> | mAP: 23.5% |
+| ARTPEC-8 (Q1656-LE)  | [SSD MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/ssd_mobilenet_v2_coco_quant_postprocess.tflite)  | <!--A8_Q_tf1_ssd_mnv2--> 18.81 ms <!--end_A8_Q_tf1_ssd_mnv2--> | mAP: 25.6% |
+| ARTPEC-8 (Q1656-LE)  | [SSDLite MobileDet](https://raw.githubusercontent.com/google-coral/test_data/master/ssdlite_mobiledet_coco_qat_postprocess.tflite)  | <!--A8_Q_tf1_ssd_md--> 30.81 ms <!--end_A8_Q_tf1_ssd_md--> | mAP: 32.9%  |
+| ARTPEC-8 (Q1656-LE)  | [Yolov5n-Artpec8](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.pt))  | <!--A8_Q_yolov5n--> 54.86 ms <!--end_A8_Q_yolov5n--> | mAP: 23.5%  |
+| ARTPEC-8 (Q1656-LE)  | [Yolov5s-Artpec8](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5s.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5s.pt))  | <!--A8_Q_yolov5s--> 69.42 ms <!--end_A8_Q_yolov5s--> | mAP: 32.3%  |
+| ARTPEC-8 (Q1656-LE)  | [Yolov5m-Artpec8](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5m.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5m.pt))  | <!--A8_Q_yolov5m--> 94.81 ms <!--end_A8_Q_yolov5m--> | mAP: 37.9%  |
+
+*Values for AXIS OS 11.9.60.*
 
 ## How are the measures calculated?
 
