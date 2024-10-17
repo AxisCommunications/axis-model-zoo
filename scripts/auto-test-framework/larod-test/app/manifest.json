@@ -5,10 +5,6 @@
             "appName": "larod_test",
             "vendor": "Axis Communications",
             "embeddedSdkVersion": "3.0",
-            "user": {
-                "group": "sdk",
-                "username": "root"
-            },
             "runMode": "never",
             "version": "1.0.0",
             "architecture": "all"
