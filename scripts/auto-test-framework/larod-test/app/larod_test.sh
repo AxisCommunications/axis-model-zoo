@@ -14,12 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-echo "Cleaning log"
-for file in /var/log/info.*; do
-	echo /dev/null >"$file"
-done
-echo "Log cleaned"
-
 echo "Reading device model"
 model=$(parhandclient getgroup root.Brand.ProdNbr | cut -d "\"" -f 2)
 echo "Model name:$model."

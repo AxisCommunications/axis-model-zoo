@@ -21,6 +21,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Reboot device to clear logs
+        run: |
+          echo "Rebooting device"
+          curl --silent --show-error -u root:"${{secrets.DEVICE_PASSWORD}}" --data '{"apiVersion": "1.5", "method": "reboot"}' "http://${{secrets.DEVICE_IP}}/${{matrix.arch}}/axis-cgi/firmwaremanagement.cgi" > /dev/null
+
+          echo "Waiting for device to be ready"
+          ready="no"
+          until [ "$ready" = "yes" ]; do
+            sleep 5
+
+            echo "Device not ready yet"
+
+            RESPONSE=$(curl --silent --show-error --data '{"apiVersion": "1.4", "method": "systemready", "params": { "timeout": 20 }}' "http://${{secrets.DEVICE_IP}}/${{matrix.arch}}/axis-cgi/systemready.cgi")
+
+            if echo "$RESPONSE" | grep -q "<html>"; then
+              ready="no"
+            else
+              ready=$(echo "$RESPONSE" | jq -r '.data.systemready')
+            fi
+          done
+
+          echo "Device is ready"
+
       - name: Disable Motion Adaptive Exposure setting
         run: |
          set_mae=$(curl --silent --show-error -u root:"${{secrets.DEVICE_PASSWORD}}" "http://${{secrets.DEVICE_IP}}/${{matrix.arch}}/axis-cgi/param.cgi?action=update&ImageSource.I0.Sensor.MotionAdaptiveExposure=off")
