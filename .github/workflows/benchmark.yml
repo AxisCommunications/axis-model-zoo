@@ -34,7 +34,6 @@ jobs:
       - name: Build ${{ env.EXNAME }} application
         env:
           imagetag: ${{ env.EXREPO }}_${{ env.EXNAME }}:1.0
-          EXNAME: larod-test
         run: |
           cd scripts/auto-test-framework/$EXNAME
           if [[ "${{ matrix.arch }}" == "camera1" ]]; then
