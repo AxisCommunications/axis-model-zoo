@@ -9,8 +9,6 @@ ARG SDK=acap-native-sdk
 FROM ${REPO}/${SDK}:${VERSION}-${ARCH}-ubuntu${UBUNTU_VERSION}
 ARG device
 
-ARG device
-
 # Building the ACAP application
 COPY ./app /opt/app/
 WORKDIR /opt/app
