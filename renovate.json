@@ -1,6 +1,23 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ]
+  "timezone": "Europe/Stockholm",
+  "schedule": [
+    "after 10pm every weekday",
+    "before 5am every weekday",
+    "every weekend"
+  ],
+  "extends": ["config:recommended", ":prHourlyLimitNone"],
+  "labels": ["dependencies"],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    },
+    {"matchManagers": ["dockerfile"], "enabled": false}
+  ],
+  "rebaseWhen": "behind-base-branch",
+  "vulnerabilityAlerts": {"labels": ["security"]},
+  "minimumReleaseAge": "7 days",
+  "prCreation": "not-pending",
+  "dependencyDashboard": true
 }
