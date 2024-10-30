@@ -22,12 +22,12 @@ larod-test
 └── README.md
 ```
 
-* **app/larod_test.sh** - Shell script application that runs `larod-client` on all the models compatible with the Axis camera chip.
-* **app/Makefile** - Empty Makefile. Necessary for the build process.
-* **app/manifest.json** - Defines the application and its configuration.
-* **app/models** - Contains all the models that will be tested, organized by architecture.
-* **Dockerfile** - Dockerfile with the specified Axis toolchain and API container to build the example.
-* **README.md** - Step by step instructions on how to run the example.
+- **app/larod_test.sh** - Shell script application that runs `larod-client` on all the models compatible with the Axis camera chip.
+- **app/Makefile** - Empty Makefile. Necessary for the build process.
+- **app/manifest.json** - Defines the application and its configuration.
+- **app/models** - Contains all the models that will be tested, organized by architecture.
+- **Dockerfile** - Dockerfile with the specified Axis toolchain and API container to build the example.
+- **README.md** - Step by step instructions on how to run the example.
 
 ## How to run the code
 
@@ -42,9 +42,9 @@ In [benchmark.yml](../../../.github/workflows/benchmark.yml), you can see how:
     docker cp $(docker create <APP_IMAGE>):/opt/app ./build
     ```
 
-    * `<APP_IMAGE>` is the name to tag the image with, e.g., `larod-test:1.0`
-    * `<CHIP>` is the chip type. Supported values are `artpec8`, `cpu`, `cv25` and `edgetpu`.
-    * `<ARCH>` is the architecture. Supported values are `armv7hf` (default) and `aarch64`.
+    - `<APP_IMAGE>` is the name to tag the image with, e.g., `larod-test:1.0`
+    - `<CHIP>` is the chip type. Supported values are `artpec8`, `cpu`, `cv25` and `edgetpu`.
+    - `<ARCH>` is the architecture. Supported values are `armv7hf` (default) and `aarch64`.
 
 2. Once you have the EAP file, the uploading is done through `upload.cgi`.
 3. `control.cgi` starts the ACAP application.
