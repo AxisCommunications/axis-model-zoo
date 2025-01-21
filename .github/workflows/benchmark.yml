@@ -13,6 +13,7 @@ jobs:
           - camera2  # artpec8 Q1656-LE
           - camera3  # CV25 M3085-V
           - camera4  # artpec8 P1465-LE
+          - camera5  # artpec9 Q1728
 
     env:
       EXREPO: auto-test-framework
@@ -67,6 +68,8 @@ jobs:
             export device=cv25
           elif [[ "${{ matrix.arch }}" == "camera4" ]]; then
             export device=artpec8
+          elif [[ "${{ matrix.arch }}" == "camera5" ]]; then
+            export device=artpec9
           else
             echo "Unknown matrix.arch value"
             exit 1

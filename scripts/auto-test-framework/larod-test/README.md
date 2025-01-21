@@ -38,12 +38,12 @@ In [benchmark.yml](../../../.github/workflows/benchmark.yml), you can see how:
 1. First, it builds the Docker image with the following commands:
 
     ```sh
-    DOCKER_BUILDKIT=1 docker build --no-cache --tag <APP_IMAGE> --build-arg CHIP=<CHIP> --build-arg ARCH=<ARCH> .
+    DOCKER_BUILDKIT=1 docker build --no-cache --tag <APP_IMAGE> --build-arg device=<DEVICE> --build-arg ARCH=<ARCH> .
     docker cp $(docker create <APP_IMAGE>):/opt/app ./build
     ```
 
     - `<APP_IMAGE>` is the name to tag the image with, e.g., `larod-test:1.0`
-    - `<CHIP>` is the chip type. Supported values are `artpec8`, `cpu`, `cv25` and `edgetpu`.
+    - `<DEVICE>` is the chip type. Supported values are `artpec8`, `artpec9`, `cpu`, `cv25` and `edgetpu`.
     - `<ARCH>` is the architecture. Supported values are `armv7hf` (default) and `aarch64`.
 
 2. Once you have the EAP file, the uploading is done through `upload.cgi`.

@@ -25,6 +25,9 @@ if [ "$SoC" = "Ambarella CV25" ]; then
 	echo "Testing models via cv25"
 	folder="./models/cv25/"
 	chip="ambarella-cvflow"
+elif [ "$SoC" = "Axis Artpec-9" ]; then
+	folder="./models/artpec9/"
+	chip="a9-dlpu-tflite"
 elif [ "$SoC" = "Axis Artpec-8" ]; then
 	folder="./models/artpec8/"
 	chip="axis-a8-dlpu-tflite"
@@ -32,7 +35,7 @@ elif [ "$SoC" = "Axis Artpec-7" ]; then
 	folder="./models/artpec7/"
 	chip="google-edge-tpu-tflite"
 else
-	echo "No models for this SoC"
+	echo "No models for SoC $SoC"
 	exit 1
 fi
 

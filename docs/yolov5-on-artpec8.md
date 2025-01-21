@@ -49,14 +49,11 @@ python3 model_performance_tester.py --model_path runs/train/axis-train/weights/b
         --chip A8-DLPU --device_ip <IP> --device_credentials <USER> <PASS>
 ```
 
+For more details on testing the model, refer to the
+[Test Your Model](https://axiscommunications.github.io/acap-documentation/docs/computer-vision-on-device/test-your-model.html)
+page in the ACAP documentation.
+
 ### 6. Checkpoints
 
-We provide the following checkpoints for yolov5n, yolov5s, and yolov5m:
-
-|     Name       |  Checkpoint  |   R  | mAP@.5  | mAP@.5:.95 | speed (ms) on Q1656 |
-|----------------|--------------|---------|---------|----------|--------------------|
-| [yolov5n.tflite](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.tflite) |  [download](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.pt)    |  0.388  |  0.412  |   0.235  |  59.6              |
-| [yolov5s.tflite](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5s.tflite) |  [download](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5s.pt)    |  0.487  |  0.530  |   0.323  |  74.3              |
-| [yolov5m.tflite](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5m.tflite) |  [download](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5m.pt)    |  0.547  |  0.592  |   0.379  |  99.8              |
-
-For more details on testing the model, refer to the [Test Your Model](https://axiscommunications.github.io/acap-documentation/docs/computer-vision-on-device/test-your-model.html) page in the ACAP documentation.
+Checkpoints and performance measurements for yolov5n, yolov5s, and yolov5m are available in the
+readme of [Axis Model Zoo](../README.md).
