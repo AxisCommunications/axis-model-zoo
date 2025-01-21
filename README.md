@@ -10,6 +10,7 @@ Axis network cameras can be used for computer vision applications and can run ma
 
 - [ACAP Documentation](https://axiscommunications.github.io/acap-documentation/)
 - [Run YOLOv5 on Artpec-8](./docs/yolov5-on-artpec8.md)
+- [Run YOLOv5 on Artpec-9](./docs/yolov5-on-artpec9.md)
 
 ## Models
 
@@ -22,6 +23,7 @@ Axis network cameras can be used for computer vision applications and can run ma
 | ARTPEC-7 (Q1615 Mk III) | [MobilenetV3](https://raw.githubusercontent.com/google-coral/test_data/master/tf2_mobilenet_v3_edgetpu_1.0_224_ptq_edgetpu.tflite) | 2 | <!--A7_tf2_mnv3--> 4.70 ms <!--end_A7_tf2_mnv3--> | Top 1: 72.7% <br/> Top 5: 91.1% |
 | ARTPEC-8 (P1465-LE) | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant.tflite) ([ckpt](http://download.tensorflow.org/models/tflite_11_05_08/mobilenet_v2_1.0_224_quant.tgz)) | 1  | <!--A8_P_tf1_mnv2--> 9.87 ms <!--end_A8_P_tf1_mnv2--> | Top 1: 68.8% <br/> Top 5: 88.9% |
 | ARTPEC-8 (Q1656-LE)  | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant.tflite) ([ckpt](http://download.tensorflow.org/models/tflite_11_05_08/mobilenet_v2_1.0_224_quant.tgz)) | 1  | <!--A8_tf1_mnv2--> 5.39 ms <!--end_A8_tf1_mnv2--> | Top 1: 68.8% <br/> Top 5: 88.9% |
+| ARTPEC-9 (Q1728)  | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant.tflite) ([ckpt](http://download.tensorflow.org/models/tflite_11_05_08/mobilenet_v2_1.0_224_quant.tgz)) | 1  | <!--A9_tf1_mnv2--> 2.88 ms <!--end_A9_tf1_mnv2--> | Top 1: 68.8% <br/> Top 5: 88.9% |
 | CV25 (M3085-V) | [MobilenetV2](https://acap-ml-model-storage.s3.amazonaws.com/mobilenetv2_cavalry.bin) ([ckpt](http://download.tensorflow.org/models/tflite_11_05_08/mobilenet_v2_1.0_224_quant.tgz)) | 1  | <!--cv25_tf1_mnv2--> 5.59 ms <!--end_cv25_tf1_mnv2--> | Top 1: 66.7% <br/> Top 5: 87.1% |
 | CV25 (M3085-V) | [EfficientNet-Lite0](https://acap-ml-model-storage.s3.amazonaws.com/EfficientNet-lite0.bin) ([ckpt](https://storage.googleapis.com/cloud-tpu-checkpoints/efficientnet/lite/efficientnet-lite0.tar.gz)) | 1  | <!--cv25_tf1_ens--> 6.97 ms <!--end_cv25_tf1_ens--> | Top 1: 71.2% <br/> Top 5: 90.3% |
 
@@ -39,6 +41,11 @@ Axis network cameras can be used for computer vision applications and can run ma
 | ARTPEC-8 (Q1656-LE)  | [Yolov5n-Artpec8](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.pt))  | <!--A8_Q_yolov5n--> 55.12 ms <!--end_A8_Q_yolov5n--> | mAP: 23.5%  |
 | ARTPEC-8 (Q1656-LE)  | [Yolov5s-Artpec8](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5s.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5s.pt))  | <!--A8_Q_yolov5s--> 69.53 ms <!--end_A8_Q_yolov5s--> | mAP: 32.3%  |
 | ARTPEC-8 (Q1656-LE)  | [Yolov5m-Artpec8](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5m.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5m.pt))  | <!--A8_Q_yolov5m--> 94.90 ms <!--end_A8_Q_yolov5m--> | mAP: 37.9%  |
+| ARTPEC-9 (Q1728)  | [SSD MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/ssd_mobilenet_v2_coco_quant_postprocess.tflite)  | <!--A9_tf1_ssd_mnv2--> 13.76 ms <!--end_A9_tf1_ssd_mnv2--> | mAP: 25.6% |
+| ARTPEC-9 (Q1728)  | [SSDLite MobileDet](https://raw.githubusercontent.com/google-coral/test_data/master/ssdlite_mobiledet_coco_qat_postprocess.tflite)  | <!--A9_tf1_ssd_md--> 26.53 ms <!--end_A9_tf1_ssd_md--> | mAP: 32.9%  |
+| ARTPEC-9 (Q1728)  | [Yolov5n-Artpec9](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/A9/A9-yolov5n.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/A9/A9-yolov5n.pt))  | <!--A9_yolov5n--> 45.64 ms <!--end_A9_yolov5n--> | mAP: 23.3%  |
+| ARTPEC-9 (Q1728)  | [Yolov5s-Artpec9](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/A9/A9-yolov5s.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/A9/A9-yolov5s.pt))  | <!--A9_yolov5s--> 49.53 ms <!--end_A9_yolov5s--> | mAP: 32.2%  |
+| ARTPEC-9 (Q1728)  | [Yolov5m-Artpec9](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/A9/A9-yolov5m.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/A9/A9-yolov5m.pt))  | <!--A9_yolov5m--> 57.54 ms <!--end_A9_yolov5m--> | mAP: 38.1%  |
 
 *Values for AXIS OS 12.1.60.*
 
@@ -53,12 +60,17 @@ In the case of the automated test framework, the test is done by installing and 
 To get speed measures more easily, you can use the code in [model_performance_tester.py](./scripts/model_performance_tester.py). This script connects to the Axis camera via SSH and uses the `larod-client` to run inferences. It then parses the output, which will be the mean of time the Axis camera spent on the inferences. These inferences are done on randomly generated images. See below how to use the script:
 
 ```sh
-python3 ./model_performance_tester.py \
+python3 ./scripts/model_performance_tester.py \
         --model_path <MODEL_PATH> --test_duration <DURATION> \
-        --chip <CHIP> --device_ip <IP> --device_credentials <USER> <PASS> --camera_port <SSH_PORT>
+        --chip <CHIP> --device_ip <IP> --device_credentials <USER> <PASS> --device_port <SSH_PORT>
 ```
 
-where, `<MODEL_PATH>` is the path where your `.tflite` or `.bin` model is and `<DURATION>` is the amount of inferences to run. The rest are camera parameters.
+- `<MODEL_PATH>` is the path to your `.tflite` or `.bin` model.
+- `<DURATION>` is the number of inferences to run.
+- `<CHIP>` is the larod device to use; `CPU`, `A9-DLPU`, `A8-DLPU`, `A7-GPU`, `A7-TPU`, `CV25`.
+- `<IP>` is the IP of the device.
+- `<USER>`, `<PASS>` are the device credentials.
+- `<SSH_PORT>` is the device port for ssh, default is port `22`.
 
 ### Accuracy measure
 

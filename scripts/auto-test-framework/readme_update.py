@@ -17,7 +17,8 @@ import re
 
 tokens = \
     ['A8_tf1_mnv2', 'A8_P_tf1_mnv2', 'A7_tf1_mnv2','A7_tf2_mnv2','A7_tf2_mnv3','cv25_tf1_mnv2','cv25_tf1_ens', \
-    'A7_tf1_ssd_mnv2','A7_tf1_ssd_md', 'A8_P_tf1_ssd_mnv2', 'A8_Q_tf1_ssd_mnv2', 'A8_P_tf1_ssd_md', 'A8_Q_tf1_ssd_md', 'A8_P_yolov5n', 'A8_Q_yolov5n', 'A8_Q_yolov5s', 'A8_Q_yolov5m' \
+    'A7_tf1_ssd_mnv2','A7_tf1_ssd_md', 'A8_P_tf1_ssd_mnv2', 'A8_Q_tf1_ssd_mnv2', 'A8_P_tf1_ssd_md', 'A8_Q_tf1_ssd_md', 'A8_P_yolov5n', 'A8_Q_yolov5n', 'A8_Q_yolov5s', 'A8_Q_yolov5m', \
+    'A9_yolov5n', 'A9_yolov5s', 'A9_yolov5m', 'A9_tf1_ssd_mnv2', 'A9_tf1_ssd_md', 'A9_tf1_mnv2' \
     ]
 
 token_parameters = {
@@ -37,7 +38,13 @@ token_parameters = {
     ("/artpec8/yolov5n.tflite","P1465-LE") : "A8_P_yolov5n",
     ("/artpec8/yolov5n.tflite","Q1656-LE") : "A8_Q_yolov5n",
     ("/artpec8/yolov5s.tflite","Q1656-LE") : "A8_Q_yolov5s",
-    ("/artpec8/yolov5m.tflite","Q1656-LE") : "A8_Q_yolov5m"
+    ("/artpec8/yolov5m.tflite","Q1656-LE") : "A8_Q_yolov5m",
+    ("/artpec9/A9-yolov5n.tflite","Q1728") : "A9_yolov5n",
+    ("/artpec9/A9-yolov5s.tflite","Q1728") : "A9_yolov5s",
+    ("/artpec9/A9-yolov5m.tflite","Q1728") : "A9_yolov5m",
+    ("/artpec9/ssd_mobilenet_v2_coco_quant_postprocess.tflite","Q1728") : "A9_tf1_ssd_mnv2",
+    ("/artpec9/ssdlite_mobiledet_coco_qat_postprocess.tflite","Q1728") : "A9_tf1_ssd_md",
+    ("/artpec9/mobilenet_v2_1.0_224_quant.tflite","Q1728") : "A9_tf1_mnv2"
     }
 
 #read md file
