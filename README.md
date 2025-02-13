@@ -49,6 +49,13 @@ Axis network cameras can be used for computer vision applications and can run ma
 
 *Values for AXIS OS 12.2.52.*
 
+> [!NOTE]
+>
+> To comply with the [licensing terms of Ultralytics](https://github.com/ultralytics/yolov5?tab=readme-ov-file#license),
+> the YOLOv5 models in the table above are licensed under AGPL-3.0-only. The license file is
+> available together with the models
+> [here](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/YOLOv5_LICENSE.txt).
+
 ## How are the measures calculated?
 
 The [auto-test-framework](./scripts/auto-test-framework) directory holds the code for measuring the speed numbers and automating their update in the repository. For now, the accuracy measures are not included in this pipeline. Apart from that, in the [accuracy-test](./scripts/accuracy-test) there is the code to measure the accuracy and [model_performance_tester.py](./scripts/model_performance_tester.py) is a script to measure the speed.
