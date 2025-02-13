@@ -70,3 +70,14 @@ page in the ACAP documentation.
 
 Checkpoints and performance measurements for yolov5n, yolov5s, and yolov5m are available in the
 readme of [Axis Model Zoo](../README.md).
+
+## License
+
+[Apache 2.0](../LICENSE)
+
+The patch applied in
+[Clone the YOLOv5 repository and apply the patch](#1-clone-the-yolov5-repository-and-apply-the-correct-patch)
+is released under the AGPL-3.0 license to comply with the
+[licensing terms of Ultralytics](https://github.com/ultralytics/yolov5?tab=readme-ov-file#license).
+The license file is available together with the patch
+[here](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/YOLOv5_LICENSE.txt).

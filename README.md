@@ -79,3 +79,9 @@ This test is done by installing and running an ACAP application on the Axis came
 ## License
 
 [Apache 2.0](./LICENSE)
+
+The YOLOv5 models in the [Object detection](#object-detection) table are licensed under the AGPL-3.0
+license to comply with the
+[licensing terms of Ultralytics](https://github.com/ultralytics/yolov5?tab=readme-ov-file#license).
+The license file is available together with the models
+[here](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/LICENSE-YOLOv5).
