@@ -12,10 +12,20 @@ CFLAGS += $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config --cflags $(PKGS)
 LDLIBS += $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config --libs $(PKGS))
 LDLIBS  += -lm
 
-CFLAGS += -Wall
+CFLAGS += -Wall \
+          -Wextra \
+          -Wformat=2 \
+          -Wpointer-arith \
+          -Wbad-function-cast \
+          -Wstrict-prototypes \
+          -Wmissing-prototypes \
+          -Winline \
+          -Wdisabled-optimization \
+          -Wfloat-equal \
+          -W \
+          -Werror
 
-# This example is based on larod version 1
-CFLAGS += -DLAROD_API_VERSION_1
+CFLAGS += -DLAROD_API_VERSION_3
 
 all:	$(PROGS)
 

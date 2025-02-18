@@ -79,12 +79,7 @@ int parseOpt(int key, char* arg, struct argp_state* state) {
 
     switch (key) {
     case 'c': {
-        unsigned long long chip;
-        int ret = parsePosInt(arg, &chip, INT_MAX);
-        if (ret) {
-            argp_failure(state, EXIT_FAILURE, ret, "invalid chip type");
-        }
-        args->chip = (larodChip) chip;
+        args->chip = arg;
         break;
     }
     case 'l': {

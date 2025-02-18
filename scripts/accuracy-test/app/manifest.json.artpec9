@@ -11,15 +11,11 @@
     },
     "acapPackageConf": {
         "setup": {
-            "friendlyName": "accuracy_measure_cpu",
+            "friendlyName": "accuracy_measure_artpec9",
             "appName": "accuracy_measure",
             "vendor": "Axis Communications",
             "embeddedSdkVersion": "3.0",
-            "user": {
-                "group": "sdk",
-                "username": "sdk"
-            },
-            "runOptions": "/usr/local/packages/accuracy_measure/model/mobilenet_v2_1.0_224_quant.tflite 224 224 1001 -c cpu-tflite -l /usr/local/packages/accuracy_measure/label/imagenet_labels.txt -g /usr/local/packages/accuracy_measure/label/ground_truth.txt",
+            "runOptions": "/usr/local/packages/accuracy_measure/model/mobilenet_v2_1.0_224_quant.tflite 224 224 1001 -c a9-dlpu-tflite -l /usr/local/packages/accuracy_measure/label/imagenet_labels.txt -g /usr/local/packages/accuracy_measure/ground/ground_truth.txt",
             "vendorUrl": "https://www.axis.com",
             "runMode": "never",
             "version": "1.0.0"
