@@ -65,13 +65,29 @@ After that, the pipeline is as follows:
     curl -u <USER:PASS> -F"file=@<APP_FILE_PATH>" <DEVICE_IP>/axis-cgi/applications/upload.cgi
     ```
 
-The logs will list which images have been considered as Top-1, Top-5 or neither. At the end, you will see the results printed.
+3. Run the image format conversion script, as shown below, where the arguments are image height, image width and the location of the ILSVRC2012 dataset images.
+
+    ```sh
+    python3 larod_convert.py 224 224 ./dataset
+    ```
+
+4. Create an imagenet directory in the camera's SD card and copy the converted image files to that directory:
+
+    ```sh
+    ssh root@<CAMERA IP> mkdir -p /var/spool/storage/SD_DISK/imagenet
+    ```
+
+    ```sh
+    scp .ouputs/ root@<CAMERA IP>:/var/spool/storage/SD_DISK/imagenet/
+    ```
+
+5. Start the application. The logs will list which images have been considered as Top-1, Top-5 or neither. At the end, you will see the results printed.
 
 ### Assumptions
 
 This code assumes that:
 
-- The dataset is in the camera.
+- The camera has an SD card containing the dataset
 - You have set `N_IMAGES` in [accuracy_measure.c](app/accuracy_measure.c) to the number of images.
 - You are using the ILSVRC2012: affects name parsing in the code, ground truth file and annotations file.
 
