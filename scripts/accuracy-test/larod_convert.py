@@ -135,9 +135,7 @@ def non_negative_float(string):
 if __name__ == '__main__':
     # Argument parsing.
     PARSER = argparse.ArgumentParser(description="Read and convert bitmap "
-                                     "images to raw bytes.",
-                                     epilog="Report bugs to " +
-                                     ".")
+                                     "images to raw bytes.")
     PARSER.add_argument("-p", "--separate-planes", action="store_true",
                         default=False, help="Create separated color planes. "
                         "Default is interleaved RGB colors.")
@@ -176,8 +174,7 @@ if __name__ == '__main__':
                         help="Row pitch in bytes. Rows will be padded to "
                              "match the pitch. Not to be used when alignment "
                              "is used")
-    PARSER.add_argument("-v", "--version", action="version",
-                        version="convert-image.py ")
+    PARSER.add_argument("-v", "--version", action="version")
     ARGUMENTS = PARSER.parse_args()
     CONVERT_IMAGE = ConvertImage(**vars(ARGUMENTS))
     CONVERT_IMAGE.convert()
