@@ -46,6 +46,11 @@ In [benchmark.yml](../../../.github/workflows/benchmark.yml), you can see how:
     - `<DEVICE>` is the chip type. Supported values are `artpec8`, `artpec9`, `cpu`, `cv25` and `edgetpu`.
     - `<ARCH>` is the architecture. Supported values are `armv7hf` (default) and `aarch64`.
 
+    > [!NOTE]
+    >
+    > To comply with the [licensing terms of Ultralytics](https://github.com/ultralytics/yolov5?tab=readme-ov-file#license),
+    > the YOLOv5 model files integrated into this ACAP application are licensed under AGPL-3.0-only. See [LICENSE](app/LICENSE).
+
 2. Once you have the EAP file, the uploading is done through `upload.cgi`.
 3. `control.cgi` starts the ACAP application.
 4. `systemlog.cgi` reads the logs.
