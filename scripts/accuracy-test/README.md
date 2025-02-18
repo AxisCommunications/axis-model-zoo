@@ -51,7 +51,7 @@ To to run the code, follow these instructions:
 1. First, build the Docker image with the following commands:
 
     ```sh
-    docker build --no-cache --tag <APP_IMAGE> --build-arg CHIP=<CHIP> --build-arg ARCH=<ARCH> .
+    DOCKER_BUILDKIT=1 docker build --no-cache --tag <APP_IMAGE> --build-arg CHIP=<CHIP> --build-arg ARCH=<ARCH> .
     docker cp $(docker create <APP_IMAGE>):/opt/app ./build
     ```
 
