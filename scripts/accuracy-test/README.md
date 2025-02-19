@@ -20,7 +20,7 @@ accuracy-test
 │   └── manifest.json.*
 ├── Dockerfile
 ├── larod_convert.py
-├── ranem_files.py
+├── rename_files.py
 ├── LOC_synset_mapping.txt
 └── README.md
 ```
