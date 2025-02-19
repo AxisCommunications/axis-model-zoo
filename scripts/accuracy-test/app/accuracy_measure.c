@@ -28,15 +28,11 @@
  * the tensor output by model.
  *
  * The application has four optional arguments on the command line in the following
- * order: CHIP NUM_FRAMES.
+ * order: DEVICE LABEL GROUND_TRUTH.
  *
- * First optional argument, CHIP, is an enum describing the selected chip
- * e.g. 4 is used for Google TPU.
+ * First optional argument, DEVICE, is a string of the selected larod device.
  *
  * Second optional argument, LABEL, is the path to a file labelling classifications.
- *
- * Third optional argument, NUM_FRAMES, is an integer for number of
- * captured frames.
  *
  * Finally, fourth optional argument, GROUND_TRUTH, is the path to a file giving
  * the annotations of the images.
@@ -44,7 +40,7 @@
  * Then you could run the application with Google TPU with command:
  *     ./usr/local/packages/accuracy_measure/accuracy_measure \
  *     /usr/local/packages/accuracy_measure/model/mobilenet_v2_1.0_224_quant_edgetpu.tflite \
- *     224 224 1001 -c 4 \
+ *     224 224 1001 -c google-edge-tpu-tflite \
  *     -l /usr/local/packages/accuracy_measure/label/imagenet_labels.txt \
  *     -g /usr/local/packages/accuracy_measure/ground/ground_truth.txt"
  */
@@ -85,17 +81,17 @@ static bool createAndMapTmpFile(char* fileName, size_t fileSize,
  * brief Sets up and configures a connection to larod, and loads a model.
  *
  * Opens a connection to larod, which is tied to larodConn. After opening a
- * larod connection the chip specified by larodChip is set for the
+ * larod connection the devivce specified by deviceName is set for the
  * connection. Then the model file specified by larodModelFd is loaded to the
- * chip, and a corresponding larodModel object is tied to model.
+ * device, and a corresponding larodModel object is tied to model.
  *
- * param larodChip Specifier for which larod chip to use.
+ * param deviceName Specifier for which larod device to use.
  * param larodModelFd Fd for a model file to load.
  * param larodConn Pointer to a larod connection to be opened.
  * param model Pointer to a larodModel to be obtained.
  * return False if error has occurred, otherwise true.
  */
-static bool setupLarod(const char* larodChip, const int larodModelFd,
+static bool setupLarod(const char* deviceName, const int larodModelFd,
                        larodConnection** larodConn, larodModel** model);
 
 /**
@@ -170,7 +166,7 @@ error:
     return false;
 }
 
-static bool setupLarod(const char* larodChip, const int larodModelFd,
+static bool setupLarod(const char* deviceName, const int larodModelFd,
                        larodConnection** larodConn, larodModel** model) {
     larodError* error = NULL;
     larodConnection* conn = NULL;
@@ -183,7 +179,7 @@ static bool setupLarod(const char* larodChip, const int larodModelFd,
         goto end;
     }
 
-    const larodDevice* dev = larodGetDevice(conn, larodChip, 0, &error);
+    const larodDevice* dev = larodGetDevice(conn, deviceName, 0, &error);
 
     loadedModel = larodLoadModel(conn, larodModelFd, dev, LAROD_ACCESS_PRIVATE,
                                  "Accuracy test model", NULL, &error);
@@ -391,10 +387,10 @@ int main(int argc, char** argv) {
         goto end;
     }
 
-    syslog(LOG_INFO, "Setting up larod connection with chip %s and model %s", args.chip,
+    syslog(LOG_INFO, "Setting up larod connection with device %s and model %s", args.deviceName,
            args.modelFile);
     larodModel* model = NULL;
-    if (!setupLarod(args.chip, larodModelFd, &conn, &model)) {
+    if (!setupLarod(args.deviceName, larodModelFd, &conn, &model)) {
         goto end;
     }
 
@@ -459,16 +455,6 @@ int main(int argc, char** argv) {
         }
     }
 
-    // Since larodOutputAddr points to the beginning of the fd we should
-    // rewind the file position before each inference.
-    if (lseek(larodOutputFd, 0, SEEK_SET) == -1) {
-        syslog(LOG_ERR, "Unable to rewind output file position: %s",
-                strerror(errno));
-
-        goto end;
-    }
-
-
     /* make arrays of ground truths */
     int ground_truth[50000];
     FILE* file = fopen(args.annotationsFile, "r");
@@ -530,15 +516,15 @@ int main(int argc, char** argv) {
         int score_array[score_array_size];
         float score_array_cv25[score_array_size];
         int score_array_indices[score_array_size];
-        // The output has to be read differently depending on chip.
+        // The output has to be read differently depending on larod device.
         // In the case of the cv25, the space per element is 32 bytes and the
         // output is a float padded with zeros.
-        // In the cases of artpec7 and artpec8 the space per element is 1 byte
+        // In the cases of artpec7, artpec8, and artpec9, the space per element is 1 byte
         // and the output is an uint8_t that has to be processed with softmax.
         // This part of the code can be improved by using better pointer casting,
         // subject to future changes.
         int spacePerElement;
-        if (strcmp(args.chip, "ambarella-cvflow") == 0) {
+        if (strcmp(args.deviceName, "ambarella-cvflow") == 0) {
             spacePerElement = 32;
             float score;
             for (size_t j = 0; j < args.outputBytes/spacePerElement; j++) {
@@ -575,7 +561,7 @@ int main(int argc, char** argv) {
         int max, temp;
 
         // Partial selection sort, move k max elements to front
-        if (strcmp(args.chip, "ambarella-cvflow") == 0) {
+        if (strcmp(args.deviceName, "ambarella-cvflow") == 0) {
 
             for (l = 0; l < 5; l++) {
 
