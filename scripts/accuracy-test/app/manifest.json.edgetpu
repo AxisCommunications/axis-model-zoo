@@ -15,10 +15,6 @@
             "appName": "accuracy_measure",
             "vendor": "Axis Communications",
             "embeddedSdkVersion": "3.0",
-            "user": {
-                "group": "sdk",
-                "username": "sdk"
-            },
             "runOptions": "/usr/local/packages/accuracy_measure/model/mobilenet_v2_1.0_224_quant_edgetpu.tflite 224 224 1001 -c google-edge-tpu-tflite -l /usr/local/packages/accuracy_measure/label/imagenet_labels.txt -g /usr/local/packages/accuracy_measure/ground/ground_truth.txt",
             "vendorUrl": "https://www.axis.com",
             "runMode": "never",
