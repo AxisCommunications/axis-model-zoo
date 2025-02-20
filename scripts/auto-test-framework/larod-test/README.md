@@ -37,6 +37,11 @@ In [benchmark.yml](../../../.github/workflows/benchmark.yml), you can see how:
 
 1. First, it builds the Docker image with the following commands:
 
+    > [!NOTE]
+    >
+    > To comply with the [licensing terms of Ultralytics](https://github.com/ultralytics/yolov5?tab=readme-ov-file#license),
+    > the YOLOv5 model files integrated into this ACAP application are licensed under AGPL-3.0-only. See [LICENSE](app/LICENSE).
+
     ```sh
     DOCKER_BUILDKIT=1 docker build --no-cache --tag <APP_IMAGE> --build-arg device=<DEVICE> --build-arg ARCH=<ARCH> .
     docker cp $(docker create <APP_IMAGE>):/opt/app ./build
@@ -45,11 +50,6 @@ In [benchmark.yml](../../../.github/workflows/benchmark.yml), you can see how:
     - `<APP_IMAGE>` is the name to tag the image with, e.g., `larod-test:1.0`
     - `<DEVICE>` is the chip type. Supported values are `artpec8`, `artpec9`, `cpu`, `cv25` and `edgetpu`.
     - `<ARCH>` is the architecture. Supported values are `armv7hf` (default) and `aarch64`.
-
-    > [!NOTE]
-    >
-    > To comply with the [licensing terms of Ultralytics](https://github.com/ultralytics/yolov5?tab=readme-ov-file#license),
-    > the YOLOv5 model files integrated into this ACAP application are licensed under AGPL-3.0-only. See [LICENSE](app/LICENSE).
 
 2. Once you have the EAP file, the uploading is done through `upload.cgi`.
 3. `control.cgi` starts the ACAP application.
