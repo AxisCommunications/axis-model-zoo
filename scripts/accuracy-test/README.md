@@ -66,11 +66,18 @@ To to run the code, follow these instructions:
     - `runOptions`, which contains the application command line options.
     - `friendlyName`, a user friendly package name which is also part of the .eap file name.
 
-2. Once you have the EAP file, the uploading is done through `upload.cgi`:
+2. To install the application, browse to the following page (replace <AXIS_DEVICE_IP> with the IP number of your Axis video device)
 
     ```sh
-    curl -u <USER:PASS> -F"file=@<APP_FILE_PATH>" <DEVICE_IP>/axis-cgi/applications/upload.cgi
+    http://<AXIS_DEVICE_IP>/index.html#apps
     ```
+
+    - Click on the tab `Apps` in the device GUI
+    - Enable `Allow unsigned apps` toggle
+    - Click `(+ Add app)` button to upload the application file
+    - Browse to the newly built ACAP application, depending on chip and architecture: `accuracy_measure_<CHIP>_1_0_0_<ARCH>.eap`
+    - Click `Install`
+    - Run the application by enabling the `Start` switch
 
 3. To prepare the ILSVRC2012 validation dataset, the image files has to be renamed from e.g., `ILSVRC2012_val_00013453.JPEG` to `13453.JPEG`, in order for the ACAP application to match the images to the ground truth. This Python script will copy the files with the correct name to `./dataset`:
 
@@ -82,7 +89,13 @@ To to run the code, follow these instructions:
 
 4. Larod makes inference on `.bin` files, so it is necessary to convert the images as shown below, where the arguments are image height, image width, and the location of the correctly named images, `./dataset`:
 
+   > [!NOTE]
+   >
+   > To convert images for cv25, add the option `--separate-planes` or `-p` for short to make the images RGP
+   > planar, which is required for cv25.
+
     ```sh
+    mkdir output
     python3 larod_convert.py 224 224 ./dataset
     ```
 
