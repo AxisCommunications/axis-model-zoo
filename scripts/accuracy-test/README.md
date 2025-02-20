@@ -95,7 +95,7 @@ To to run the code, follow these instructions:
     ```
 
     ```sh
-    scp .ouputs/ acap-accuracy_measure@<DEVICE_IP>:/var/spool/storage/SD_DISK/imagenet/
+    scp output/* acap-accuracy_measure@<DEVICE_IP>:/var/spool/storage/SD_DISK/imagenet/
     ```
 
 7. Start the application. The logs will list which images have been considered as Top-1, Top-5 or neither. At the end, you will see the results printed.
