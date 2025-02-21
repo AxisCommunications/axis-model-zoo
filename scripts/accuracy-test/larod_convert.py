@@ -71,14 +71,11 @@ class ConvertImage:
     def convert(self):
         """Convert images"""
         self.check_arguments()
-        for img_file in self.images:
-            if not self.output_filename:
-                self.output_filename = os.path.splitext(img_file)[0] + \
-                                '.bin'.format(self.height,
-                                                          self.width)
-            img = cv2.imread(img_file)
+        for img_file in os.listdir(self.images):
+            self.output_filename = 'output/' + os.path.splitext(img_file)[0] + '.bin'
+            img = cv2.imread(self.images + '/' + img_file)
             if img is None:
-                print("WARNING: Could not read image", img_file)
+                print("WARNING: Could not read image", self.images + '/' + img_file)
                 continue
             # size in bytes for one row
             width_bytes = self.width
@@ -138,17 +135,15 @@ def non_negative_float(string):
 if __name__ == '__main__':
     # Argument parsing.
     PARSER = argparse.ArgumentParser(description="Read and convert bitmap "
-                                     "images to raw bytes.",
-                                     epilog="Report bugs to " + __author__ +
-                                     ".")
+                                     "images to raw bytes.")
     PARSER.add_argument("-p", "--separate-planes", action="store_true",
-                        default=True, help="Create separated color planes. "
+                        default=False, help="Create separated color planes. "
                         "Default is interleaved RGB colors.")
     PARSER.add_argument("height", metavar="HEIGHT", type=positive_int,
                         help="Resize IMAGE's height to HEIGHT.")
     PARSER.add_argument("width", metavar="WIDTH", type=positive_int,
                         help="Resize IMAGE's width to WIDTH.")
-    PARSER.add_argument("images", metavar="IMAGE", nargs='+',
+    PARSER.add_argument("images", metavar="IMAGE",
                         type=non_empty_str,
                         help="Input image files.")
     PARSER.add_argument("-o", "--output", metavar="FILE", type=non_empty_str,
@@ -179,8 +174,7 @@ if __name__ == '__main__':
                         help="Row pitch in bytes. Rows will be padded to "
                              "match the pitch. Not to be used when alignment "
                              "is used")
-    PARSER.add_argument("-v", "--version", action="version",
-                        version="convert-image.py " + __version__)
+    PARSER.add_argument("-v", "--version", action="version")
     ARGUMENTS = PARSER.parse_args()
     CONVERT_IMAGE = ConvertImage(**vars(ARGUMENTS))
     CONVERT_IMAGE.convert()

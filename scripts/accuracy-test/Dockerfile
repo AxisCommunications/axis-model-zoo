@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 
 ARG ARCH=armv7hf
-ARG VERSION=1.4
-ARG UBUNTU_VERSION=22.04
+ARG VERSION=12.2.0
+ARG UBUNTU_VERSION=24.04
 ARG REPO=axisecp
 ARG SDK=acap-native-sdk
 
@@ -37,7 +37,7 @@ COPY app/ground_truth.txt ground/
 ARG CHIP=
 # Building the ACAP application
 RUN <<EOF
-if [ "$CHIP" = cpu ] || [ "$CHIP" = artpec8 ]; then
+if [ "$CHIP" = cpu ] || [ "$CHIP" = artpec8 ] || [ "$CHIP" = artpec9 ]; then
     cp /opt/app/manifest.json.${CHIP} /opt/app/manifest.json
     . /opt/axis/acapsdk/environment-setup*
     acap-build . -a 'label/imagenet_labels.txt' -a 'model/mobilenet_v2_1.0_224_quant.tflite' -a 'ground/ground_truth.txt'

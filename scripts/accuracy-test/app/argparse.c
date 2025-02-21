@@ -30,9 +30,9 @@ static int parsePosInt(char* arg, unsigned long long* i,
 static int parseOpt(int key, char* arg, struct argp_state* state);
 
 const struct argp_option opts[] = {
-    {"chip", 'c', "CHIP", 0,
-     "Chooses chip CHIP to run on, where CHIP is the enum type larodChip "
-     "from the library. If not specified, the default chip for a new "
+    {"device", 'c', "DEVICE", 0,
+     "Chooses device DEVICE to run on, where DEVICE is the enum type larodChip "
+     "from the library. If not specified, the default device for a new "
      "connection will be used.",
      0},
     {"labels", 'l', "LABELS", 0,
@@ -46,8 +46,6 @@ const struct argp_option opts[] = {
      "consist of a number that corresponds to the class number in the labels file"
      "for the specific image.",
      0},
-    {"num-frames", 'n', "NUM_FRAMES", 0,
-     "How many frames to run inferences on. Default is 100 frames.", 0},
     {"help", 'h', NULL, 0, "Print this help text and exit.", 0},
     {"usage", KEY_USAGE, NULL, 0, "Print short usage message and exit.", 0},
     {0}};
@@ -61,8 +59,9 @@ const struct argp argp = {
     "larod for inference on MODEL. OUTPUT_SIZE denotes the size in bytes of "
     "the tensor output by MODEL.\n\nExample call:\n"
     "accuracy-test-app /tmp/mobilenet_v2_1.0_224_quant.tflite 224 224 "
-    "1001 -c 2\nwhere 2 here refers to the tflite cpu backend. The numbers for "
-    "each type of chip can be found at the top of the file larod.h.",
+    "1001 -c cpu-tflite "
+    "-l /usr/local/packages/accuracy_measure/label/imagenet_labels.txt "
+    "-g /usr/local/packages/accuracy_measure/label/ground_truth.txt ",
     NULL,
     NULL,
     NULL};
@@ -79,12 +78,7 @@ int parseOpt(int key, char* arg, struct argp_state* state) {
 
     switch (key) {
     case 'c': {
-        unsigned long long chip;
-        int ret = parsePosInt(arg, &chip, INT_MAX);
-        if (ret) {
-            argp_failure(state, EXIT_FAILURE, ret, "invalid chip type");
-        }
-        args->chip = (larodChip) chip;
+        args->deviceName = arg;
         break;
     }
     case 'l': {
@@ -93,15 +87,6 @@ int parseOpt(int key, char* arg, struct argp_state* state) {
     }
     case 'g': {
         args->annotationsFile = arg;
-        break;
-    }
-    case 'n': {
-        unsigned long long numFrames;
-        int ret = parsePosInt(arg, &numFrames, UINT_MAX);
-        if (ret) {
-            argp_failure(state, EXIT_FAILURE, ret, "invalid number of frames");
-        }
-        args->numFrames = (unsigned int) numFrames;
         break;
     }
     case 'h':
@@ -142,8 +127,7 @@ int parseOpt(int key, char* arg, struct argp_state* state) {
         args->width = 0;
         args->height = 0;
         args->outputBytes = 0;
-        args->numFrames = 100;
-        args->chip = 0;
+        args->deviceName = NULL;
         args->modelFile = NULL;
         args->labelsFile = NULL;
         args->annotationsFile = NULL;

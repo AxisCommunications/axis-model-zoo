@@ -20,6 +20,7 @@ accuracy-test
 │   └── manifest.json.*
 ├── Dockerfile
 ├── larod_convert.py
+├── rename_files.py
 ├── LOC_synset_mapping.txt
 └── README.md
 ```
@@ -32,16 +33,22 @@ accuracy-test
 - **app/manifest.json.\*** - Defines the application and its configuration when building for different chips.
 - **Dockerfile** - Docker file with the specified Axis toolchain and API container to build the example specified.
 - **larod_convert.py** - Implementation of conversion of images to raw bytes.
+- **rename_files.py** - Script that renames the images files.
 - **LOC_synset_mapping.txt** - Text file that maps the class codes of the dataset to their friendly names.
 - **README.md** - Step by step instructions on how to run the example.
 
 ## How to run the code
 
-This application uses `larod` to load a neural network model to make inferences and the results are later processed and compared in [accuracy_measure.c](./app/accuracy_measure.c). The accuracy measure has several steps and it depends on what model are we measuring. Here we are going to explain how we measured the image classification models using a subset of the [ILSVRC2012](https://www.image-net.org/index.php) dataset. Previous to building the Docker image, there is one step that needs to be done. `larod` makes inferences on `.bin` image files, so we use [larod_convert.py](./larod_convert.py) to do so and send them to the camera via ssh.
+This application uses `larod` to load a neural network model to make inferences and the results are later processed and compared in [accuracy_measure.c](./app/accuracy_measure.c). The accuracy measure has several steps and it depends on what model are we measuring. Here we are going to explain how we measured the image classification models using the validation dataset of the [ILSVRC2012](https://www.image-net.org/index.php) dataset.
 
-After that, the pipeline is as follows:
+Prerequisites:
 
-1. First, you build the Docker image with the following commands:
+- You have enabled [Developer Mode]((https://developer.axis.com/acap/get-started/set-up-developer-environment/set-up-device-advanced/#developer-mode)) on your device.
+- You have downloaded the [ILSVRC2012](https://www.image-net.org/index.php) validation dataset containing 50,000 images.
+
+To to run the code, follow these instructions:
+
+1. First, build the Docker image with the following commands:
 
     ```sh
     DOCKER_BUILDKIT=1 docker build --no-cache --tag <APP_IMAGE> --build-arg CHIP=<CHIP> --build-arg ARCH=<ARCH> .
@@ -59,21 +66,52 @@ After that, the pipeline is as follows:
     - `runOptions`, which contains the application command line options.
     - `friendlyName`, a user friendly package name which is also part of the .eap file name.
 
-2. Once you have the EAP file, the uploading is done through `upload.cgi`:
+2. To install the application, browse to the following page (replace <AXIS_DEVICE_IP> with the IP number of your Axis video device)
 
     ```sh
-    curl -u <USER:PASS> -F"file=@<APP_FILE_PATH>" <DEVICE_IP>/axis-cgi/applications/upload.cgi
+    http://<AXIS_DEVICE_IP>/index.html#apps
     ```
 
-The logs will list which images have been considered as Top-1, Top-5 or neither. At the end, you will see the results printed.
+    - Click on the tab `Apps` in the device GUI
+    - Enable `Allow unsigned apps` toggle
+    - Click `(+ Add app)` button to upload the application file
+    - Browse to the newly built ACAP application, depending on chip and architecture: `accuracy_measure_<CHIP>_1_0_0_<ARCH>.eap`
+    - Click `Install`
+    - Run the application by enabling the `Start` switch
 
-### Assumptions
+3. To prepare the ILSVRC2012 validation dataset, the image files has to be renamed from e.g., `ILSVRC2012_val_00013453.JPEG` to `13453.JPEG`, in order for the ACAP application to match the images to the ground truth. This Python script will copy the files with the correct name to `./dataset`:
 
-This code assumes that:
+   ```sh
+   python3 rename_files.py <VAL_DIR> ./dataset
+   ```
 
-- The dataset is in the camera.
-- You have set `N_IMAGES` in [accuracy_measure.c](app/accuracy_measure.c) to the number of images.
-- You are using the ILSVRC2012: affects name parsing in the code, ground truth file and annotations file.
+    `<VAL_DIR>` should be the path to the ILSVRC2012 validation folder that contains the `ILSVRC2012_val_*.JPEG` images.
+
+4. Larod makes inference on `.bin` files, so it is necessary to convert the images as shown below, where the arguments are image height, image width, and the location of the correctly named images, `./dataset`:
+
+   > [!NOTE]
+   >
+   > To convert images for cv25, add the option `--separate-planes` or `-p` for short to make the images RGP
+   > planar, which is required for cv25.
+
+    ```sh
+    mkdir output
+    python3 larod_convert.py 224 224 ./dataset
+    ```
+
+5. For access to the device's SD card, you need to have [Developer Mode](https://developer.axis.com/acap/get-started/set-up-developer-environment/set-up-device-advanced/#developer-mode) set up. If you do, an account named `acap-accuracy_measure` will be available in `System`->`Accounts`->`SSH accounts` through the device's web interface. To be able to ssh into the device and add the images, you will need to add a password for that ssh account by clicking `Update SSH account` from the three dots.
+
+6. Create an imagenet directory in the devices's SD card and copy the converted image files to that directory:
+
+    ```sh
+    ssh acap-accuracy_measure@<DEVICE_IP> mkdir -p /var/spool/storage/SD_DISK/imagenet
+    ```
+
+    ```sh
+    scp output/* acap-accuracy_measure@<DEVICE_IP>:/var/spool/storage/SD_DISK/imagenet/
+    ```
+
+7. Start the application. The logs will list which images have been considered as Top-1, Top-5 or neither. At the end, you will see the results printed.
 
 ## License
 

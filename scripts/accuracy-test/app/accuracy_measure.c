@@ -28,15 +28,11 @@
  * the tensor output by model.
  *
  * The application has four optional arguments on the command line in the following
- * order: CHIP NUM_FRAMES.
+ * order: DEVICE LABEL GROUND_TRUTH.
  *
- * First optional argument, CHIP, is an enum describing the selected chip
- * e.g. 4 is used for Google TPU.
+ * First optional argument, DEVICE, is a string of the selected larod device.
  *
  * Second optional argument, LABEL, is the path to a file labelling classifications.
- *
- * Third optional argument, NUM_FRAMES, is an integer for number of
- * captured frames.
  *
  * Finally, fourth optional argument, GROUND_TRUTH, is the path to a file giving
  * the annotations of the images.
@@ -44,7 +40,7 @@
  * Then you could run the application with Google TPU with command:
  *     ./usr/local/packages/accuracy_measure/accuracy_measure \
  *     /usr/local/packages/accuracy_measure/model/mobilenet_v2_1.0_224_quant_edgetpu.tflite \
- *     224 224 1001 -c 4 \
+ *     224 224 1001 -c google-edge-tpu-tflite \
  *     -l /usr/local/packages/accuracy_measure/label/imagenet_labels.txt \
  *     -g /usr/local/packages/accuracy_measure/ground/ground_truth.txt"
  */
@@ -60,11 +56,12 @@
 #include <syslog.h>
 #include <unistd.h>
 #include <math.h>
+#include <string.h>
 
 #include "argparse.h"
 #include "larod.h"
 
-#define N_IMAGES 5377
+#define N_IMAGES 50000
 
 /**
  * brief Creates a temporary fd truncated to correct size and mapped.
@@ -84,17 +81,17 @@ static bool createAndMapTmpFile(char* fileName, size_t fileSize,
  * brief Sets up and configures a connection to larod, and loads a model.
  *
  * Opens a connection to larod, which is tied to larodConn. After opening a
- * larod connection the chip specified by larodChip is set for the
+ * larod connection the devivce specified by deviceName is set for the
  * connection. Then the model file specified by larodModelFd is loaded to the
- * chip, and a corresponding larodModel object is tied to model.
+ * device, and a corresponding larodModel object is tied to model.
  *
- * param larodChip Specifier for which larod chip to use.
+ * param deviceName Specifier for which larod device to use.
  * param larodModelFd Fd for a model file to load.
  * param larodConn Pointer to a larod connection to be opened.
  * param model Pointer to a larodModel to be obtained.
  * return False if error has occurred, otherwise true.
  */
-static bool setupLarod(const larodChip larodChip, const int larodModelFd,
+static bool setupLarod(const char* deviceName, const int larodModelFd,
                        larodConnection** larodConn, larodModel** model);
 
 /**
@@ -169,7 +166,7 @@ error:
     return false;
 }
 
-static bool setupLarod(const larodChip larodChip, const int larodModelFd,
+static bool setupLarod(const char* deviceName, const int larodModelFd,
                        larodConnection** larodConn, larodModel** model) {
     larodError* error = NULL;
     larodConnection* conn = NULL;
@@ -182,17 +179,10 @@ static bool setupLarod(const larodChip larodChip, const int larodModelFd,
         goto end;
     }
 
-    // Set chip if user has specified non-default action.
-    if (larodChip != 0) {
-        if (!larodSetChip(conn, larodChip, &error)) {
-            syslog(LOG_ERR, "%s: Could not select chip %d: %s", __func__, larodChip,
-                   error->msg);
-            goto error;
-        }
-    }
+    const larodDevice* dev = larodGetDevice(conn, deviceName, 0, &error);
 
-    loadedModel = larodLoadModel(conn, larodModelFd, LAROD_ACCESS_PRIVATE,
-                                 "Vdo Example App Model", &error);
+    loadedModel = larodLoadModel(conn, larodModelFd, dev, LAROD_ACCESS_PRIVATE,
+                                 "Accuracy test model", NULL, &error);
     if (!loadedModel) {
         syslog(LOG_ERR, "%s: Unable to load model: %s", __func__, error->msg);
         goto error;
@@ -368,7 +358,7 @@ int main(int argc, char** argv) {
     size_t numInputs = 0;
     larodTensor** outputTensors = NULL;
     size_t numOutputs = 0;
-    larodInferenceRequest* infReq = NULL;
+    larodJobRequest* infReq = NULL;
     void* larodInputAddr = MAP_FAILED;
     void* larodOutputAddr = MAP_FAILED;
     int larodModelFd = -1;
@@ -397,10 +387,10 @@ int main(int argc, char** argv) {
         goto end;
     }
 
-    syslog(LOG_INFO, "Setting up larod connection with chip %d and model %s", args.chip,
+    syslog(LOG_INFO, "Setting up larod connection with device %s and model %s", args.deviceName,
            args.modelFile);
     larodModel* model = NULL;
-    if (!setupLarod(args.chip, larodModelFd, &conn, &model)) {
+    if (!setupLarod(args.deviceName, larodModelFd, &conn, &model)) {
         goto end;
     }
 
@@ -449,10 +439,9 @@ int main(int argc, char** argv) {
         syslog(LOG_ERR, "Failed setting output tensor fd: %s", error->msg);
         goto end;
     }
-
     // App supports only one input/output tensor.
-    infReq = larodCreateInferenceRequest(model, inputTensors, 1, outputTensors,
-                                         1, &error);
+    infReq = larodCreateJobRequest(model, inputTensors, 1, outputTensors,
+                                         1, NULL, &error);
     if (!infReq) {
         syslog(LOG_ERR, "Failed creating inference request: %s", error->msg);
         goto end;
@@ -465,16 +454,6 @@ int main(int argc, char** argv) {
             goto end;
         }
     }
-
-    // Since larodOutputAddr points to the beginning of the fd we should
-    // rewind the file position before each inference.
-    if (lseek(larodOutputFd, 0, SEEK_SET) == -1) {
-        syslog(LOG_ERR, "Unable to rewind output file position: %s",
-                strerror(errno));
-
-        goto end;
-    }
-
 
     /* make arrays of ground truths */
     int ground_truth[50000];
@@ -507,19 +486,22 @@ int main(int argc, char** argv) {
     int top5[N_IMAGES] = {0};
     float avg_top1;
     float avg_top5;
-    for (size_t count = 1; count < 50001; count++) {
+
+    for (size_t count = 1; count <= N_IMAGES; count++) {
         char img_name[50];
-        snprintf(img_name, 50, "/var/spool/storage/SD_DISK/imagenet/%d.bin", count);
+        snprintf(img_name, 50, "/var/spool/storage/SD_DISK/imagenet/%zu.bin", count);
         //printf("image name is %s\n", img_name);
         FILE *fp_input;
         fp_input = fopen(img_name, "rb");
         if (fp_input == NULL) {
             continue;
         }
-        fread(larodInputAddr, 1, args.width * args.height * 3, fp_input);
+        if (fread(larodInputAddr, 1, args.width * args.height * 3, fp_input) != args.width * args.height * 3) {
+            syslog(LOG_ERR, "Unable to load image");
+        }
         fclose(fp_input);
 
-        if (!larodRunInference(conn, infReq, &error)) {
+        if (!larodRunJob(conn, infReq, &error)) {
             syslog(LOG_ERR, "Unable to run inference on model %s: %s (%d)",
                 args.modelFile, error->msg, error->code);
             goto end;
@@ -534,15 +516,15 @@ int main(int argc, char** argv) {
         int score_array[score_array_size];
         float score_array_cv25[score_array_size];
         int score_array_indices[score_array_size];
-        // The output has to be read differently depending on chip.
+        // The output has to be read differently depending on larod device.
         // In the case of the cv25, the space per element is 32 bytes and the
         // output is a float padded with zeros.
-        // In the cases of artpec7 and artpec8 the space per element is 1 byte
+        // In the cases of artpec7, artpec8, and artpec9, the space per element is 1 byte
         // and the output is an uint8_t that has to be processed with softmax.
         // This part of the code can be improved by using better pointer casting,
         // subject to future changes.
         int spacePerElement;
-        if (args.chip == 6) {
+        if (strcmp(args.deviceName, "ambarella-cvflow") == 0) {
             spacePerElement = 32;
             float score;
             for (size_t j = 0; j < args.outputBytes/spacePerElement; j++) {
@@ -579,7 +561,7 @@ int main(int argc, char** argv) {
         int max, temp;
 
         // Partial selection sort, move k max elements to front
-        if (args.chip == 6) {
+        if (strcmp(args.deviceName, "ambarella-cvflow") == 0) {
 
             for (l = 0; l < 5; l++) {
 
@@ -634,9 +616,12 @@ int main(int argc, char** argv) {
             }
         }
         if (top5[count-1] == 0) {
-            syslog(LOG_INFO, "Image %d is not top5, it's supposed to be %s, but it is classified as %s \n",
-                count, labels[maxIdx], labels[(size_t)ground_truth[count-1]]);
+            syslog(LOG_INFO, "Image %zu is not top5, it's supposed to be %s, but it is classified as %s \n",
+                count, labels[(size_t)ground_truth[count-1]], labels[maxIdx]);
             maxProb *= 100; //To have output int %
+        }
+        else {
+            syslog(LOG_INFO, "Image %zu found in top5. \n", count);
         }
         if (labels) {
             if (maxIdx > numLabels) {
@@ -648,10 +633,11 @@ int main(int argc, char** argv) {
         }
         if ((int) maxIdx == ground_truth[count-1]) {
             top1[count-1] = 1;
+            syslog(LOG_INFO, "Image %zu found in top1. \n", count);
         } else {
             top1[count-1] = 0;
-            syslog(LOG_INFO, "Image %d is not top1, it's supposed to be %s, but it is classified as %s\n",
-                count, labels[maxIdx], labels[(size_t)ground_truth[count-1]]);
+            syslog(LOG_INFO, "Image %zu is not top1, it's supposed to be %s, but it is classified as %s\n",
+                count, labels[(size_t)ground_truth[count-1]], labels[maxIdx]);
         }
 
         sum_top1 += top1[count-1];
@@ -660,7 +646,6 @@ int main(int argc, char** argv) {
 
     avg_top1 = (float)sum_top1/N_IMAGES*100;
     avg_top5 = (float)sum_top5/N_IMAGES*100;
-    int l;
     syslog(LOG_INFO, "\n");
     syslog(LOG_INFO, "RESULTS:\n");
     syslog(LOG_INFO, "top1 sum %d\n top5 sum %d\n top1 avg %.6f%% \n top 5 avg %.6f%% \n", sum_top1, sum_top5, avg_top1, avg_top5);
@@ -692,9 +677,9 @@ end:
         close(larodOutputFd);
     }
 
-    larodDestroyInferenceRequest(&infReq);
-    larodDestroyTensors(&inputTensors, numInputs);
-    larodDestroyTensors(&outputTensors, numOutputs);
+    larodDestroyJobRequest(&infReq);
+    larodDestroyTensors(conn, &inputTensors, numInputs, &error);
+    larodDestroyTensors(conn, &outputTensors, numOutputs, &error);
     larodClearError(&error);
 
     if (labels) {
