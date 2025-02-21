@@ -6,6 +6,12 @@ Starting from Axis OS 11.7, ARTPEC-8 supports YOLOv5. To achieve the best perfor
 
 ### 1. Clone the YOLOv5 repository and apply the patch
 
+> [!NOTE]
+>
+> To comply with the [licensing terms of Ultralytics](https://github.com/ultralytics/yolov5?tab=readme-ov-file#license),
+> the patch applied here is licensed under AGPL-3.0-only. The license file is available together
+> with the patch [here](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/YOLOv5_LICENSE.txt).
+
 ```bash
 git clone https://github.com/ultralytics/yolov5
 cd yolov5
@@ -57,3 +63,7 @@ page in the ACAP documentation.
 
 Checkpoints and performance measurements for yolov5n, yolov5s, and yolov5m are available in the
 readme of [Axis Model Zoo](../README.md).
+
+## License
+
+[Apache 2.0](../LICENSE)
