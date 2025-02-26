@@ -24,8 +24,8 @@ Axis network cameras can be used for computer vision applications and can run ma
 | ARTPEC-8 (P1465-LE) | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant.tflite) ([ckpt](http://download.tensorflow.org/models/tflite_11_05_08/mobilenet_v2_1.0_224_quant.tgz)) | 1  | <!--A8_P_tf1_mnv2--> 9.83 ms <!--end_A8_P_tf1_mnv2--> | Top 1: 68.8% <br/> Top 5: 88.9% |
 | ARTPEC-8 (Q1656-LE)  | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant.tflite) ([ckpt](http://download.tensorflow.org/models/tflite_11_05_08/mobilenet_v2_1.0_224_quant.tgz)) | 1  | <!--A8_tf1_mnv2--> 5.36 ms <!--end_A8_tf1_mnv2--> | Top 1: 68.8% <br/> Top 5: 88.9% |
 | ARTPEC-9 (Q1728)  | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant.tflite) ([ckpt](http://download.tensorflow.org/models/tflite_11_05_08/mobilenet_v2_1.0_224_quant.tgz)) | 1  | <!--A9_tf1_mnv2--> 2.54 ms <!--end_A9_tf1_mnv2--> | Top 1: 69.1% <br/> Top 5: 89.0% |
-| CV25 (M3085-V) | [MobilenetV2](https://acap-ml-model-storage.s3.amazonaws.com/mobilenetv2_cavalry.bin) ([ckpt](http://download.tensorflow.org/models/tflite_11_05_08/mobilenet_v2_1.0_224_quant.tgz)) | 1  | <!--cv25_tf1_mnv2--> 5.56 ms <!--end_cv25_tf1_mnv2--> | Top 1: 66.8% <br/> Top 5: 87.2% |
-| CV25 (M3085-V) | [EfficientNet-Lite0](https://acap-ml-model-storage.s3.amazonaws.com/EfficientNet-lite0.bin) ([ckpt](https://storage.googleapis.com/cloud-tpu-checkpoints/efficientnet/lite/efficientnet-lite0.tar.gz)) | 1  | <!--cv25_tf1_ens--> 6.96 ms <!--end_cv25_tf1_ens--> | Top 1: 71.2% <br/> Top 5: 90.3% |
+| CV25 (M3085-V) | [MobilenetV2](https://acap-ml-models.s3.amazonaws.com/mobilenet/mobilenet_v2_cv25_imagenet_224.bin) ([ckpt](http://download.tensorflow.org/models/tflite_11_05_08/mobilenet_v2_1.0_224_quant.tgz)) | 1  | <!--cv25_tf1_mnv2--> 5.56 ms <!--end_cv25_tf1_mnv2--> | Top 1: 66.8% <br/> Top 5: 87.2% |
+| CV25 (M3085-V) | [EfficientNet-Lite0](https://acap-ml-models.s3.amazonaws.com/efficientnet/efficientnet-lite0_cv25_imagenet_300.bin) ([ckpt](https://storage.googleapis.com/cloud-tpu-checkpoints/efficientnet/lite/efficientnet-lite0.tar.gz)) | 1  | <!--cv25_tf1_ens--> 6.96 ms <!--end_cv25_tf1_ens--> | Top 1: 71.2% <br/> Top 5: 90.3% |
 
 ### Object detection
 
@@ -35,17 +35,17 @@ Axis network cameras can be used for computer vision applications and can run ma
 | ARTPEC-7 (Q1615 Mk III) | [SSDLite MobileDet](https://raw.githubusercontent.com/google-coral/test_data/master/ssdlite_mobiledet_coco_qat_postprocess_edgetpu.tflite)  | <!--A7_tf1_ssd_md--> 30.56 ms <!--end_A7_tf1_ssd_md--> | mAP: 32.9% |
 | ARTPEC-8 (P1465-LE) | [SSD MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/ssd_mobilenet_v2_coco_quant_postprocess.tflite)  | <!--A8_P_tf1_ssd_mnv2--> 29.30 ms <!--end_A8_P_tf1_ssd_mnv2--> | mAP: 25.6% |
 | ARTPEC-8 (P1465-LE) | [SSDLite MobileDet](https://raw.githubusercontent.com/google-coral/test_data/master/ssdlite_mobiledet_coco_qat_postprocess.tflite)  | <!--A8_P_tf1_ssd_md--> 41.30 ms <!--end_A8_P_tf1_ssd_md--> | mAP: 32.9% |
-| ARTPEC-8 (P1465-LE)  | [Yolov5n-Artpec8](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.pt))  | <!--A8_P_yolov5n--> 100.00 ms <!--end_A8_P_yolov5n--> | mAP: 23.5% |
+| ARTPEC-8 (P1465-LE)  | [Yolov5n-Artpec8](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5n_artpec8_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5n_artpec8_coco_640.pt))  | <!--A8_P_yolov5n--> 100.00 ms <!--end_A8_P_yolov5n--> | mAP: 23.5% |
 | ARTPEC-8 (Q1656-LE)  | [SSD MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/ssd_mobilenet_v2_coco_quant_postprocess.tflite)  | <!--A8_Q_tf1_ssd_mnv2--> 18.82 ms <!--end_A8_Q_tf1_ssd_mnv2--> | mAP: 25.6% |
 | ARTPEC-8 (Q1656-LE)  | [SSDLite MobileDet](https://raw.githubusercontent.com/google-coral/test_data/master/ssdlite_mobiledet_coco_qat_postprocess.tflite)  | <!--A8_Q_tf1_ssd_md--> 31.19 ms <!--end_A8_Q_tf1_ssd_md--> | mAP: 32.9%  |
-| ARTPEC-8 (Q1656-LE)  | [Yolov5n-Artpec8](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5n.pt))  | <!--A8_Q_yolov5n--> 54.71 ms <!--end_A8_Q_yolov5n--> | mAP: 23.5%  |
-| ARTPEC-8 (Q1656-LE)  | [Yolov5s-Artpec8](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5s.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5s.pt))  | <!--A8_Q_yolov5s--> 69.42 ms <!--end_A8_Q_yolov5s--> | mAP: 32.3%  |
-| ARTPEC-8 (Q1656-LE)  | [Yolov5m-Artpec8](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5m.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/yolov5m.pt))  | <!--A8_Q_yolov5m--> 94.67 ms <!--end_A8_Q_yolov5m--> | mAP: 37.9%  |
+| ARTPEC-8 (Q1656-LE)  | [Yolov5n-Artpec8](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5n_artpec8_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5n_artpec8_coco_640.pt))  | <!--A8_Q_yolov5n--> 54.71 ms <!--end_A8_Q_yolov5n--> | mAP: 23.5%  |
+| ARTPEC-8 (Q1656-LE)  | [Yolov5s-Artpec8](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5s_artpec8_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5s_artpec8_coco_640.pt))  | <!--A8_Q_yolov5s--> 69.42 ms <!--end_A8_Q_yolov5s--> | mAP: 32.3%  |
+| ARTPEC-8 (Q1656-LE)  | [Yolov5m-Artpec8](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5m_artpec8_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5m_artpec8_coco_640.pt))  | <!--A8_Q_yolov5m--> 94.67 ms <!--end_A8_Q_yolov5m--> | mAP: 37.9%  |
 | ARTPEC-9 (Q1728)  | [SSD MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/ssd_mobilenet_v2_coco_quant_postprocess.tflite)  | <!--A9_tf1_ssd_mnv2--> 13.23 ms <!--end_A9_tf1_ssd_mnv2--> | mAP: 25.6% |
 | ARTPEC-9 (Q1728)  | [SSDLite MobileDet](https://raw.githubusercontent.com/google-coral/test_data/master/ssdlite_mobiledet_coco_qat_postprocess.tflite)  | <!--A9_tf1_ssd_md--> 25.42 ms <!--end_A9_tf1_ssd_md--> | mAP: 32.9%  |
-| ARTPEC-9 (Q1728)  | [Yolov5n-Artpec9](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/A9/A9-yolov5n.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/A9/A9-yolov5n.pt))  | <!--A9_yolov5n--> 41.83 ms <!--end_A9_yolov5n--> | mAP: 23.3%  |
-| ARTPEC-9 (Q1728)  | [Yolov5s-Artpec9](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/A9/A9-yolov5s.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/A9/A9-yolov5s.pt))  | <!--A9_yolov5s--> 45.06 ms <!--end_A9_yolov5s--> | mAP: 32.2%  |
-| ARTPEC-9 (Q1728)  | [Yolov5m-Artpec9](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/A9/A9-yolov5m.tflite) ([ckpt](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/A9/A9-yolov5m.pt))  | <!--A9_yolov5m--> 53.19 ms <!--end_A9_yolov5m--> | mAP: 38.1%  |
+| ARTPEC-9 (Q1728)  | [Yolov5n-Artpec9](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5n_artpec9_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5n_artpec9_coco_640.pt))  | <!--A9_yolov5n--> 41.83 ms <!--end_A9_yolov5n--> | mAP: 23.3%  |
+| ARTPEC-9 (Q1728)  | [Yolov5s-Artpec9](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5s_artpec9_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5s_artpec9_coco_640.pt))  | <!--A9_yolov5s--> 45.06 ms <!--end_A9_yolov5s--> | mAP: 32.2%  |
+| ARTPEC-9 (Q1728)  | [Yolov5m-Artpec9](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5m_artpec9_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5m_artpec9_coco_640.pt))  | <!--A9_yolov5m--> 53.19 ms <!--end_A9_yolov5m--> | mAP: 38.1%  |
 
 *Values for AXIS OS 12.2.52.*
 
@@ -54,7 +54,7 @@ Axis network cameras can be used for computer vision applications and can run ma
 > To comply with the [licensing terms of Ultralytics](https://github.com/ultralytics/yolov5?tab=readme-ov-file#license),
 > the YOLOv5 model files in the table above are licensed under AGPL-3.0-only. The license file is
 > available together with the models
-> [here](https://acap-ml-model-storage.s3.amazonaws.com/yolov5/YOLOv5_LICENSE.txt).
+> [here](https://acap-ml-models.s3.amazonaws.com/yolov5/YOLOv5_LICENSE.txt).
 
 ## How are the measures calculated?
 
