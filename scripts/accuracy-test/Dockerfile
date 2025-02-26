@@ -22,7 +22,7 @@ rm -f model/*.tgz model/*.pb* model/*.ckpt* model/*.meta model/*.txt
 curl -L -o model/mobilenet_v2_1.0_224_quant_edgetpu.tflite \
     https://raw.githubusercontent.com/google-coral/test_data/master/tf2_mobilenet_v2_1.0_224_ptq_edgetpu.tflite
 curl -L -o model/mobilenet_v2_cavalry.bin \
-    https://acap-ml-model-storage.s3.amazonaws.com/mobilenetv2_cavalry.bin
+    https://acap-ml-models.s3.amazonaws.com/mobilenet/mobilenet_v2_cv25_imagenet_224.bin
 EOF
 
 RUN <<EOF
