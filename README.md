@@ -2,7 +2,7 @@
 
 # Axis Model Zoo
 
-Axis network cameras can be used for computer vision applications and can run machine learning models to make inferences. The model to use will depend on your device and your application. This repository contains a collection of different models compatible with Axis cameras and some performance measures (accuracy and speed). Our goal is to keep updating this collection with models for different applications, like object detection or pose estimation. For easy reproduction, we mostly use models that are public and we also share tools to benchmark the models. We have linked the model files and, in case they are public, the ckpt files to continue the training. The values of speed and accuracy are going to be updated with every [AXIS OS release](https://help.axis.com/axis-os-release-notes).
+Axis network cameras can be used for computer vision applications and can run machine learning models to make inferences. The model to use will depend on your device and your application. This repository contains a collection of different models compatible with Axis cameras and some performance measures (accuracy and speed). Our goal is to keep updating this collection with models for different applications, like object detection or pose estimation. For easy reproduction, we mostly use models that are public and we also share tools to benchmark the models. We have linked the model files and, in case they are public, the ckpt files to continue the training. The values of speed are updated with every [AXIS OS release](https://help.axis.com/axis-os-release-notes).
 
 > **Note** : These are not production-quality models, they are off-the-shelf models used for comparative and demonstration purposes only.
 
@@ -58,13 +58,23 @@ Axis network cameras can be used for computer vision applications and can run ma
 
 ## How are the measures calculated?
 
-The [auto-test-framework](./scripts/auto-test-framework) directory holds the code for measuring the speed numbers and automating their update in the repository. For now, the accuracy measures are not included in this pipeline. Apart from that, in the [accuracy-test](./scripts/accuracy-test) there is the code to measure the accuracy and [model_performance_tester.py](./scripts/model_performance_tester.py) is a script to measure the speed.
+There are many factors to consider when determining the performance of a machine learning model.
+This repository aims to showcase two key performance indicators: inference speed and accuracy. In
+the following sections we will describe how they are measured.
 
 ### Speed measure
 
-In the case of the automated test framework, the test is done by installing and running an ACAP application on the Axis camera. To know more about how it works, see the [larod-test](./scripts/auto-test-framework/larod-test) directory.
+The [auto-test-framework](./scripts/auto-test-framework) directory contains the code for measuring
+the average inference (speed) and updating the speed value of each model in the table above. This
+test is run for every [AXIS OS release](https://help.axis.com/axis-os-release-notes). The test is
+done by installing and running an ACAP application on the Axis camera. To know more about how it
+works, see the [larod-test](./scripts/auto-test-framework/larod-test) directory.
 
-To get speed measures more easily, you can use the code in [model_performance_tester.py](./scripts/model_performance_tester.py). This script connects to the Axis camera via SSH and uses the `larod-client` to run inferences. It then parses the output, which will be the mean of time the Axis camera spent on the inferences. These inferences are done on randomly generated images. See below how to use the script:
+If you want to measure the speed of your own models more conveniently, you can use the code in
+[model_performance_tester.py](./scripts/model_performance_tester.py). This script connects to the
+Axis camera via SSH and uses the command `larod-client` to run a specified number of inferences on
+random data. When all inferences has been run, the output from `larod-client` will be parsed to find
+the mean inference time. See below how to use the script:
 
 ```sh
 python3 ./scripts/model_performance_tester.py \
@@ -79,9 +89,22 @@ python3 ./scripts/model_performance_tester.py \
 - `<USER>`, `<PASS>` are the device credentials.
 - `<SSH_PORT>` is the device port for ssh, default is port `22`.
 
+Go to the
+[Test your model](https://developer.axis.com/computer-vision/computer-vision-on-device/test-your-model/)
+page to learn more about testing machine learning models on Axis devices.
+
 ### Accuracy measure
 
-This test is done by installing and running an ACAP application on the Axis camera. To know more about how it works, see the [accuracy-test](./scripts/accuracy-test/) directory.
+There are no automated tests for the accuracy results and they are not reevaluated for each release
+of AXIS OS. However, the image classification models are tested on an Axis camera by installing and
+running an ACAP application on the Axis camera. To know more about how it works, see the
+[accuracy-test](./scripts/accuracy-test/) directory.
+
+Accuracy test for the object detection models have never been evaluated on an Axis camera. Instead,
+the accuracy results come from
+[Coral object detection models](https://coral.ai/models/object-detection/), except our
+custom-trained YOLOv5, which were evaluated during the "Evaluate the model accuracy" step in the
+[YOLOv5 guides](#guides).
 
 ## License
 
