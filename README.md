@@ -2,7 +2,7 @@
 
 # Axis Model Zoo
 
-Axis network cameras can be used for computer vision applications and can run machine learning models to make inferences. The model to use will depend on your device and your application. This repository contains a collection of different models compatible with Axis cameras and some performance measures (accuracy and speed). Our goal is to keep updating this collection with models for different applications, like object detection or pose estimation. For easy reproduction, we mostly use models that are public and we also share tools to benchmark the models. We have linked the model files and, in case they are public, the ckpt files to continue the training. The values of speed are updated with every [AXIS OS release](https://help.axis.com/axis-os-release-notes).
+Axis network cameras can be used for computer vision applications and can run machine learning models to make inferences. The model to use will depend on your device and your application. This repository contains a collection of different models compatible with Axis cameras and some performance measures (accuracy and speed). Our goal is to keep updating this collection with models for different applications, like object detection or pose estimation. For easy reproduction, we mostly use models that are public and we also share tools to benchmark the models. We have linked the model files and, in case they are public, the ckpt files to continue the training. The speed measurements in the table are updated with every [AXIS OS release](https://help.axis.com/axis-os-release-notes).
 
 > **Note** : These are not production-quality models, they are off-the-shelf models used for comparative and demonstration purposes only.
 
@@ -104,7 +104,8 @@ Accuracy test for the object detection models have never been evaluated on an Ax
 the accuracy results come from
 [Coral object detection models](https://coral.ai/models/object-detection/), except our
 custom-trained YOLOv5, which were evaluated during the "Evaluate the model accuracy" step in the
-[YOLOv5 guides](#guides).
+[YOLOv5 on ARTPEC-8 guide](docs/yolov5-on-artpec8.md) and
+[YOLOv5 or ARTPEC-9 guide](docs/yolov5-on-artpec9.md).
 
 ## License
 
