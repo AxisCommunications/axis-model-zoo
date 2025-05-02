@@ -56,6 +56,11 @@ Axis network cameras can be used for computer vision applications and can run ma
 > available together with the models
 > [here](https://acap-ml-models.s3.amazonaws.com/yolov5/YOLOv5_LICENSE.txt).
 
+> [!NOTE]
+>
+> If you're having trouble downloading a file, right-click the download link and choose “Copy link
+> address”, then paste it into a new tab and press Enter.
+
 ## How are the measures calculated?
 
 There are many factors to consider when determining the performance of a machine learning model.
