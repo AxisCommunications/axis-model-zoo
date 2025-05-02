@@ -51,10 +51,13 @@ Axis network cameras can be used for computer vision applications and can run ma
 
 > [!NOTE]
 >
-> To comply with the [licensing terms of Ultralytics](https://github.com/ultralytics/yolov5?tab=readme-ov-file#license),
-> the YOLOv5 model files in the table above are licensed under AGPL-3.0-only. The license file is
-> available together with the models
-> [here](https://acap-ml-models.s3.amazonaws.com/yolov5/YOLOv5_LICENSE.txt).
+> - To comply with the
+>   [licensing terms of Ultralytics](https://github.com/ultralytics/yolov5?tab=readme-ov-file#license),
+>   the YOLOv5 model files in the table above are licensed under AGPL-3.0-only. The license file is
+>   available together with the models
+>   [here](https://acap-ml-models.s3.amazonaws.com/yolov5/YOLOv5_LICENSE.txt).
+> - If you're having trouble downloading a file, right-click the download link and choose “Copy link
+>   address”, then paste it into a new tab and press Enter.
 
 ## How are the measures calculated?
 
