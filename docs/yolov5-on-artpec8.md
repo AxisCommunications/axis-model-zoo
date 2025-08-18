@@ -12,6 +12,7 @@ Starting from Axis OS 11.7, ARTPEC-8 supports YOLOv5. To achieve the best perfor
 > the patch applied here is licensed under AGPL-3.0-only. The license file is available together
 > with the patch [here](https://acap-ml-models.s3.amazonaws.com/yolov5/YOLOv5_LICENSE.txt).
 
+<!-- markdownlint-disable MD059 -->
 ```bash
 git clone https://github.com/ultralytics/yolov5
 cd yolov5
@@ -19,6 +20,7 @@ git checkout 95ebf68f92196975e53ebc7e971d0130432ad107
 curl -L https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5_artpec8.patch | git apply
 pip install -r requirements.txt
 ```
+<!-- markdownlint-enable MD059 -->
 
 ### 2. Train the model
 
