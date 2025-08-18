@@ -20,7 +20,7 @@ jobs:
       EXNAME: larod-test
       EAPNAME: larod_test
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Reboot device to clear logs
         run: |
