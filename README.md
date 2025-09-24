@@ -47,7 +47,7 @@ Axis network cameras can be used for computer vision applications and can run ma
 | ARTPEC-9 (Q1728)  | [Yolov5s-Artpec9](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5s_artpec9_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5s_artpec9_coco_640.pt))  | <!--A9_yolov5s--> 45.73 ms <!--end_A9_yolov5s--> | mAP: 32.2%  |
 | ARTPEC-9 (Q1728)  | [Yolov5m-Artpec9](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5m_artpec9_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5m_artpec9_coco_640.pt))  | <!--A9_yolov5m--> 53.31 ms <!--end_A9_yolov5m--> | mAP: 38.1%  |
 
-*Values for AXIS OS 12.5.56.*
+*Values for AXIS OS 12.6.85.*
 
 > [!NOTE]
 >
