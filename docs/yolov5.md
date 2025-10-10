@@ -77,7 +77,7 @@ In this step, you may want to provide the --data flag and your own dataset to ru
 
 ### 5. (Optional) Evaluate the model speed
 
-To test how the model performs on an Axis device, see the [Speed measure](../readme.md#speed-measure) section for an explanation of how to use the [model performance tester](../scripts/model_performance_tester.py) script.
+To test how the model performs on an Axis device, see the [Speed measure](../README.md#speed-measure) section for an explanation of how to use the [model performance tester](../scripts/model_performance_tester.py) script.
 
 For more details on testing the model, refer to the
 [Test Your Model](https://developer.axis.com/computer-vision/computer-vision-on-device/test-your-model/)

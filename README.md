@@ -9,8 +9,7 @@ Axis network cameras can be used for computer vision applications and can run ma
 ## Guides
 
 - [ACAP Documentation](https://axiscommunications.github.io/acap-documentation/)
-- [Run YOLOv5 on Artpec-8](./docs/yolov5-on-artpec8.md)
-- [Run YOLOv5 on Artpec-9](./docs/yolov5-on-artpec9.md)
+- [Run YOLOv5 on Artpec-8 and Artpec-9](./docs/yolov5.md)
 
 ## Models
 
