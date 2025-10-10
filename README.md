@@ -9,8 +9,7 @@ Axis network cameras can be used for computer vision applications and can run ma
 ## Guides
 
 - [ACAP Documentation](https://axiscommunications.github.io/acap-documentation/)
-- [Run YOLOv5 on Artpec-8](./docs/yolov5-on-artpec8.md)
-- [Run YOLOv5 on Artpec-9](./docs/yolov5-on-artpec9.md)
+- [Run YOLOv5 on ARTPEC-8 and ARTPEC-9](./docs/yolov5.md)
 
 ## Models
 
@@ -107,8 +106,7 @@ Accuracy test for the object detection models have never been evaluated on an Ax
 the accuracy results come from
 [Coral object detection models](https://coral.ai/models/object-detection/), except our
 custom-trained YOLOv5, which were evaluated during the "Evaluate the model accuracy" step in the
-[YOLOv5 on ARTPEC-8 guide](docs/yolov5-on-artpec8.md) and
-[YOLOv5 or ARTPEC-9 guide](docs/yolov5-on-artpec9.md).
+[YOLOv5 guide](docs/yolov5.md)
 
 ## License
 
