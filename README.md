@@ -106,7 +106,7 @@ Accuracy test for the object detection models have never been evaluated on an Ax
 the accuracy results come from
 [Coral object detection models](https://coral.ai/models/object-detection/), except our
 custom-trained YOLOv5, which were evaluated during the "Evaluate the model accuracy" step in the
-[YOLOv5 guide (ARTPEC-8 and ARTPEC-9)](docs/yolov5.md)
+[YOLOv5 guide](docs/yolov5.md)
 
 ## License
 
