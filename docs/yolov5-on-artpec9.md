@@ -64,7 +64,7 @@ evaluate the model's speed on the target device.
 ```bash
 curl -OL https://raw.githubusercontent.com/AxisCommunications/axis-model-zoo/main/scripts/model_performance_tester.py
 pip install paramiko
-python3 model_performance_tester.py --model_path **runs**/train/axis-train/weights/best-int8.tflite --test_duration 100 \\
+python3 model_performance_tester.py --model_path runs/train/axis-train/weights/best-int8.tflite --test_duration 100 \\
         --chip <CHIP> --device_ip <IP> --device_credentials <USER> <PASS>
 ```
 
