@@ -16,7 +16,7 @@ Starting from Axis OS 11.7, ARTPEC-8 supports YOLOv5. To achieve the best perfor
 git clone https://github.com/ultralytics/yolov5
 cd yolov5
 git checkout 95ebf68f92196975e53ebc7e971d0130432ad107
-curl -L https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5_artpec8.patch | git apply
+curl -L **https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5_artpec8.patch** | git apply
 pip install -r requirements.txt
 ```
 
