@@ -64,7 +64,7 @@ evaluate the model's speed on the target device.
 ```bash
 curl -OL https://raw.githubusercontent.com/AxisCommunications/axis-model-zoo/main/scripts/model_performance_tester.py
 pip install paramiko
-python3 model_performance_tester.py --model_path runs/train/axis-train/weights/best-int8.tflite --test_duration 100 \\
+python3 model_performance_tester.py --model_path **runs**/train/axis-train/weights/best-int8.tflite --test_duration 100 \\
         --chip <CHIP> --device_ip <IP> --device_credentials <USER> <PASS>
 ```
 
@@ -72,7 +72,11 @@ For more details on testing the model, see the
 [Test Your Model](https://axiscommunications.github.io/acap-documentation/docs/computer-vision-on-device/test-your-model.html)
 page in the ACAP documentation.
 
-### 6. Checkpoints
+### 6. (Optional) Run example ACAP application with your model
+
+In the [acap-native-sdk-examples](https://github.com/AxisCommunications/acap-native-sdk-examples), there is an example called [object-detection-yolov5](https://github.com/AxisCommunications/acap-native-sdk-examples/tree/main/object-detection-yolov5) that demonstrates how to use a YOLOv5 model in a native ACAP application. By default the application downloads a pre-trained model, but it is possible to edit the example to use your own YOLOv5 model and labels file instead. See the [Dockerfile parameter](https://github.com/AxisCommunications/acap-native-sdk-examples/tree/main/object-detection-yolov5#dockerfile-parameters) section of the [README](https://github.com/AxisCommunications/acap-native-sdk-examples/tree/main/object-detection-yolov5) for specific instructions.
+
+### 7. Checkpoints
 
 Checkpoints and performance measurements for yolov5n, yolov5s, and yolov5m are available in the
 readme of [Axis Model Zoo](../README.md).
