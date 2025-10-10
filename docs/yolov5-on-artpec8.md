@@ -1,6 +1,6 @@
-# YOLOv5 on ARTPEC-8
+# YOLOv5 on Axis cameras
 
-Starting from Axis OS 11.7, ARTPEC-8 supports YOLOv5. To achieve the best performance, Axis provides a patch that needs to be applied to the YOLOv5 repository before training. We have tested the model sizes yolov5n, yolov5s, and yolov5m, and we recommend sticking with these sizes to avoid exceeding the device memory. Please note that these models were tested on a Q1656 device with 2GB of RAM. Devices with less memory may encounter issues when handling larger models.
+Starting from Axis OS 11.7, ARTPEC-8 supports YOLOv5. It is also supported by ARTPEC-9 cameras. To achieve the best performance, Axis provides a patch that needs to be applied to the YOLOv5 repository before training. We have tested the model sizes yolov5n, yolov5s, and yolov5m, and we recommend sticking with these sizes to avoid exceeding the device memory. Please note that for ARTPEC-8 these models were tested on a Q1656 device with 2GB of RAM. For ARTPEC-9 they were tested on a Q1728 device with 4GB of RAM. Devices with less memory may encounter issues when handling larger models.
 
 ## How to Train YOLOv5 for ARTPEC-8
 
@@ -16,7 +16,25 @@ Starting from Axis OS 11.7, ARTPEC-8 supports YOLOv5. To achieve the best perfor
 git clone https://github.com/ultralytics/yolov5
 cd yolov5
 git checkout 95ebf68f92196975e53ebc7e971d0130432ad107
+```
+
+Download the model patch and apply it. 
+> [!NOTE]
+>
+> You need to download the correct patch for your device's system-on-chip (ARTPEC-8 or ARTPEC-9).
+
+For **ARTPEC-8**:
+```bash
 curl -L https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5_artpec8.patch | git apply
+```
+
+For **ARTPEC-9**:
+```bash
+curl -L https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5_artpec9.patch | git apply
+```
+
+Install the required libraries located in requirements file in the yolov5 repository.
+```bash
 pip install -r requirements.txt
 ```
 
@@ -26,14 +44,22 @@ pip install -r requirements.txt
 python3 train.py --name axis-train --data coco.yaml --epochs 300 --weights '' --cfg yolov5n.yaml  --batch-size 128
 ```
 
-**Note:** Instead of using coco.yaml as the dataset, you can use your own dataset. Visit the [Yolov5 train on custom data](https://docs.ultralytics.com/yolov5/tutorials/train_custom_data/) guide to learn how to annotate your own dataset.
+> [!Note]
+>
+>Instead of using coco.yaml as the dataset, you can use your own dataset. Visit the [Yolov5 train on custom data](https://docs.ultralytics.com/yolov5/tutorials/train_custom_data/) guide to learn how to annotate your own dataset.
 
 We also provide checkpoint weights for yolov5n, yolov5s, and yolov5m, which you can use as a starting point for your training. To use these weights as a starting point, you can use the --weights flag in the train.py command above.
 
 ### 3. Export the model
 
+Export the model for **ARTPEC-8**:
 ```bash
 python3 export.py --weights runs/train/axis-train/weights/best.pt --include tflite --int8 --per-tensor
+```
+
+Export the model for **ARTPEC-9**:
+```bash
+python3 export.py --weights runs/train/axis-train/weights/best.pt --include tflite --int8
 ```
 
 ### 4. (Optional) Evaluate the model accuracy
@@ -52,7 +78,7 @@ You can use the [model performance tester](https://github.com/AxisCommunications
 curl -OL https://raw.githubusercontent.com/AxisCommunications/axis-model-zoo/main/scripts/model_performance_tester.py
 pip install paramiko
 python3 model_performance_tester.py --model_path runs/train/axis-train/weights/best-int8.tflite --test_duration 100 \\
-        --chip A8-DLPU --device_ip <IP> --device_credentials <USER> <PASS>
+        --chip <CHIP> --device_ip <IP> --device_credentials <USER> <PASS>
 ```
 
 For more details on testing the model, refer to the
