@@ -2,7 +2,7 @@
 
 Starting from Axis OS 11.7, ARTPEC-8 supports YOLOv5. It is also supported by ARTPEC-9 cameras. To achieve the best performance, Axis provides a patch that needs to be applied to the YOLOv5 repository before training. We have tested the model sizes yolov5n, yolov5s, and yolov5m, and we recommend sticking with these sizes to avoid exceeding the device memory. Please note that for ARTPEC-8 these models were tested on a Q1656 device with 2GB of RAM. For ARTPEC-9 they were tested on a Q1728 device with 4GB of RAM. Devices with less memory may encounter issues when handling larger models.
 
-## How to Train YOLOv5 for ARTPEC-8
+## How to Train YOLOv5 for ARTPEC-8 or ARTPEC-9
 
 ### 1. Clone the YOLOv5 repository and apply the patch
 
