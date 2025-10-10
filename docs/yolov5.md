@@ -77,17 +77,10 @@ In this step, you may want to provide the --data flag and your own dataset to ru
 
 ### 5. (Optional) Evaluate the model speed
 
-You can use the [model performance tester](https://github.com/AxisCommunications/axis-model-zoo/blob/main/scripts/model_performance_tester.py) script in the [Axis Model Zoo](https://github.com/AxisCommunications/axis-model-zoo/tree/main) to evaluate the model's speed on the target device.
-
-```bash
-curl -OL https://raw.githubusercontent.com/AxisCommunications/axis-model-zoo/main/scripts/model_performance_tester.py
-pip install paramiko
-python3 model_performance_tester.py --model_path runs/train/axis-train/weights/best-int8.tflite --test_duration 100 \\
-        --chip <CHIP> --device_ip <IP> --device_credentials <USER> <PASS>
-```
+To test how the model performs on an Axis device, see the [Speed measure](../readme.md#speed-measure) section for an explanation of how to use the [model performance tester](../scripts/model_performance_tester.py) script.
 
 For more details on testing the model, refer to the
-[Test Your Model](https://axiscommunications.github.io/acap-documentation/docs/computer-vision-on-device/test-your-model.html)
+[Test Your Model](https://developer.axis.com/computer-vision/computer-vision-on-device/test-your-model/)
 page in the ACAP documentation.
 
 ### 6. (Optional) Run example ACAP application with your model
