@@ -24,16 +24,19 @@ Download the model patch and apply it.
 > You need to download the correct patch for your device's system-on-chip (ARTPEC-8 or ARTPEC-9).
 
 For **ARTPEC-8**:
+
 ```bash
 curl -L https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5_artpec8.patch | git apply
 ```
 
 For **ARTPEC-9**:
+
 ```bash
 curl -L https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5_artpec9.patch | git apply
 ```
 
 Install the required libraries located in requirements file in the yolov5 repository.
+
 ```bash
 pip install -r requirements.txt
 ```
@@ -53,11 +56,13 @@ We also provide checkpoint weights for yolov5n, yolov5s, and yolov5m, which you 
 ### 3. Export the model
 
 Export the model for **ARTPEC-8**:
+
 ```bash
 python3 export.py --weights runs/train/axis-train/weights/best.pt --include tflite --int8 --per-tensor
 ```
 
 Export the model for **ARTPEC-9**:
+
 ```bash
 python3 export.py --weights runs/train/axis-train/weights/best.pt --include tflite --int8
 ```
