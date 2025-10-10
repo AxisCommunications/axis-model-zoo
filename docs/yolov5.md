@@ -18,7 +18,7 @@ cd yolov5
 git checkout 95ebf68f92196975e53ebc7e971d0130432ad107
 ```
 
-Download the model patch and apply it. 
+Download the model patch and apply it.
 > [!NOTE]
 >
 > You need to download the correct patch for your device's system-on-chip (ARTPEC-8 or ARTPEC-9).
