@@ -28,7 +28,7 @@ Axis network cameras can be used for computer vision applications and can run ma
 
 ### Object detection
 
-| Platform | Model  | Speed | Accuracy |
+| Platform | Model | Speed | Accuracy |
 | ---------- | ---------- | :----------: | :----------: |
 | ARTPEC-7 (Q1615 Mk III) | [SSD MobileNet v2](https://raw.githubusercontent.com/google-coral/test_data/master/ssd_mobilenet_v2_coco_quant_postprocess_edgetpu.tflite) | <!--A7_tf1_ssd_mnv2--> 17.23 ms <!--end_A7_tf1_ssd_mnv2--> | mAP: 25.6% |
 | ARTPEC-7 (Q1615 Mk III) | [SSDLite MobileDet](https://raw.githubusercontent.com/google-coral/test_data/master/ssdlite_mobiledet_coco_qat_postprocess_edgetpu.tflite) | <!--A7_tf1_ssd_md--> 30.73 ms <!--end_A7_tf1_ssd_md--> | mAP: 32.9% |
