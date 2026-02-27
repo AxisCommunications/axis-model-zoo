@@ -41,10 +41,10 @@ Axis network cameras can be used for computer vision applications and can run ma
 | ARTPEC-8 (Q1656-LE) | [Yolov5s-Artpec8](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5s_artpec8_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5s_artpec8_coco_640.pt)) | <!--A8_Q_yolov5s--> 69.74 ms <!--end_A8_Q_yolov5s--> | mAP: 32.3% |
 | ARTPEC-8 (Q1656-LE) | [Yolov5m-Artpec8](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5m_artpec8_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5m_artpec8_coco_640.pt)) | <!--A8_Q_yolov5m--> 95.26 ms <!--end_A8_Q_yolov5m--> | mAP: 37.9% |
 | ARTPEC-9 (Q1728) | [SSD MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/ssd_mobilenet_v2_coco_quant_postprocess.tflite) | <!--A9_tf1_ssd_mnv2--> 10.36 ms <!--end_A9_tf1_ssd_mnv2--> | mAP: 25.6% |
-| ARTPEC-9 (Q1728) | [SSDLite MobileDet](https://raw.githubusercontent.com/google-coral/test_data/master/ssdlite_mobiledet_coco_qat_postprocess.tflite) | <!--A9_tf1_ssd_md--> 21.09 ms <!--end_A9_tf1_ssd_md--> | mAP: 32.9% |
-| ARTPEC-9 (Q1728) | [Yolov5n-Artpec9](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5n_artpec9_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5n_artpec9_coco_640.pt)) | <!--A9_yolov5n--> 42.39 ms <!--end_A9_yolov5n--> | mAP: 23.3% |
-| ARTPEC-9 (Q1728) | [Yolov5s-Artpec9](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5s_artpec9_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5s_artpec9_coco_640.pt)) | <!--A9_yolov5s--> 45.38 ms <!--end_A9_yolov5s--> | mAP: 32.2% |
-| ARTPEC-9 (Q1728) | [Yolov5m-Artpec9](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5m_artpec9_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5m_artpec9_coco_640.pt)) | <!--A9_yolov5m--> 53.04 ms <!--end_A9_yolov5m--> | mAP: 38.1% |
+| ARTPEC-9 (Q1728) | [SSDLite MobileDet](https://raw.githubusercontent.com/google-coral/test_data/master/ssdlite_mobiledet_coco_qat_postprocess.tflite) | <!--A9_tf1_ssd_md--> 21.53 ms <!--end_A9_tf1_ssd_md--> | mAP: 32.9% |
+| ARTPEC-9 (Q1728) | [Yolov5n-Artpec9](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5n_artpec9_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5n_artpec9_coco_640.pt)) | <!--A9_yolov5n--> 42.55 ms <!--end_A9_yolov5n--> | mAP: 23.3% |
+| ARTPEC-9 (Q1728) | [Yolov5s-Artpec9](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5s_artpec9_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5s_artpec9_coco_640.pt)) | <!--A9_yolov5s--> 45.32 ms <!--end_A9_yolov5s--> | mAP: 32.2% |
+| ARTPEC-9 (Q1728) | [Yolov5m-Artpec9](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5m_artpec9_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5m_artpec9_coco_640.pt)) | <!--A9_yolov5m--> 53.15 ms <!--end_A9_yolov5m--> | mAP: 38.1% |
 
 *Values for AXIS OS 12.9.57.*
 
