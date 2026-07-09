@@ -25,6 +25,8 @@ Axis network cameras can be used for computer vision applications and can run ma
 | ARTPEC-9 (Q1728) | [MobilenetV2](https://raw.githubusercontent.com/google-coral/test_data/master/mobilenet_v2_1.0_224_quant.tflite) ([ckpt](http://download.tensorflow.org/models/tflite_11_05_08/mobilenet_v2_1.0_224_quant.tgz)) | 1 | <!--A9_tf1_mnv2--> 2.01 ms <!--end_A9_tf1_mnv2--> | Top 1: 69.1% <br/> Top 5: 89.0% |
 | CV25 (M3085-V) | [MobilenetV2](https://acap-ml-models.s3.amazonaws.com/mobilenet/mobilenet_v2_cv25_imagenet_224.bin) ([ckpt](http://download.tensorflow.org/models/tflite_11_05_08/mobilenet_v2_1.0_224_quant.tgz)) | 1 | <!--cv25_tf1_mnv2--> 5.36 ms <!--end_cv25_tf1_mnv2--> | Top 1: 66.8% <br/> Top 5: 87.2% |
 | CV25 (M3085-V) | [EfficientNet-Lite0](https://acap-ml-models.s3.amazonaws.com/efficientnet/efficientnet-lite0_cv25_imagenet_300.bin) ([ckpt](https://storage.googleapis.com/cloud-tpu-checkpoints/efficientnet/lite/efficientnet-lite0.tar.gz)) | 1 | <!--cv25_tf1_ens--> 6.80 ms <!--end_cv25_tf1_ens--> | Top 1: 71.2% <br/> Top 5: 90.3% |
+| CV75 (M2048-LE) | [EfficientNet-Lite2](./models/cv75_efficientnet-lite2-int8.bin) | 1 | <!--cv75_efficientnet-lite2--> 6.96 ms <!--end_cv75_efficientnet-lite2--> | Top 1: 72.6% <br/> Top 5: 91.4% |
+| CV75 (M2048-LE) | [MobilenetV2](./models/cv75_mobilenetv2.bin) | 1 | <!--cv75_mobilenetv2--> 2.98 ms <!--end_cv75_mobilenetv2--> | Top 1: 67.2% <br/> Top 5: 89.2% |
 
 ### Object detection
 
@@ -45,6 +47,8 @@ Axis network cameras can be used for computer vision applications and can run ma
 | ARTPEC-9 (Q1728) | [Yolov5n-Artpec9](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5n_artpec9_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5n_artpec9_coco_640.pt)) | <!--A9_yolov5n--> 31.86 ms <!--end_A9_yolov5n--> | mAP: 23.3% |
 | ARTPEC-9 (Q1728) | [Yolov5s-Artpec9](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5s_artpec9_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5s_artpec9_coco_640.pt)) | <!--A9_yolov5s--> 35.02 ms <!--end_A9_yolov5s--> | mAP: 32.2% |
 | ARTPEC-9 (Q1728) | [Yolov5m-Artpec9](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5m_artpec9_coco_640.tflite) ([ckpt](https://acap-ml-models.s3.amazonaws.com/yolov5/yolov5m_artpec9_coco_640.pt)) | <!--A9_yolov5m--> 42.72 ms <!--end_A9_yolov5m--> | mAP: 38.1% |
+| CV25 (M3085-V) | [Yolov5s-CV25](./models/cv25_yolov5s.bin) | <!--cv25_yolov5s--> 128.36 ms <!--end_cv25_yolov5s--> | mAP: 37.0% |
+| CV75 (M2048-LE) | [Yolov8n_det-CV75](./models/cv75_yolov8n_det.bin) | <!--cv75_yolov8n_det--> 11.48 ms <!--end_cv75_yolov8n_det--> | mAP: 37.3% |
 
 *Values for AXIS OS 12.10.68.*
 
