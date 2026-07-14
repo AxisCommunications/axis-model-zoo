@@ -50,7 +50,7 @@ Axis network cameras can be used for computer vision applications and can run ma
 | CV25 (M3085-V) | [Yolov5s-CV25](./models/cv25_yolov5s.bin) | <!--cv25_yolov5s--> 128.36 ms <!--end_cv25_yolov5s--> | mAP: 37.0% |
 | CV75 (M2048-LE) | [Yolov8n_det-CV75](./models/cv75_yolov8n_det.bin) | <!--cv75_yolov8n_det--> 11.48 ms <!--end_cv75_yolov8n_det--> | mAP: 37.3% |
 
-*Values for AXIS OS 12.10.68.*
+*Values for AXIS OS 12.11.72.*
 
 > [!NOTE]
 >
