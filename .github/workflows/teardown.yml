@@ -3,6 +3,9 @@ name: Teardown
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   clean:
     runs-on: ubuntu-latest
