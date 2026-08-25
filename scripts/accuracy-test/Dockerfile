@@ -6,7 +6,7 @@ ARG UBUNTU_VERSION=24.04
 ARG REPO=axisecp
 ARG SDK=acap-native-sdk
 
-FROM ${REPO}/${SDK}:${VERSION}-${ARCH}-ubuntu${UBUNTU_VERSION}
+FROM ${REPO}/${SDK}:${VERSION}-${ARCH}-ubuntu${UBUNTU_VERSION}@sha256:fff1727524c8c0b0a1a564fece0cd84e073d4a6120832273d0689f6a2dfc6434
 
 # Copy the library to application folder
 WORKDIR /opt/app

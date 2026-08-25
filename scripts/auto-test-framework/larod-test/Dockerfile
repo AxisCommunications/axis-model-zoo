@@ -6,7 +6,7 @@ ARG UBUNTU_VERSION=24.04
 ARG REPO=axisecp
 ARG SDK=acap-native-sdk
 
-FROM ${REPO}/${SDK}:${VERSION}-${ARCH}-ubuntu${UBUNTU_VERSION}
+FROM ${REPO}/${SDK}:${VERSION}-${ARCH}-ubuntu${UBUNTU_VERSION}@sha256:5df5644ddd8ea067429eb2853f76e1660477ce513b3d88cb2c3485afa672a083
 ARG device
 
 # Building the ACAP application
